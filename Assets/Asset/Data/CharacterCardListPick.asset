@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6efbce02b45b77f459d9954585abfc1b, type: 3}
+  m_Name: CharacterCardListPick
+  m_EditorClassIdentifier: 
+  characterCardList:
+  - characterName: Bailu
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: ce84c8290b9f1ec479113f2c8dd6664e, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: Bronya
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: 62c95a27a3c87e2498e9e0430a21f81a, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: Clara
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: 34beb90c852240f4e98c73e4d92d13a5, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: Gepard
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: c5e96fd8b77ec0341b6d054093a5c5df, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: Himeko
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: 3fc9acfd8871829449b9eceff2a01e2d, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: JingYuan
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: ba47a9ac7ea8377469cb446378c400da, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: Seele
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: ab86e40cf15979f44b981f71c77ca461, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: SilverWolf
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: 688c76eea1cdd3e4eb94f8affb1329da, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: Welt
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: 6243c8e3c62f1a14d8cab314a8af3fff, type: 3}
+    destinyType: 0
+    skillTypeList: 
+  - characterName: Yanqing
+    maxHealth: 20
+    skillPointMax: 3
+    characterCardSprite: {fileID: 21300000, guid: 2d7ce1a75adcc30449ba6bb5ce45c5e6, type: 3}
+    destinyType: 0
+    skillTypeList: 

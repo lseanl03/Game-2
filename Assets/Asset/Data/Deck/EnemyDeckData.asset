@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d28ea2c8c71c3a0449ea27c95e2a7b53, type: 3}
+  m_Name: EnemyDeckData
+  m_EditorClassIdentifier: 
+  cardList:
+  - {fileID: 11400000, guid: 2c6b448ddf5a39e40925f20067407c8f, type: 2}
+  - {fileID: 11400000, guid: d043be945a24e73479ffb45d18a49a80, type: 2}
+  - {fileID: 11400000, guid: 17b3471b1159f00428c4208e036fea4b, type: 2}
+  - {fileID: 11400000, guid: fc5348e7920bc0247a2b7c0dc3c399f4, type: 2}
+  - {fileID: 11400000, guid: c5b6d870238acf94ca37efbf1b32bfca, type: 2}
+  - {fileID: 11400000, guid: 2fc98adddfb81e24cb1cb273a14050cc, type: 2}
+  - {fileID: 11400000, guid: f6d2c1615f2205b419a1ed265a9c4733, type: 2}
+  - {fileID: 11400000, guid: b4a82d470a794a642b06f27450b3c19c, type: 2}
+  - {fileID: 11400000, guid: 19e327ffc90793747b2fb0f189f692e5, type: 2}
+  - {fileID: 11400000, guid: ed89320a3acd67e44b1d3a48c2e75501, type: 2}
