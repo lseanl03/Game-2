@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7857809759750087196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7857809759750087198}
+  - component: {fileID: 7857809759750087197}
+  - component: {fileID: 7857809759750087199}
+  m_Layer: 0
+  m_Name: CardListManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7857809759750087198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857809759750087196}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7857809759750087197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857809759750087196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3d095d4442bc348b983338667f7bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardList: {fileID: 7857809759750087199}
+--- !u!114 &7857809759750087199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857809759750087196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec46de8cfa22a434badb2e096057b25c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionCardDeckSize: 10
+  characterCardDeckSize: 17
+  characterCardList:
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: 6fd64e697af8c384c8a154494196169b, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: 86d1cd412bfe247489bc84faf328d19e, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: f1f30f42b89eb9d418c1a847973c28fb, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: e962b38cc702e0748ad67707195912a4, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: 3d472d97413ea3544b701503c50deb8e, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: b9891dc5f5d90ed468ee70ca7dbf6dab, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: 416affc85870b26419a6e88aca021223, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: 9bb19a763aa543d44a081882b8b321c8, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: 27a00c2aa9d2e284d8bb7b983267b0b6, type: 2}
+  - quantity: 1
+    characterCard: {fileID: 11400000, guid: 3661850a611293a459901297074ed0c4, type: 2}
+  actionCardList:
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 1cda5d3075f59d94398e2db85c46a73e, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: e1f92b4e10857344cae66e7c2939a8dd, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 35e71f4eeb9ce094cab78433d8c4cae3, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 35487efb0450da94485582073786d1b9, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: d6f03f1c9b2fc644a91bde10b4be7fb0, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: ddd5d1ed070e11e48990124a13876eb3, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: f1c3b3d1696277d4abd5b98368b97297, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 175959a341e25f24d98260974d25b8ef, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: dd92982702ebc8948b14f62783032c04, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: cf1aeccf8c6eeb54daf466269a80f0f1, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 7aef9da31c3cd3d44a18c3301e36370b, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: a062c5121a00e9f4bacd4aedda7fb80c, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: a433a75a540b4144caa4de4d6e439fa4, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 4a1db8b2980d4e747b0c05d077700277, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 80559c64f3ec3cb4aab3f8f5f6a27c6a, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: 00362c0b58461024ca9acfafab99dc3d, type: 2}
+  - quantity: 2
+    actionCard: {fileID: 11400000, guid: a939b599023ea904ab434c6e39c862dc, type: 2}
