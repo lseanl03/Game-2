@@ -1,18 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class test : MonoBehaviour
 {
-    public RectTransform rectTransform;
-    void Start()
+    public Button button;
+    public void ChangeScene()
     {
-        rectTransform = GetComponent<RectTransform>();
-    }
-    public void _Star()
-    {
-
+        SceneManager.LoadScene("Start");
     }
 }

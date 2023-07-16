@@ -5,9 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Deck", menuName = "TCG/Deck")]
 public class DeckData : ScriptableObject
 {
-    public List<CardData> cardList;
-
-    public DeckData()
-    {
-    }
+    public List<ActionCardData> actionCardList;
+    public List<CharacterCardData> characterCardList;
 }

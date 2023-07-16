@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2498109355721873902}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -46,6 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startedGame: 0
   waitingTime: 1
-  startGameText: {fileID: 0}
   currentState: 0
-  deckData: {fileID: 11400000, guid: bbf36669ca2944e42a4f2774405ab797, type: 2}

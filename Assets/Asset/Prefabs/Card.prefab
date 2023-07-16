@@ -375,8 +375,9 @@ GameObject:
   - component: {fileID: 2825222300909527083}
   - component: {fileID: 2635643622396962889}
   - component: {fileID: 1565372582}
-  - component: {fileID: 1142446060}
   - component: {fileID: 733359102961462908}
+  - component: {fileID: 3857050126718597851}
+  - component: {fileID: 2470204220215544205}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -460,29 +461,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1142446060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442453413879951010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a926b0e0ace1f4418c0c495219d932e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
-  id: 0
-  cardName: 
-  mana: 0
-  numberCardsInDeck: 0
-  animator: {fileID: 0}
-  cardSprite: {fileID: 0}
-  cardImage: {fileID: 302167814}
-  nameText: {fileID: 860630727}
-  manaText: {fileID: 6283914142509605372}
-  card: {fileID: 0}
 --- !u!222 &733359102961462908
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -491,6 +469,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1442453413879951010}
   m_CullTransparentMesh: 1
+--- !u!114 &3857050126718597851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442453413879951010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 937791bc6a1ca4c42b09cfb2df2ca62b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionCardData: {fileID: 0}
+  nameText: {fileID: 0}
+  manaText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  numbersOfCard: {fileID: 0}
+  cardSprite: {fileID: 0}
+  cardImage: {fileID: 0}
+--- !u!114 &2470204220215544205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442453413879951010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45748a8e79006342a684e06703d96f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentToReturnTo: {fileID: 0}
+  placeHolderParent: {fileID: 0}
 --- !u!1 &6829951876603077039
 GameObject:
   m_ObjectHideFlags: 0

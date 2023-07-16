@@ -4,7 +4,10 @@ using UnityEngine;
 
 public enum GameState
 {
-    SelectBattleCard,
+    SelectFirstTurn,
+    SelectInitialCard,
+    SelectInitialBattleCard,
+    DrawCards,
     PlayerTurn,
     EnemyTurn,
     Victory,

@@ -6,28 +6,20 @@ using UnityEngine.UI;
 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public bool haveCharacterCard = false;
+    public CardListBattle cardListBattle;
+    public CardListSelect cardListSelect;
+    void Start()
+    {
+        cardListBattle = GetComponent<CardListBattle>();
+        cardListSelect = GetComponent<CardListSelect>();
+    }
     public void Update()
     {
-        if(transform.childCount != 0)
-        {
-            for (int i = 0; i < this.transform.childCount; i++)
-            {
-                if (transform.GetChild(i).GetComponent<Draggable>())
-                {
-                    haveCharacterCard = true;
-                    break;
-                }
-                else
-                {
-                    haveCharacterCard = false;
-                }
-            }
-        }
+
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("On Pointer Enter");
+        //Debug.Log("On Pointer Enter");
         if(eventData.pointerDrag != null)
         {
             Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
@@ -39,7 +31,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("On Pointer Exit");
+        //Debug.Log("On Pointer Exit");
         if (eventData.pointerDrag != null)
         {
             Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
@@ -57,6 +49,32 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         if (draggable != null)
         {
             draggable.parentToReturnTo = this.transform;
+            if(cardListBattle != null)
+            {
+                if (cardListBattle.thisCardType == CardSelectType.CharacterCard)
+                {
+                    CharacterCard characterCard = eventData.pointerDrag.GetComponent<CharacterCard>();
+                    cardListBattle.collectionManager.characterCardListBattle.Add(characterCard.characterCardAndQuantity);
+                }
+                if (cardListBattle.thisCardType == CardSelectType.ActionCard)
+                {
+                    ActionCard actionCard = eventData.pointerDrag.GetComponent<ActionCard>();
+                    cardListBattle.collectionManager.actionCardListBattle.Add(actionCard.actionCardAndQuantity);
+                }
+            }
+            if(cardListSelect != null)
+            {
+                if (cardListSelect.thisCardType == CardSelectType.CharacterCard)
+                {
+                    CharacterCard characterCard = eventData.pointerDrag.GetComponent<CharacterCard>();
+                    cardListSelect.collectionManager.characterCardListBattle.Remove(characterCard.characterCardAndQuantity);
+                }
+                if (cardListSelect.thisCardType == CardSelectType.ActionCard)
+                {
+                    ActionCard actionCard = eventData.pointerDrag.GetComponent<ActionCard>();
+                    cardListSelect.collectionManager.actionCardListBattle.Remove(actionCard.actionCardAndQuantity);
+                }
+            }
         }
     }
 }
