@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
   m_Name: Card 11
   m_EditorClassIdentifier: 
-  id: 11
-  cardName: 11
-  description: This is card
-  mana: 10
-  cardSprite: {fileID: 21300000, guid: 0a5da0365b599c1428a08a4d0c5d804e, type: 3}
-  quantity: 2
+  cardName: "L\xE1 Ch\u1EAFn D\xF9ng 1 L\u1EA7n"
+  cardCost: 40
+  quantityMax: 2
+  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c t\u1EA1o khi\xEAn cho
+    nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn mi\u1EC5n s\xE1t th\u01B0\u01A1ng \u0111\xF2n
+    k\u1EBF ti\u1EBFp trong l\u01B0\u1EE3t n\xE0y"
+  cardSprite: {fileID: -188373302, guid: 26236e85b571d0a42a27ac4108bb27e3, type: 3}
+  actionCard:
+    actionTargetType: 2
+    actionCardTypeList: 0b000000
+    valueReceived: 0
+    valueReduce: 0
+    rarityType: 4
+    colorRarity: {r: 0.42352945, g: 0.32156864, b: 0.62352943, a: 1}
+    actionPhase: 1
+    actionLimit: 1

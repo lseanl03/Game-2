@@ -8,6 +8,8 @@ public class SelectCardBase : MonoBehaviour
     public CollectionManager collectionManager => CollectionManager.instance;
     protected UIManager uIManager => UIManager.instance;
     protected GameManager gameManager => GameManager.instance;
-    protected DeckManager deckManager => DeckManager.instance;
-
+    protected PlayerDeckManager playerDeckManager => PlayerDeckManager.instance;
+    protected NotificationManager notificationManager => NotificationManager.instance;
+    protected SceneChanger sceneChanger => SceneChanger.instance;
+    protected GamePlayManager gamePlayManager => GamePlayManager.instance;
 }

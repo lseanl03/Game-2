@@ -6,7 +6,8 @@ using UnityEngine.Playables;
 
 public class NotificationManager : MonoBehaviour
 {
-    public float resetTextTime;
+    [SerializeField] private string tempMessage = string.Empty;
+    [SerializeField] public float resetTextTime;
     public TextMeshProUGUI notificationText;
     public Animator animator;
 
@@ -40,9 +41,14 @@ public class NotificationManager : MonoBehaviour
     }
     IEnumerator FadeNotification(string message)
     {
+        tempMessage = message;
         notificationText.text = message;
         animator.SetTrigger("Fade");
         yield return new WaitForSeconds(resetTextTime);
         notificationText.text = "";
+    }
+    public void ResetText()
+    {
+        notificationText.text = string.Empty;
     }
 }

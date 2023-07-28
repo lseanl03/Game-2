@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterCard 6
   m_EditorClassIdentifier: 
   characterName: JingYuan
-  description: 
-  maxHealth: 0
+  description: This is Character Card
+  maxHealth: 10
   skillPointMax: 0
   cardSprite: {fileID: 21300000, guid: ba47a9ac7ea8377469cb446378c400da, type: 3}

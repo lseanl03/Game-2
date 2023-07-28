@@ -2,43 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TooltipCanvas : MonoBehaviour
+public class TooltipCanvas : CanvasBase
 {
-    public Image cardImage;
+    public Image backImage;
+    public Image actionCardImage;
+    public Image characterCardImage;
 
-    public TextMeshProUGUI headerText;
-    public TextMeshProUGUI contentText;
+    public TextMeshProUGUI manaText;
+    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI descriptionText;
 
-    private void Start()
+    public TooltipController tooltipController;
+
+    public CharacterCardData currentCharacterCardData;
+    public ActionCardData currentActionCardData;
+
+    public void Start()
     {
+        tooltipController.StateObj(false);
     }
-    public void SetText(string headerText = null, string contentText = null)
+    public void GetCharacterCardInfo(CharacterCardData characterCardData)
     {
-        if(string.IsNullOrEmpty(headerText) && string.IsNullOrEmpty(contentText))
-        {
-            this.headerText.gameObject.SetActive(false);
-            this.contentText.gameObject.SetActive(false);
-        }
-        else
-        {
-            this.headerText.gameObject.SetActive(true);
-            this.contentText.gameObject.SetActive(true);
-            this.headerText.text = headerText;
-            this.contentText.text = contentText;
-        }
+        currentCharacterCardData = characterCardData;
+
+        characterCardImage.sprite = currentCharacterCardData.cardSprite;
+        healthText.text = currentCharacterCardData.maxHealth.ToString();
+        nameText.text = currentCharacterCardData.characterName;
+        descriptionText.text = currentCharacterCardData.description;
+
+        CharacterCardImageState(true);
+        ActionCardImageState(false);
     }
-    public void SetCardImage(Image cardImage = null)
+    public void GetActionCardInfo(ActionCardData actionCardData)
     {
-        if(cardImage == null)
-        {
-            cardImage.gameObject.SetActive(false);
-        }
-        else
-        {
-            cardImage.gameObject.SetActive(true);
-            this.cardImage = cardImage;
-        }
+        currentActionCardData = actionCardData;
+
+        backImage.color = currentActionCardData.actionCard.colorRarity;
+        actionCardImage.sprite = currentActionCardData.cardSprite;
+        healthText.text = currentActionCardData.cardCost.ToString();
+        nameText.text = currentActionCardData.cardName;
+        descriptionText.text = currentActionCardData.cardDescription;
+
+        ActionCardImageState(true);
+        CharacterCardImageState(false);
+    }
+    public void ActionCardImageState(bool state)
+    {
+        actionCardImage.gameObject.SetActive(state);
+    }
+    public void CharacterCardImageState(bool state)
+    {
+        characterCardImage.gameObject.SetActive(state);
     }
 }

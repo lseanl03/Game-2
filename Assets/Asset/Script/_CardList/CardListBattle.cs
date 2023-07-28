@@ -13,7 +13,7 @@ public class CardListBattle : MonoBehaviour
     public CardSelectType thisCardType;
 
     public CollectionManager collectionManager => CollectionManager.instance;
-    protected DeckManager deckManager => DeckManager.instance;
+    protected PlayerDeckManager deckManager => PlayerDeckManager.instance;
     public void Start()
     {
         contentSizeFitter = GetComponent<ContentSizeFitter>();

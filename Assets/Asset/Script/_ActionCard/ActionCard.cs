@@ -9,46 +9,43 @@ public class ActionCard : MonoBehaviour
     public int quantitySelected = 0;
     public int remainingQuantity = 0;
 
-    public TextMeshProUGUI nameText;
+    public ActionCardData actionCardData;
     public TextMeshProUGUI manaText;
-    public TextMeshProUGUI descriptionText;
+
     public TextMeshProUGUI quantity;
     public TextMeshProUGUI quantityInDeckText;
     public TextMeshProUGUI quantitySelectedText;
 
     public Sprite cardSprite;
     public Image cardImage;
+    public Image backImage;
 
-    [SerializeField] private GameObject[] hiddenObjects;
     [SerializeField] private GameObject quantityInDeckObj;
     [SerializeField] private GameObject quantitySelectedObj;
     [SerializeField] private GameObject quantityObj;
+    [SerializeField] private GameObject[] hiddenObjects;
 
-    public ActionCardAndQuantity actionCardAndQuantity;
     private void Start()
     {
-        if(actionCardAndQuantity.actionCard)
-        {
-            remainingQuantity = actionCardAndQuantity.quantity;
-            quantitySelected = 0;
-        }
+        remainingQuantity = actionCardData.quantityMax;
+        quantitySelected = 0;
     }
-    public void GetOriginalCardInfo(ActionCardAndQuantity actionCardAndQuantity) //nhận thông tin card ban đầu
+    public void GetOriginalCardInfo(ActionCardData actionCardData) //nhận thông tin card ban đầu
     {
-        this.actionCardAndQuantity = actionCardAndQuantity;
-        nameText.text = actionCardAndQuantity.actionCard.cardName;
-        descriptionText.text = actionCardAndQuantity.actionCard.description;
-        manaText.text = actionCardAndQuantity.actionCard.mana.ToString();
-        cardSprite = actionCardAndQuantity.actionCard.cardSprite;
+        this.actionCardData = actionCardData;
+        manaText.text = actionCardData.cardCost.ToString();
+        quantity.text = actionCardData.quantityMax.ToString();
+        cardSprite = actionCardData.cardSprite;
         cardImage.sprite = cardSprite;
-        quantity.text = actionCardAndQuantity.quantity.ToString();
+        backImage.color = actionCardData.actionCard.colorRarity;
     }
-    public void CardRecall(int quantity)
+    public void RecallCard(int quantity)
     {
         quantitySelected -= quantity;
         remainingQuantity += quantity;
         quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
         quantityInDeckText.text = quantitySelected.ToString();
+        CollectionManager.instance.actionCardDataList.Remove(actionCardData);
     }
     public void AddCard(int quantity)
     {
@@ -56,6 +53,7 @@ public class ActionCard : MonoBehaviour
         remainingQuantity -= quantity;
         quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
         quantityInDeckText.text = quantitySelected.ToString();
+        CollectionManager.instance.actionCardDataList.Add(actionCardData);
     }
     public void HideObjects()
     {

@@ -16,6 +16,4 @@ MonoBehaviour:
   description: 
   maxHealth: 0
   skillPointMax: 0
-  sprite: {fileID: 0}
-  destinyType: 0
-  skillTypeList: 
+  cardSprite: {fileID: 0}

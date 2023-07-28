@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
     public SelectCardCanvas selectCardCanvas;
-
-    protected DeckManager deckManager => DeckManager.instance;
-
+    public BattleCanvas battleCanvas;
+    protected PlayerDeckManager deckManager => PlayerDeckManager.instance;
     protected CollectionManager collectionManager => CollectionManager.instance;
-
     protected NotificationManager notificationManager => NotificationManager.instance;
+    protected TooltipManager tooltipManager => TooltipManager.instance;
     private void Awake()
     {
         if (instance == null)
@@ -25,5 +25,9 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+    public void HideTooltip()
+    {
+        tooltipManager.tooltipCanvas.tooltipController.StateObj(false);
     }
 }

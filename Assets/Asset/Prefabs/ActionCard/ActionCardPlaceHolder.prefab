@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 9080870534108867326}
   - component: {fileID: -735426514203700815}
   - component: {fileID: -1333323363576732083}
+  - component: {fileID: 3333644303771417231}
   m_Layer: 5
   m_Name: ActionCardPlaceHolder
   m_TagString: Untagged
@@ -211,23 +212,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quantitySelected: 0
   remainingQuantity: 0
-  nameText: {fileID: 3761293711436577144}
+  actionCardData: {fileID: 0}
   manaText: {fileID: 7135459024925685315}
-  descriptionText: {fileID: 3729403651105208844}
   quantity: {fileID: 224375788891855522}
   quantityInDeckText: {fileID: 5542720435086621214}
   quantitySelectedText: {fileID: 5625746907572199347}
   cardSprite: {fileID: 0}
   cardImage: {fileID: 3761293711994577081}
-  hiddenObjects:
-  - {fileID: 3761293710464368869}
-  - {fileID: 7708493194730771152}
+  backImage: {fileID: 7708493196059883027}
   quantityInDeckObj: {fileID: 7154328156716748433}
   quantitySelectedObj: {fileID: 2465057629188122966}
   quantityObj: {fileID: 1523072647076172134}
-  actionCardAndQuantity:
-    quantity: 0
-    actionCard: {fileID: 0}
+  hiddenObjects:
+  - {fileID: 7708493194730771152}
+--- !u!114 &3333644303771417231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2321133982752143645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8dc1e079a3ae0d45902aaf5fc089639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRecall: 0
+  recallCardImage: {fileID: 0}
+  characterCard: {fileID: 0}
+  actionCard: {fileID: 0}
 --- !u!1 &2465057629188122966
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3761293710464368868
 RectTransform:
   m_ObjectHideFlags: 0
@@ -794,9 +807,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 42005e2c28c2c6342a47967be693a5f6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7ee48c5fba4919649a8a6094cbead669, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1500,7 +1513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.007843138}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

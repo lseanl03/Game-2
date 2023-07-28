@@ -4,11 +4,11 @@ using UnityEngine;
 
 public enum DestinyType
 {
-    Abundance, //Phù Trú
+    Nihility, //Hư Vô
     Destruction, //Hủy Diệt
+    TheHunt, //Săn Bắt
     Erudition, //Tri Thức
     Harmony, //Hòa Hợp
-    Nihility, //Hư Vô
     Preservation, //Bảo Hộ
-    TheHunt, //Săn Bắt
+    Abundance, //Trù Phú
 }

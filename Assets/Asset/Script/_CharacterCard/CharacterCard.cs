@@ -6,28 +6,48 @@ using UnityEngine.UI;
 
 public class CharacterCard : MonoBehaviour
 {
-
+    public int quantitySelected = 0;
+    public int remainingQuantity = 1;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI skillPointText;
     public TextMeshProUGUI quantityText;
+    public TextMeshProUGUI quantitySelectedText;
 
     public Sprite cardSprite;
     public Image cardImage;
     [SerializeField] private GameObject[] hiddenObjects;
 
-    public CharacterCardAndQuantity characterCardAndQuantity;
-    public void GetOriginalCardInfo(CharacterCardAndQuantity characterCardAndQuantity)
+    public CharacterCardData characterCardData;
+    public void Start()
     {
-        this.characterCardAndQuantity = characterCardAndQuantity;
-        nameText.text = characterCardAndQuantity.characterCard.characterName;
-        descriptionText.text = characterCardAndQuantity.characterCard.description;
-        healthText.text = characterCardAndQuantity.characterCard.maxHealth.ToString();
-        cardSprite = characterCardAndQuantity.characterCard.cardSprite;
+        remainingQuantity = characterCardData.quantityMax;
+    }
+    public void GetOriginalCardInfo(CharacterCardData characterCardData)
+    {
+        this.characterCardData = characterCardData;
+        nameText.text = characterCardData.characterName;
+        descriptionText.text = characterCardData.description;
+        healthText.text = characterCardData.maxHealth.ToString();
+        cardSprite = characterCardData.cardSprite;
         cardImage.sprite = cardSprite;
 
-        quantityText.text = characterCardAndQuantity.quantity.ToString();
+        quantityText.text = characterCardData.quantityMax.ToString();
+    }
+    public void AddCard(int quantity)
+    {
+        quantitySelected += quantity;
+        remainingQuantity -= quantity;
+        quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
+        CollectionManager.instance.characterCardDataList.Add(characterCardData);
+    }
+    public void RecallCard(int quantity)
+    {
+        quantitySelected -= quantity;
+        remainingQuantity += quantity;
+        quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
+        CollectionManager.instance.characterCardDataList.Remove(characterCardData);
     }
     public void HideObjects()
     {

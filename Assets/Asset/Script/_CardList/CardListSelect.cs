@@ -27,20 +27,20 @@ public class CardListSelect : SelectCardBase
     {
         if (cardSelectType == CardSelectType.CharacterCard)
         {
-            for (int i = 0; i < cardListManager.cardList.characterCardDeckSize; i++)
+            for (int i = 0; i < cardListManager.characterCardDeckSize; i++)
             {
                 CharacterCard characterCard = Instantiate(characterCardPrefab, transform);
-                CharacterCardAndQuantity characterCardAndQuantity = cardListManager.cardList.characterCardList[i];
-                characterCard.GetOriginalCardInfo(characterCardAndQuantity);
+                CharacterCardData cardData = cardListManager.cardListData.characterCardList[i];
+                characterCard.GetOriginalCardInfo(cardData);
             }
         }
         if (cardSelectType == CardSelectType.ActionCard)
         {
-            for (int i = 0; i < cardListManager.cardList.actionCardDeckSize; i++)
+            for (int i = 0; i < cardListManager.actionCardListSize; i++)
             {
                 ActionCard actionCard = Instantiate(actionCardPrefab, transform);
-                ActionCardAndQuantity actionCardAndQuantity = cardListManager.cardList.actionCardList[i];
-                actionCard.GetOriginalCardInfo(actionCardAndQuantity);
+                ActionCardData cardData = cardListManager.cardListData.actionCardList[i];
+                actionCard.GetOriginalCardInfo(cardData);
             }
         }
     }

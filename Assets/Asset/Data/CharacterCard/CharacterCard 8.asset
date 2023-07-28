@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterCard 8
   m_EditorClassIdentifier: 
   characterName: SilverWolf
-  description: 
-  maxHealth: 0
+  description: This is Character Card
+  maxHealth: 10
   skillPointMax: 0
   cardSprite: {fileID: 21300000, guid: 688c76eea1cdd3e4eb94f8affb1329da, type: 3}

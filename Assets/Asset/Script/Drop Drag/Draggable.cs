@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Transform parentToReturnTo = null;
     public Transform placeHolderParent = null;
@@ -32,7 +32,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         cardListBattle = cardListBattleParent;
         actionCard = GetComponent<ActionCard>();
         characterCard = GetComponent<CharacterCard>();
-        canvas = FindObjectOfType<Canvas>();
+        canvas = transform.root.GetComponentInChildren<Canvas>();
     }
     void Update()
     {
@@ -40,82 +40,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         //Debug.Log("OnBegin");
-        if (actionCard != null)
-        {
-            if (transform.parent == cardListSelect.transform)
-            {
-                if (actionCard.remainingQuantity > 1)
-                {
-                    thisObj = Instantiate(gameObject, transform.parent);
-                    thisObj.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardAndQuantity);
-                    thisObj.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-                }
-                else
-                {
-                    if (placeHolderRoot == null)
-                    {
-                        placeHolderRoot = Instantiate(placeHolderRootPrefab, transform.parent);
-                        placeHolderRoot.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardAndQuantity);
-                        placeHolderRoot.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
-                        placeHolderRoot.GetComponent<ActionCard>().quantitySelectedText.text = actionCard.quantitySelectedText.text;
-                        placeHolderRoot.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-                    }
-                }
-            }
-            if (transform.parent == cardListBattle.transform)
-            {
-                if (actionCard.quantitySelected > 1)
-                {
-                    thisObj = Instantiate(gameObject, transform.parent);
-                    thisObj.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardAndQuantity);
-                    thisObj.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-                }
-                else
-                {
-                    if (placeHolder == null)
-                    {
-                        placeHolder = Instantiate(placeHolderPrefab, transform.parent);
-                        placeHolder.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardAndQuantity);
-                        placeHolder.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
-                        placeHolder.GetComponent<ActionCard>().quantityInDeckText.text = actionCard.quantityInDeckText.text;
-                        placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-                    }
-                }
-            }
-
-            actionCard.HideObjects();
-            actionCard.ShowHideQuantitySelected(false);
-            actionCard.ShowHideQuantityInDeck(false);
-            actionCard.ShowHideQuantity(false);
-        }
-
-        if (characterCard != null)
-        {
-            if(transform.parent == cardListBattle.transform)
-            {
-                if (placeHolder == null)
-                {
-                    placeHolder = Instantiate(placeHolderPrefab, transform.parent);
-                    placeHolder.GetComponent<CharacterCard>().GetOriginalCardInfo(characterCard.characterCardAndQuantity);
-                    placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-                }
-            }
-            if (transform.parent == cardListSelect.transform)
-            {
-                if (placeHolderRoot == null)
-                {
-                    placeHolderRoot = Instantiate(placeHolderRootPrefab, transform.parent);
-                    placeHolderRoot.GetComponent<CharacterCard>().GetOriginalCardInfo(characterCard.characterCardAndQuantity);
-                    placeHolderRoot.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-                }
-            }
-            characterCard.HideObjects();
-        }
-
-        GetComponent<CanvasGroup>().blocksRaycasts = false;
-        parentToReturnTo = this.transform.parent;
-        placeHolderParent = parentToReturnTo;
-        this.transform.SetParent(canvas.transform);
+        HandleBeginDrag();
 
     }
 
@@ -129,12 +54,101 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnEndDrag(PointerEventData eventData)
     {
         //Debug.Log("OnEndDrag");
+        HandleEndDrag();
+    }
+    public void HandleBeginDrag()
+    {
+        if (actionCard != null)
+        {
+            if (transform.parent == cardListSelect.transform)
+            {
+                if (actionCard.remainingQuantity > 1)
+                {
+                    thisObj = Instantiate(gameObject, transform.parent);
+                    thisObj.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
+                    thisObj.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+                }
+                else
+                {
+                    if (placeHolderRoot == null)
+                    {
+                        placeHolderRoot = Instantiate(placeHolderRootPrefab, transform.parent);
+                        placeHolderRoot.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
+                        placeHolderRoot.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
+                        placeHolderRoot.GetComponent<ActionCard>().quantitySelectedText.text = actionCard.quantitySelectedText.text;
+                        placeHolderRoot.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+                    }
+                }
+                if (collectionManager.actionCardCount == playerDeckManager.actionCardMaxSize)
+                {
+                    notificationManager.SetNewNotification("Action cards is enough, can't add more");
+                }
+            }
+            if (transform.parent == cardListBattle.transform)
+            {
+                if (actionCard.quantitySelected > 1)
+                {
+                    thisObj = Instantiate(gameObject, transform.parent);
+                    thisObj.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
+                    thisObj.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+                }
+                else
+                {
+                    if (placeHolder == null)
+                    {
+                        placeHolder = Instantiate(placeHolderPrefab, transform.parent);
+                        placeHolder.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
+                        placeHolder.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
+                        placeHolder.GetComponent<ActionCard>().quantityInDeckText.text = actionCard.quantityInDeckText.text;
+                        placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+                    }
+                }
+            }
 
+            actionCard.HideObjects();
+            actionCard.ShowHideQuantitySelected(false);
+            actionCard.ShowHideQuantityInDeck(false);
+            actionCard.ShowHideQuantity(false);
+
+        }
+
+        if (characterCard != null)
+        {
+            if (transform.parent == cardListBattle.transform)
+            {
+                if (placeHolder == null)
+                {
+                    placeHolder = Instantiate(placeHolderPrefab, transform.parent);
+                    placeHolder.GetComponent<CharacterCard>().GetOriginalCardInfo(characterCard.characterCardData);
+                    placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+                }
+            }
+            if (transform.parent == cardListSelect.transform)
+            {
+                if (placeHolderRoot == null)
+                {
+                    placeHolderRoot = Instantiate(placeHolderRootPrefab, transform.parent);
+                    placeHolderRoot.GetComponent<CharacterCard>().GetOriginalCardInfo(characterCard.characterCardData);
+                    placeHolderRoot.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+                }
+                if(collectionManager.characterCardCount == playerDeckManager.characterCardMaxSize)
+                {
+                    notificationManager.SetNewNotification("Character cards is enough, can't add more");
+                }
+            }
+            characterCard.HideObjects();
+        }
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
+        parentToReturnTo = this.transform.parent;
+        placeHolderParent = parentToReturnTo;
+        this.transform.SetParent(canvas.transform);
+    }
+    public void HandleEndDrag()
+    {
         this.transform.SetParent(parentToReturnTo);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
-
-        if(actionCard != null)
+        if (actionCard != null)
         {
             actionCard.ShowObjects();
 
@@ -148,7 +162,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     if (card.gameObject != gameObject)
                     {
-                        if (card.actionCardAndQuantity.actionCard == this.actionCard.actionCardAndQuantity.actionCard)
+                        if (card.actionCardData== this.actionCard.actionCardData)
                         {
                             if (this.actionCard.quantitySelected > 0)
                             {
@@ -156,7 +170,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 {
                                     if (placeHolder == null)
                                     {
-                                        this.actionCard.CardRecall(1);
+                                        this.actionCard.RecallCard(1);
                                     }
                                 }
                                 if (placeHolderRoot == null && placeHolder == null)
@@ -165,7 +179,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                                 }
                                 if (placeHolder != null)
                                 {
-                                    this.actionCard.CardRecall(1);
+                                    this.actionCard.RecallCard(1);
                                 }
                                 if (this.actionCard.quantitySelected > 0)
                                 {
@@ -196,7 +210,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     if (card.gameObject != gameObject) // kiểm tra nếu trong cardListBattle có thẻ nào khác thẻ này
                     {
-                        if (card.actionCardAndQuantity.actionCard == this.actionCard.actionCardAndQuantity.actionCard) // kiểm tra nếu có thẻ giống thẻ này 
+                        if (card.actionCardData == this.actionCard.actionCardData) // kiểm tra nếu có thẻ giống thẻ này 
                         {
                             if (this.actionCard.quantitySelected < 2) // kiểm tra nếu thẻ này có số lượng thẻ đã chọn ít hơn 2
                             {
@@ -252,11 +266,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
 
-        if(characterCard != null)
+        if (characterCard != null)
         {
             characterCard.ShowObjects();
 
-            if(placeHolderRoot != null)
+            if (placeHolderRoot != null)
             {
                 if (transform.parent == placeHolderRoot.transform.parent)
                 {
@@ -270,7 +284,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 Destroy(placeHolder);
                 this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
             }
+            if(transform.parent == cardListSelect.transform)
+            {
+                if (characterCard.quantitySelected > 0)
+                    characterCard.RecallCard(1);
+            }
+            if(transform.parent == cardListBattle.transform)
+            {
+                if (characterCard.quantitySelected == 0)
+                    characterCard.AddCard(1);
+            }
         }
-
     }
+
 }

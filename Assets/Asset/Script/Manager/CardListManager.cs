@@ -10,9 +10,12 @@ public enum CardSelectType
 }
 public class CardListManager : MonoBehaviour
 {
-    public static CardListManager instance;
+    public int characterCardDeckSize;
+    public int actionCardListSize;
 
-    public CardList cardList;
+    public CardListData cardListData;
+
+    public static CardListManager instance;
     private void Awake()
     {
         if(instance == null)
@@ -25,7 +28,7 @@ public class CardListManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        cardList.characterCardDeckSize = cardList.characterCardList.Count;
-        cardList.actionCardDeckSize = cardList.actionCardList.Count;
+        characterCardDeckSize = cardListData.characterCardList.Count;
+        actionCardListSize = cardListData.actionCardList.Count;
     }
 }
