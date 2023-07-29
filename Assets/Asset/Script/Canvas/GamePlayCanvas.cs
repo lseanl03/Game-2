@@ -19,6 +19,7 @@ public class GamePlayCanvas : CanvasBase
     {
         SpawnInitialCharacterCard();
         SpawnInitialActionCard();
+        playerCharacterCardField.GetCharacterCard();
     }
     public void OnEnable()
     {

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class SelectInitialActionCardPanel : PanelBase
 {
+    public float delayTime = 0f;
     public bool recalled = false;
     public TextMeshProUGUI selectToStartText;
     public Button confirmButton;
@@ -61,10 +62,9 @@ public class SelectInitialActionCardPanel : PanelBase
     }
     public IEnumerator HandleEndGetCard()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(delayTime);
         gamePlayManager.UpdateGameState(GamePlayState.SelectInitialBattleCharacterCard);
         recalled = false;
-        Debug.Log("a");
     }
     IEnumerator ShowText(string text)
     {

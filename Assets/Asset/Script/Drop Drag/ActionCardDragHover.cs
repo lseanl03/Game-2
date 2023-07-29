@@ -7,11 +7,13 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
 {
     public bool isSelecting = false;
     public bool isDragging = false;
+    public Vector2 pos;
 
     public ActionCard actionCard;
     public CardInfo cardInfo;
     public void Start()
     {
+        pos = new Vector2(transform.localPosition.x, transform.localPosition.y);
         actionCard = GetComponent<ActionCard>();
         cardInfo = GetComponent<CardInfo>();
     }
@@ -23,6 +25,7 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
             Debug.Log("Enter");
             isSelecting = true;
             transform.localPosition = new Vector2(transform.localPosition.x, 50f);
+            pos = new Vector2(transform.localPosition.x, transform.localPosition.y);
         }
     }
 
@@ -33,6 +36,7 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
             Debug.Log("Exit");
             isSelecting = false;
             transform.localPosition = new Vector2(transform.localPosition.x, 0f);
+            pos = new Vector2(transform.localPosition.x, transform.localPosition.y);
         }
     }
 

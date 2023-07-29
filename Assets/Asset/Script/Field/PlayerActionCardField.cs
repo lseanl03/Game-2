@@ -9,6 +9,7 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
     public RectTransform rectTransform;
     public Animator animator;
 
+    protected UIManager uiManager => UIManager.instance;
     public void Start()
     {
         animator = GetComponent<Animator>();
@@ -25,13 +26,14 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
         isZooming = true;
         animator.SetBool("Zoom", true);
         EnableDraggableAndInfo(isZooming);
-
+        uiManager.battleCanvas.switchCardBattlePanel.PanelState(!isZooming);
     }
     public void UnZoom()
     {
         isZooming = false;
         animator.SetBool("Zoom", false);
         EnableDraggableAndInfo(isZooming);
+        uiManager.battleCanvas.switchCardBattlePanel.PanelState(!isZooming);
     }
     public void EnableDraggableAndInfo(bool state)
     {

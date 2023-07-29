@@ -7,7 +7,11 @@ public class GamePlayManager : MonoBehaviour
     public bool startCombat = false;
     public bool waitingTime = true;
 
+    public int characterCardSwitchCost = 10;
     public int quantityInitialActionCard = 5;
+    public int InitialPlayerMana = 100;
+    public int InitialEnemyMana = 100;
+
     public GamePlayState currentState;
     public GamePlayState currentTurn;
     public GamePlayCanvas gamePlayCanvas;
@@ -70,6 +74,7 @@ public class GamePlayManager : MonoBehaviour
                 {
                     uiManager.battleCanvas.informationPanel.PanelState(true);
                     uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
+                    uiManager.battleCanvas.switchCardBattlePanel.PanelState(true);
                 }
                 break;
             case GamePlayState.DrawCards:

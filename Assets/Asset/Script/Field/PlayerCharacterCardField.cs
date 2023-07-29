@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class PlayerCharacterCardField : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<CharacterCardDragHover> characterCardDragHoverList;
+    public void GetCharacterCard()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
