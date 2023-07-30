@@ -19,7 +19,6 @@ public class GamePlayCanvas : CanvasBase
     {
         SpawnInitialCharacterCard();
         SpawnInitialActionCard();
-        playerCharacterCardField.GetCharacterCard();
     }
     public void OnEnable()
     {
@@ -27,23 +26,47 @@ public class GamePlayCanvas : CanvasBase
     }
     public void SpawnInitialCharacterCard()
     {
-        if(playerDeckManager.characterCardDeckData.Count > 0)
+        //spawn character player
+        if(playerManager.characterCardDeckData.Count > 0)
         {
-            for (int i = 0; i < playerDeckManager.characterCardDeckData.Count; i++)
+            for (int i = 0; i < playerManager.characterCardDeckData.Count; i++)
             {
                 characterCardHand = Instantiate(characterCardHandPrefab, playerCharacterCardField.transform);
-                characterCardHand.GetOriginalCardInfo(playerDeckManager.characterCardDeckData[i]);
+                characterCardHand.GetOriginalCardInfo(playerManager.characterCardDeckData[i]);
+            }
+        }
+
+        //spawn character enemy
+        if(enemyManager.characterCardDeckData.Count > 0)
+        {
+            for(int i = 0;i < enemyManager.characterCardDeckData.Count; i++)
+            {
+                characterCardHand = Instantiate(characterCardHandPrefab, enemyCharacterCardField.transform);
+                characterCardHand.GetOriginalCardInfo(enemyManager.characterCardDeckData[i]);
             }
         }
     }
     public void SpawnInitialActionCard()
     {
+        //spawn action card player
         if (gamePlayManager.actionCardInitialDataList.Count > 0)
         {
-            for (int i = 0; i < gamePlayManager.actionCardInitialDataList.Count; i++)
+            for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
             {
                 actionCardHand = Instantiate(actionCardHandPrefab, playerActionCardField.transform);
                 actionCardHand.GetOriginalCardInfo(gamePlayManager.actionCardInitialDataList[i]);
+            }
+        }
+
+        //spawn action card enemy
+        if (gamePlayManager.actionCardInitialDataList.Count > 0)
+        {
+            for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
+            {
+                actionCardHand = Instantiate(actionCardHandPrefab, enemyActionCardField.transform);
+                actionCardHand.GetOriginalCardInfo(enemyManager.actionCardDeckData[i]);
+                actionCardHand.CardBackState(true);
+                actionCardHand.ManaState(false);
             }
         }
     }

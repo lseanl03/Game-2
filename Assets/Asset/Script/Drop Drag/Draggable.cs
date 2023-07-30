@@ -105,10 +105,10 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                 }
             }
 
-            actionCard.HideObjects();
-            actionCard.ShowHideQuantitySelected(false);
-            actionCard.ShowHideQuantityInDeck(false);
-            actionCard.ShowHideQuantity(false);
+            actionCard.ManaState(false);
+            actionCard.QuantitySelectedState(false);
+            actionCard.QuantityInDeckState(false);
+            actionCard.QuantityState(false);
 
         }
 
@@ -150,13 +150,13 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
 
         if (actionCard != null)
         {
-            actionCard.ShowObjects();
+            actionCard.ManaState(false);
 
             //-------------------------------------
 
             if (transform.parent == cardListSelect.transform)
             {
-                this.actionCard.ShowHideQuantity(true);
+                this.actionCard.QuantityState(true);
                 ActionCard[] actionCard = cardListSelect.transform.GetComponentsInChildren<ActionCard>();
                 foreach (ActionCard card in actionCard)
                 {
@@ -183,11 +183,11 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                                 }
                                 if (this.actionCard.quantitySelected > 0)
                                 {
-                                    this.actionCard.ShowHideQuantitySelected(true);
+                                    this.actionCard.QuantitySelectedState(true);
                                 }
                                 else
                                 {
-                                    this.actionCard.ShowHideQuantitySelected(false);
+                                    this.actionCard.QuantitySelectedState(false);
                                 }
                             }
                             transform.SetSiblingIndex(card.transform.GetSiblingIndex());
@@ -238,12 +238,12 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                         }
                     }
                 }
-                this.actionCard.ShowHideQuantityInDeck(true);
+                this.actionCard.QuantityInDeckState(true);
 
                 if (placeHolderRoot != null)
                 {
                     //Debug.Log(placeHolderRoot);
-                    placeHolderRoot.GetComponent<ActionCard>().ShowHideQuantitySelected(true);
+                    placeHolderRoot.GetComponent<ActionCard>().QuantitySelectedState(true);
                     placeHolderRoot.GetComponent<ActionCard>().quantitySelected = this.actionCard.quantitySelected;
                     placeHolderRoot.GetComponent<ActionCard>().remainingQuantity = this.actionCard.remainingQuantity;
                     placeHolderRoot.GetComponent<ActionCard>().quantitySelectedText.text = this.actionCard.quantitySelectedText.text;
@@ -254,9 +254,9 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
             {
                 //Debug.Log(thisObj);
                 if (thisObj.transform.parent == cardListSelect.transform)
-                    thisObj.GetComponent<ActionCard>().ShowHideQuantitySelected(true);
+                    thisObj.GetComponent<ActionCard>().QuantitySelectedState(true);
                 if (thisObj.transform.parent == cardListBattle.transform)
-                    thisObj.GetComponent<ActionCard>().ShowHideQuantitySelected(false);
+                    thisObj.GetComponent<ActionCard>().QuantitySelectedState(false);
 
                 thisObj.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
                 thisObj.GetComponent<ActionCard>().remainingQuantity = actionCard.remainingQuantity;

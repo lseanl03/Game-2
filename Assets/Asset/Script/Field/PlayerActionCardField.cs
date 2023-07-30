@@ -14,26 +14,23 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
     {
         animator = GetComponent<Animator>();
         rectTransform = GetComponent<RectTransform>();
-        UnZoom();
+        InitialUnZoom(false);
     }
     public void OnPointerClick(PointerEventData eventData)
     {
         //Debug.Log("Click");
-        Zoom();
+        ZoomState(true);
     }
-    public void Zoom()
+    public void InitialUnZoom(bool state)
     {
-        isZooming = true;
-        animator.SetBool("Zoom", true);
-        EnableDraggableAndInfo(isZooming);
-        uiManager.battleCanvas.switchCardBattlePanel.PanelState(!isZooming);
+        isZooming = state;
+        EnableDraggableAndInfo(state);
     }
-    public void UnZoom()
+    public void ZoomState(bool state)
     {
-        isZooming = false;
-        animator.SetBool("Zoom", false);
-        EnableDraggableAndInfo(isZooming);
-        uiManager.battleCanvas.switchCardBattlePanel.PanelState(!isZooming);
+        isZooming = state;
+        animator.SetBool("Zoom", state);
+        EnableDraggableAndInfo(state);
     }
     public void EnableDraggableAndInfo(bool state)
     {

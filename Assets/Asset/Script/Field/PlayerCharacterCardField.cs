@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class PlayerCharacterCardField : MonoBehaviour
 {
-    public List<CharacterCardDragHover> characterCardDragHoverList;
-    public void GetCharacterCard()
-    {
-    }
+
 }

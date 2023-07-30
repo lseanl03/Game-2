@@ -22,7 +22,7 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if (gamePlayManager.startCombat && cardInfo.enabled)
         {
-            Debug.Log("Enter");
+            isDragging = true;
             isSelecting = true;
             transform.localPosition = new Vector2(transform.localPosition.x, 50f);
             pos = new Vector2(transform.localPosition.x, transform.localPosition.y);
@@ -33,7 +33,7 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if (gamePlayManager.startCombat && cardInfo.enabled)
         {
-            Debug.Log("Exit");
+            isDragging = false;
             isSelecting = false;
             transform.localPosition = new Vector2(transform.localPosition.x, 0f);
             pos = new Vector2(transform.localPosition.x, transform.localPosition.y);
@@ -42,6 +42,5 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Exit");
     }
 }

@@ -6,19 +6,20 @@ public class GamePlayManager : MonoBehaviour
 {
     public bool startCombat = false;
     public bool waitingTime = true;
+    public bool selectedCardBattleInitial = false;
 
-    public int characterCardSwitchCost = 10;
+    public int battleCardSwitchCost = 10;
     public int quantityInitialActionCard = 5;
-    public int InitialPlayerMana = 100;
-    public int InitialEnemyMana = 100;
 
     public GamePlayState currentState;
-    public GamePlayState currentTurn;
+    public TurnState currentTurn;
     public GamePlayCanvas gamePlayCanvas;
     public PlayerDeckData playerDeckData;
     public EnemyDeckData enemyDeckData;
 
     public List<ActionCardData> actionCardInitialDataList;
+
+
     public static GamePlayManager instance;
     protected UIManager uiManager => UIManager.instance;
     protected TooltipManager tooltipManager => TooltipManager.instance;
@@ -49,8 +50,10 @@ public class GamePlayManager : MonoBehaviour
                     uiManager.battleCanvas.CanvasState(true);
                     uiManager.battleCanvas.deckPanel.PanelState(true);
                     uiManager.battleCanvas.selectTurnPanel.PanelState(true);
+
                     uiManager.battleCanvas.informationPanel.PanelState(false);
                     uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
+                    uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
                 }
                 break;
             case GamePlayState.SelectInitialActionCard:
@@ -72,8 +75,9 @@ public class GamePlayManager : MonoBehaviour
 
                 if (uiManager != null)
                 {
-                    uiManager.battleCanvas.informationPanel.PanelState(true);
                     uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
+
+                    uiManager.battleCanvas.informationPanel.PanelState(true);
                     uiManager.battleCanvas.switchCardBattlePanel.PanelState(true);
                 }
                 break;
@@ -94,14 +98,14 @@ public class GamePlayManager : MonoBehaviour
                 break;
         }
     }
-    public void UpdateTurnState(GamePlayState turnState)
+    public void UpdateTurnState(TurnState turnState)
     {
         currentTurn = turnState;
         switch(currentTurn)
         {
-            case GamePlayState.YourTurn: 
+            case TurnState.YourTurn: 
                 break;
-            case GamePlayState.EnemyTurn:
+            case TurnState.EnemyTurn:
                 break;
         }
     }

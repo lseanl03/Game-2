@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
 {
-
     public bool isSelecting = false;
     public bool isSelected = false;
     public Image selectIcon;
@@ -27,26 +26,39 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
         transform.localPosition = new Vector2(transform.localPosition.x, 30f);
         isSelected = true;
     }
+    public void HandleCardSelected()
+    {
+        transform.localPosition = new Vector2(transform.localPosition.x, 0f);
+        isSelected = false;
+    }
     public void HandleSelectCard()
     {
-        for (int i = 0; i < transform.parent.childCount; i++)
+        if(gamePlayManager.currentTurn == TurnState.YourTurn || !gamePlayManager.selectedCardBattleInitial)
         {
-            CharacterCardDragHover characterCard = transform.parent.GetChild(i).GetComponent<CharacterCardDragHover>();
-            if (this.Equals(characterCard))
+            for (int i = 0; i < transform.parent.childCount; i++)
             {
-                if (!isSelected && !isSelecting)
+                CharacterCardDragHover characterCard = transform.parent.GetChild(i).GetComponent<CharacterCardDragHover>();
+                if (this.Equals(characterCard))
                 {
-                    SelectIconState(true);
-                    uiManager.battleCanvas.switchCardBattlePanel.PanelState(isSelecting);
+                    if (!isSelected && !isSelecting)
+                    {
+                        SelectIconState(true);
+                        uiManager.battleCanvas.switchCardBattlePanel.PanelState(isSelecting);
+                    }
+                }
+                else
+                {
+                    if (characterCard.isSelecting && !characterCard.isSelected)
+                    {
+                        characterCard.SelectIconState(false);
+                    }
                 }
             }
-            else
-            {
-                if (characterCard.isSelecting && !characterCard.isSelected)
-                {
-                    characterCard.SelectIconState(false);
-                }
-            }
+        }
+
+        if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
+        {
+            gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
         }
     }
 }

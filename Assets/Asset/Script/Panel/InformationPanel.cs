@@ -14,8 +14,8 @@ public class InformationPanel : PanelBase
 
     public void Start()
     {
-        SetPlayerManaText(gamePlayManager.InitialPlayerMana.ToString());
-        SetEnemyManaText(gamePlayManager.InitialEnemyMana.ToString());
+        SetPlayerManaText(playerManager.currentActionPoint.ToString());
+        SetEnemyManaText(enemyManager.currentActionPoint.ToString());
     }
     public void SetPlayerManaText(string text)
     {
@@ -23,6 +23,6 @@ public class InformationPanel : PanelBase
     }
     public void SetEnemyManaText(string text)
     {
-        playerManaText.text = text;
+        enemyManaText.text = text;
     }
 }

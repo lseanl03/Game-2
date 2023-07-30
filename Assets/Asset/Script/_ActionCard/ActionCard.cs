@@ -19,11 +19,12 @@ public class ActionCard : MonoBehaviour
     public Sprite cardSprite;
     public Image cardImage;
     public Image backImage;
+    public Image cardBack;
 
     [SerializeField] private GameObject quantityInDeckObj;
     [SerializeField] private GameObject quantitySelectedObj;
     [SerializeField] private GameObject quantityObj;
-    [SerializeField] private GameObject[] hiddenObjects;
+    [SerializeField] private GameObject manaObj;
 
     private void Start()
     {
@@ -55,31 +56,24 @@ public class ActionCard : MonoBehaviour
         quantityInDeckText.text = quantitySelected.ToString();
         CollectionManager.instance.actionCardDataList.Add(actionCardData);
     }
-    public void HideObjects()
+    public void ManaState(bool state)
     {
-        for(int i=0;i<hiddenObjects.Length;i++)
-        {
-            hiddenObjects[i].gameObject.SetActive(false);
-        }
+        manaObj.gameObject.SetActive(state);
     }
-    public void ShowObjects()
+    public void QuantityInDeckState(bool state)
     {
-        for (int i = 0; i < hiddenObjects.Length; i++)
-        {
-            hiddenObjects[i].gameObject.SetActive(true);
-        }
+        quantityInDeckObj.SetActive(state);
     }
-    public void ShowHideQuantityInDeck(bool hidden)
+    public void QuantitySelectedState(bool state)
     {
-        quantityInDeckObj.SetActive(hidden);
+        quantitySelectedObj.SetActive(state);
     }
-    public void ShowHideQuantitySelected(bool hidden)
+    public void QuantityState(bool state)
     {
-        quantitySelectedObj.SetActive(hidden);
+        quantityObj.SetActive(state);
     }
-    public void ShowHideQuantity(bool hidden)
+    public void CardBackState(bool state)
     {
-        quantityObj.SetActive(hidden);
+        cardBack.gameObject.SetActive(state);
     }
-
 }

@@ -14,7 +14,7 @@ public class SceneChanger : MonoBehaviour
     public SceneType currentScene;
     public static SceneChanger instance;
     protected GameManager gameManager => GameManager.instance;
-    protected PlayerDeckManager deckManager => PlayerDeckManager.instance;
+    protected PlayerManager deckManager => PlayerManager.instance;
     protected UIManager uIManager => UIManager.instance;
     protected CollectionManager collectionManager => CollectionManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;

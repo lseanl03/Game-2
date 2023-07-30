@@ -10,8 +10,8 @@ public class DeckPanel : PanelBase
 
     public void Start()
     {
-        SetPlayerDeckText(playerDeckManager.actionCardDeckData.Count.ToString());
-        SetEnemyDeckText(enemyDeckManager.actionCardDeckData.Count.ToString());
+        SetPlayerDeckText(playerManager.actionCardDeckData.Count.ToString());
+        SetEnemyDeckText(enemyManager.actionCardDeckData.Count.ToString());
     }
     public void SetPlayerDeckText(string text)
     {

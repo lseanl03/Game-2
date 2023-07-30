@@ -8,12 +8,18 @@ public class SelectTurnPanel : PanelBase
 {
     public bool selected = false;
     public bool isYourTurn;
-    public float delayTimeDisplay = 0.5f;
-    public float timeCount = 0f;
+
+    private float timeCount = 0f;
+    private float timeDelay = 0f;
+
     public float timeEndCount = 5f;
-    public float timeDelay = 0f;
+    public float delayTimeDisplay = 0.5f;
+    public float delayEndSelect = 1f;
+    public float delaySelectFirstTurn = 1f;
+
     public TextMeshProUGUI selectFirstTurnText;
     public TextMeshProUGUI LoadingText;
+
     public Coroutine selectFirstTurnCoroutine;
     public Coroutine loadingCoroutine;
     private void Start()
@@ -50,7 +56,7 @@ public class SelectTurnPanel : PanelBase
     }
     IEnumerator SelectFirstTurn()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(delaySelectFirstTurn);
         while (true)
         {
             selectFirstTurnText.text = "Your Turn";
@@ -69,14 +75,14 @@ public class SelectTurnPanel : PanelBase
         StopCoroutine(selectFirstTurnCoroutine);
         StopCoroutine(loadingCoroutine);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(delayEndSelect);
         PanelState(false);
 
         gamePlayManager.UpdateGameState(GamePlayState.SelectInitialActionCard);
         if (isYourTurn) 
-            gamePlayManager.UpdateTurnState(GamePlayState.YourTurn);
+            gamePlayManager.UpdateTurnState(TurnState.YourTurn);
         else 
-            gamePlayManager.UpdateTurnState(GamePlayState.EnemyTurn);
+            gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
 
     }
 }

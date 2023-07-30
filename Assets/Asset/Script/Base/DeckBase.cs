@@ -10,8 +10,8 @@ public class DeckBase : MonoBehaviour
     public List<CharacterCardData> characterCardList;
     public List<ActionCardData> actionCardList;
 
-    public PlayerDeckManager playerDeckManager => PlayerDeckManager.instance;
-    public EnemyDeckManager enemyDeckManager => EnemyDeckManager.instance;
+    public PlayerManager playerDeckManager => PlayerManager.instance;
+    public EnemyManager enemyDeckManager => EnemyManager.instance;
     public CardListManager cardListManager => CardListManager.instance;
     public virtual void Start()
     {

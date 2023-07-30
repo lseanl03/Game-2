@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
 
     public SelectCardCanvas selectCardCanvas;
     public BattleCanvas battleCanvas;
-    protected PlayerDeckManager deckManager => PlayerDeckManager.instance;
+    protected PlayerManager deckManager => PlayerManager.instance;
     protected CollectionManager collectionManager => CollectionManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
     protected TooltipManager tooltipManager => TooltipManager.instance;

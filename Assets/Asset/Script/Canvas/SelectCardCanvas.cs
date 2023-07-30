@@ -48,12 +48,12 @@ public class SelectCardCanvas : CanvasBase
     {
         int characterCardSize = collectionManager.characterCardCount;
         int actionCardSize = collectionManager.actionCardCount;
-        int characterCardMaxSize = playerDeckManager.characterCardMaxSize;
-        int actionCardMaxSize = playerDeckManager.actionCardMaxSize;
+        int characterCardMaxSize = playerManager.characterCardMaxSize;
+        int actionCardMaxSize = playerManager.actionCardMaxSize;
 
         if (characterCardSize == characterCardMaxSize && actionCardSize == actionCardMaxSize)
         {
-            playerDeckManager.SaveCard();
+            playerManager.SaveCard();
             notificationManager.SetNewNotification("Deck saved");
         }
         else if (characterCardSize != characterCardMaxSize && actionCardSize != actionCardMaxSize)
@@ -71,27 +71,27 @@ public class SelectCardCanvas : CanvasBase
     }
     public void StartGame()
     {
-        for(int i = 0; i < playerDeckManager.characterCardDeckData.Count; i++)
+        for(int i = 0; i < playerManager.characterCardDeckData.Count; i++)
         {
             CharacterCardData characterCardData = collectionManager.characterCardDataList[i];
-            CharacterCardData characterCardDeckData = playerDeckManager.characterCardDeckData[i];
+            CharacterCardData characterCardDeckData = playerManager.characterCardDeckData[i];
             if(characterCardData != characterCardDeckData)
             {
-                playerDeckManager.deckSaved = false;
+                playerManager.deckSaved = false;
                 break;
             }
         }
-        for(int i = 0;i < playerDeckManager.actionCardDeckData.Count; i++)
+        for(int i = 0;i < playerManager.actionCardDeckData.Count; i++)
         {
             ActionCardData actionCardData = collectionManager.actionCardDataList[i];
-            ActionCardData actionCardDeckData = playerDeckManager.actionCardDeckData[i];
+            ActionCardData actionCardDeckData = playerManager.actionCardDeckData[i];
             if (actionCardData != actionCardDeckData)
             {
-                playerDeckManager.deckSaved = false;
+                playerManager.deckSaved = false;
                 break;
             }
         }
-        if(!playerDeckManager.deckSaved)
+        if(!playerManager.deckSaved)
         {
             notificationManager.SetNewNotification("Your deck has not been saved");
         }

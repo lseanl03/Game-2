@@ -16,7 +16,7 @@ public class CollectionManager : MonoBehaviour
     public static CollectionManager instance;
     protected UIManager uIManager => UIManager.instance;
     protected GameManager gameManager => GameManager.instance;
-    protected PlayerDeckManager deckManager => PlayerDeckManager.instance;
+    protected PlayerManager deckManager => PlayerManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
     private void Awake()
     {

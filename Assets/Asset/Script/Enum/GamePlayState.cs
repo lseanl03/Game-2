@@ -8,8 +8,11 @@ public enum GamePlayState
     SelectInitialActionCard,
     SelectInitialBattleCharacterCard,
     DrawCards,
-    YourTurn,
-    EnemyTurn,
     Victory,
     Lose
+}
+public enum TurnState
+{
+    YourTurn,
+    EnemyTurn
 }
