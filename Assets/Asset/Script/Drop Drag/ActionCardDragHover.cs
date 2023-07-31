@@ -20,7 +20,7 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
     protected GamePlayManager gamePlayManager => GamePlayManager.instance;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (gamePlayManager.startCombat && cardInfo.enabled)
+        if (gamePlayManager.startCombat && cardInfo.enabled && transform.parent == gamePlayManager.gamePlayCanvas.playerActionCardField)
         {
             isDragging = true;
             isSelecting = true;
@@ -31,7 +31,7 @@ public class ActionCardDragHover : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (gamePlayManager.startCombat && cardInfo.enabled)
+        if (gamePlayManager.startCombat && cardInfo.enabled && transform.parent == gamePlayManager.gamePlayCanvas.playerActionCardField)
         {
             isDragging = false;
             isSelecting = false;

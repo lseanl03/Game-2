@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7304b4a86c46a944a828038b86a210c3, type: 3}
+  m_Name: Bronya
+  m_EditorClassIdentifier: 
+  characterName: Bronya
+  description: This is Character Card
+  cardSprite: {fileID: 21300000, guid: 62c95a27a3c87e2498e9e0430a21f81a, type: 3}
+  maxHealth: 10
+  burstPointMax: 3
+  quantityMax: 1
+  characterCard:
+    characterSkillList:
+    - characterCardSkillType: 0
+      skillSprite: {fileID: -161247945, guid: 808524f51556c7b46b0605b271954d79, type: 3}
+      manaCost: 30
+      descriptionSkill: "G\xE2y 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(+1 \u0111i\u1EC3m
+        k\u1EF9 n\u0103ng)"
+    - characterCardSkillType: 1
+      skillSprite: {fileID: -1690060763, guid: 82231563b2b2f9446996dde135997f1a, type: 3}
+      manaCost: 30
+      descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(ti\xEAu
+        hao 1 \u0111i\u1EC3m k\u1EF9 n\u0103ng"
+    - characterCardSkillType: 2
+      skillSprite: {fileID: -1445444209, guid: d1aa83da8708e714a84dfd715e9ab5b9, type: 3}
+      manaCost: 40
+      descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(ti\xEAu
+        hao 2 \u0111i\u1EC3m k\u1EF9 n\u0103ng"
+    destinyType: 4
+    descriptionDestiny: This is Destiny
+    combatType:
+      combatType: 4
+      combatTypeSprite: {fileID: -1237649294, guid: 87711186d17aae54a859bf28723d4d17, type: 3}
+    weakness:
+    - weaknessType: 0
+      weaknessTypeSprite: {fileID: -1012349688, guid: 5467a3b500c60b740a61f967e72da328, type: 3}
+    - weaknessType: 2
+      weaknessTypeSprite: {fileID: 1259190384, guid: e9e8e939d830b3e45aa5ecc94f37267f, type: 3}
+    - weaknessType: 5
+      weaknessTypeSprite: {fileID: -1861580560, guid: d7ef83d03c1e0fc4da87d19c39e6dc5f, type: 3}

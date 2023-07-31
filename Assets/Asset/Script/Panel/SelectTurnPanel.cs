@@ -78,11 +78,16 @@ public class SelectTurnPanel : PanelBase
         yield return new WaitForSeconds(delayEndSelect);
         PanelState(false);
 
+        uiManager.battleCanvas.informationPanel.SetTurnText(selectFirstTurnText.text);
         gamePlayManager.UpdateGameState(GamePlayState.SelectInitialActionCard);
-        if (isYourTurn) 
+        if (isYourTurn)
+        {
             gamePlayManager.UpdateTurnState(TurnState.YourTurn);
-        else 
+        }
+        else
+        {
             gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+        } 
 
     }
 }

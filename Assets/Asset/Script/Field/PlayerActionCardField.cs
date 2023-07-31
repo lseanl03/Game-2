@@ -18,7 +18,7 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        //Debug.Log("Click");
+
         ZoomState(true);
     }
     public void InitialUnZoom(bool state)

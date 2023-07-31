@@ -38,15 +38,18 @@ public class CardInfo : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
     {
         if (tooltipManager != null)
         {
-            tooltipManager.tooltipCanvas.tooltipController.StateObj(true);
             if(characterCard != null)
             {
                 tooltipManager.tooltipCanvas.GetCharacterCardInfo(characterCard.characterCardData);
             }
             if (actionCard != null)
             {
-                tooltipManager.tooltipCanvas.GetActionCardInfo(actionCard.actionCardData);
+                if (!actionCard.cardBack.IsActive())
+                    tooltipManager.tooltipCanvas.GetActionCardInfo(actionCard.actionCardData);
+                else 
+                    return;
             }
+            tooltipManager.tooltipCanvas.tooltipController.StateObj(true);
         }
 
         if (gamePlayManager != null)

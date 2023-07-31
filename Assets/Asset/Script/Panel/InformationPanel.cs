@@ -25,4 +25,8 @@ public class InformationPanel : PanelBase
     {
         enemyManaText.text = text;
     }
+    public void SetTurnText(string text)
+    {
+        turnText.text = text;
+    }
 }

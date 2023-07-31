@@ -13,6 +13,7 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     protected UIManager uiManager => UIManager.instance;
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(transform.parent == gamePlayManager.gamePlayCanvas.playerCharacterCardField.transform)
         HandleSelectCard();
     }
     public void SelectIconState(bool state)
