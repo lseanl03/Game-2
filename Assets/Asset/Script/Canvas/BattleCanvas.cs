@@ -5,9 +5,15 @@ using UnityEngine;
 
 public class BattleCanvas : CanvasBase
 {
-    public DeckPanel deckPanel;
+    public SkillPanel skillPanel;
     public InformationPanel informationPanel;
     public SelectTurnPanel selectTurnPanel;
     public SelectInitialActionCardPanel selectInitialActionCardPanel;
     public SwitchCardBattlePanel switchCardBattlePanel;
+    public PlayCardPanel playCardPanel;
+
+    public void ReturnMainMenu()
+    {
+        sceneChanger.OpenMainMenuScene();
+    }
 }

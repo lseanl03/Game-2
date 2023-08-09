@@ -6,27 +6,64 @@ using UnityEngine.UI;
 
 public class InformationPanel : PanelBase
 {
-    public TextMeshProUGUI playerManaText;
-    public TextMeshProUGUI enemyManaText;
+    public float endTurnTime = 30;
+    public float endTurnCountDown;
     public TextMeshProUGUI turnText;
     public TextMeshProUGUI roundText;
     public Button endTurnButton;
+    public Slider endTurnSlider;
 
     public void Start()
     {
-        SetPlayerManaText(playerManager.currentActionPoint.ToString());
-        SetEnemyManaText(enemyManager.currentActionPoint.ToString());
+        endTurnSlider.minValue = 0;
+        endTurnSlider.maxValue = endTurnTime;
     }
-    public void SetPlayerManaText(string text)
+
+    public void Update()
     {
-        playerManaText.text = text;
+        SetTurnText(gamePlayManager.currentTurn.ToString());
     }
-    public void SetEnemyManaText(string text)
+    public void OnEnable()
     {
-        enemyManaText.text = text;
+        endTurnCountDown = endTurnTime;
     }
     public void SetTurnText(string text)
     {
         turnText.text = text;
+    }
+    public void EndTurn()
+    {
+        if(gamePlayManager.currentTurn == TurnState.YourTurn)
+        {
+            endTurnCountDown = 0;
+            notificationManager.SetNewNotification("I'm ending my round");
+        }
+        else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
+        {
+            notificationManager.SetNewNotification("It's the enemy turn");
+        }
+    }
+    public void SetEndTurnTime()
+    {
+        if (gamePlayManager.isFighting)
+        {
+            endTurnCountDown -= Time.deltaTime;
+            if (endTurnCountDown <= 0)
+            {
+                if (gamePlayManager.currentTurn == TurnState.YourTurn)
+                {
+                    gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+                }
+                else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
+                {
+                    gamePlayManager.UpdateTurnState(TurnState.YourTurn);
+                }
+                endTurnCountDown = endTurnTime;
+            }
+        }
+    }
+    public void SetEndTurnSlider()
+    {
+        endTurnSlider.value = endTurnCountDown;
     }
 }

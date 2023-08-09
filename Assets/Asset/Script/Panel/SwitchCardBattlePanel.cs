@@ -39,13 +39,16 @@ public class SwitchCardBattlePanel : PanelBase
                             gamePlayManager.selectedCardBattleInitial = true;
                             SetCostText(gamePlayManager.battleCardSwitchCost.ToString());
                             ManaCostState(true);
+                            gamePlayManager.enemyCharacterList[0].characterCardDragHover.HandleCardSelecting();
+                            gamePlayManager.UpdateGameState(GamePlayState.Combat);
+
                         }
                         else
                         {
-                            if (playerManager.currentActionPoint >= 10)
+                            if (playerManager.currentActionPoint >= gamePlayManager.battleCardSwitchCost)
                             {
-                                playerManager.currentActionPoint -= gamePlayManager.battleCardSwitchCost;
-                                uiManager.battleCanvas.informationPanel.SetPlayerManaText(playerManager.currentActionPoint.ToString());
+                                playerManager.ConsumeActionPoint(gamePlayManager.battleCardSwitchCost);
+                                gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
                             }
                             else
                             {

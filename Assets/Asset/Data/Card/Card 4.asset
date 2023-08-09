@@ -19,11 +19,11 @@ MonoBehaviour:
     xu\u1EA5t chi\u1EBFn"
   cardSprite: {fileID: -94022282, guid: 10c9e3ae78bafc94c92308965eba41e0, type: 3}
   actionCard:
-    actionTargetType: 2
-    actionCardTypeList: 01000000
-    valueReceived: 2
-    valueReduce: 0
+    actionSkillList:
+    - actionCardTypeList: 1
+      actionTargetType: 2
+      actionValue: 2
+      actionPhase: 1
+      actionLimit: 1
     rarityType: 2
     colorRarity: {r: 0.24705884, g: 0.4039216, b: 0.43921572, a: 1}
-    actionPhase: 1
-    actionLimit: 1

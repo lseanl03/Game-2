@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public enum GamePlayState
 {
     SelectFirstTurn,
@@ -9,10 +5,13 @@ public enum GamePlayState
     SelectInitialBattleCharacterCard,
     DrawCards,
     Victory,
-    Lose
+    Lose,
+    Combat,
+    EndCombat,
+    StartCombat,
 }
 public enum TurnState
 {
     YourTurn,
-    EnemyTurn
+    EnemyTurn,
 }

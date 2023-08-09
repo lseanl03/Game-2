@@ -9,10 +9,11 @@ public class CanvasBase : MonoBehaviour
         gameObject.SetActive(state);
     }
     protected GamePlayManager gamePlayManager => GamePlayManager.instance;
-    protected PlayerManager playerManager => PlayerManager.instance;
-    protected EnemyManager enemyManager => EnemyManager.instance;
     protected CollectionManager collectionManager => CollectionManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
     protected SceneChanger sceneChanger => SceneChanger.instance;
     protected UIManager uiManager => UIManager.instance;
+    protected GameManager gameManager => GameManager.instance;
+    protected PlayerManager playerManager => PlayerManager.instance;
+    protected EnemyManager enemyManager => EnemyManager.instance;
 }

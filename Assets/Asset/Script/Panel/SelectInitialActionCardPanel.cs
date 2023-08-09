@@ -8,15 +8,18 @@ public class SelectInitialActionCardPanel : PanelBase
 {
     public float delayTime = 0f;
     public bool recalled = false;
+
+    [Header("Prefab")]
+    public ActionCard actionCardInitialPrefab;
+    private ActionCard actionCard;
+
     public TextMeshProUGUI selectToStartText;
     public Button confirmButton;
     public GameObject holderActionCardToHand;
-    public ActionCard actionCardInitialPrefab;
-    private ActionCard actionCard;
     private void Start()
     {
         StartCoroutine(ShowText("Select cards to start"));
-        SpawnInitialActionCard();
+        SpawnChooseInitialActionCard();
     }
     private void Update()
     {
@@ -25,13 +28,18 @@ public class SelectInitialActionCardPanel : PanelBase
             StartCoroutine(HandleEndGetCard());
         }
     }
-    public void SpawnInitialActionCard()
+    public void OnEnable()
+    {
+        ConfirmButtonState(true);
+    }
+    public void SpawnChooseInitialActionCard()
     {
         for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
         {
             actionCard = Instantiate(actionCardInitialPrefab, holderActionCardToHand.transform);
-            actionCard.GetOriginalCardInfo(gamePlayManager.playerDeckData.actionCardList[0]);
-            gamePlayManager.playerDeckData.actionCardList.Remove(actionCard.actionCardData);
+            playerManager.actionCardTakenList.Add(playerManager.actionCardDeckData[0]);
+            playerManager.actionCardDeckData.RemoveAt(0);
+            actionCard.GetOriginalCardInfo(playerManager.actionCardTakenList[i]);
             if (actionCard.GetComponent<Draggable>())
             {
                 actionCard.GetComponent<Draggable>().enabled = false;
@@ -49,16 +57,17 @@ public class SelectInitialActionCardPanel : PanelBase
                 if (cardInfo.isRecall)
                 {
                     cardInfo.ReCallImageState(false);
-                    gamePlayManager.playerDeckData.actionCardList.Add(cardInfo.actionCard.actionCardData);
-                    cardInfo.actionCard.GetOriginalCardInfo(gamePlayManager.playerDeckData.actionCardList[0]);
-                    gamePlayManager.playerDeckData.actionCardList.Remove(cardInfo.actionCard.actionCardData);
+                    playerManager.actionCardDeckData.Add(playerManager.actionCardTakenList[i]);
+                    playerManager.actionCardTakenList.RemoveAt(i);
+                    playerManager.actionCardTakenList.Insert(i, playerManager.actionCardDeckData[0]);
+                    playerManager.actionCardDeckData.RemoveAt(0);
+                    cardInfo.actionCard.GetOriginalCardInfo(playerManager.actionCardTakenList[i]);
                 }
             }
-            confirmButton.gameObject.SetActive(false);
+            ConfirmButtonState(false);
             StartCoroutine(ShowText("Done select cards"));
             recalled = true;
         }
-        AddActionCardToList();
     }
     public IEnumerator HandleEndGetCard()
     {
@@ -71,12 +80,8 @@ public class SelectInitialActionCardPanel : PanelBase
         selectToStartText.text = text;
         yield return null;
     }
-    public void AddActionCardToList()
+    public void ConfirmButtonState(bool state)
     {
-        for (int i = 0; i < holderActionCardToHand.transform.childCount; i++)
-        {
-            ActionCard actionCard = holderActionCardToHand.transform.GetChild(i).GetComponent<ActionCard>();
-            gamePlayManager.actionCardInitialDataList.Add(actionCard.actionCardData);
-        }
+        confirmButton.gameObject.SetActive(state);
     }
 }

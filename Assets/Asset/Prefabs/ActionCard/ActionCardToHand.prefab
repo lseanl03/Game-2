@@ -240,7 +240,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSelecting: 0
   isDragging: 0
-  pos: {x: 0, y: 0}
+  placeHolderPrefab: {fileID: 2321133982752143645, guid: b590b19bb4bce224088be59116b8546b, type: 3}
+  parentToReturn: {fileID: 0}
+  placeHolderParent: {fileID: 0}
   actionCard: {fileID: 0}
   cardInfo: {fileID: 0}
 --- !u!114 &-8198409721846181308

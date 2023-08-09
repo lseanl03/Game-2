@@ -5,16 +5,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardInfo : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
+public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
 {
     public bool isRecall = false;
     public Image recallCardImage;
 
     public CharacterCard characterCard;
     public ActionCard actionCard;
-    public CollectionManager collectionManager => CollectionManager.instance;
-    public TooltipManager tooltipManager => TooltipManager.instance;
-    public GamePlayManager gamePlayManager => GamePlayManager.instance;
     void Start()
     {
         characterCard = GetComponent<CharacterCard>();
@@ -38,18 +35,17 @@ public class CardInfo : MonoBehaviour, IPointerDownHandler, IPointerClickHandler
     {
         if (tooltipManager != null)
         {
-            if(characterCard != null)
+            if (characterCard != null)
             {
-                tooltipManager.tooltipCanvas.GetCharacterCardInfo(characterCard.characterCardData);
+                tooltipManager.ShowCharacterCardTooltip(characterCard.characterCardData);
+                gamePlayManager.HideHighlightsCard();
             }
             if (actionCard != null)
             {
-                if (!actionCard.cardBack.IsActive())
-                    tooltipManager.tooltipCanvas.GetActionCardInfo(actionCard.actionCardData);
-                else 
-                    return;
+                gamePlayManager.HideHighlightsCard();
+                if (actionCard.cardBack.IsActive()) return;
+                else tooltipManager.ShowActionCardTooltip(actionCard.actionCardData);
             }
-            tooltipManager.tooltipCanvas.tooltipController.StateObj(true);
         }
 
         if (gamePlayManager != null)

@@ -21,6 +21,5 @@ public class EnemyManager : CharacterBase
     public override void Start()
     {
         base.Start();
-        ShuffleList(actionCardDeckData);
     }
 }

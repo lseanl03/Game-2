@@ -15,26 +15,44 @@ MonoBehaviour:
   characterName: Bronya
   description: This is Character Card
   cardSprite: {fileID: 21300000, guid: 62c95a27a3c87e2498e9e0430a21f81a, type: 3}
-  maxHealth: 10
+  maxHealth: 20
   burstPointMax: 3
   quantityMax: 1
   characterCard:
     characterSkillList:
-    - characterCardSkillType: 0
+    - characterCardSkillType: 1
       skillSprite: {fileID: -161247945, guid: 808524f51556c7b46b0605b271954d79, type: 3}
-      manaCost: 30
       descriptionSkill: "G\xE2y 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(+1 \u0111i\u1EC3m
         k\u1EF9 n\u0103ng)"
-    - characterCardSkillType: 1
+      actionPointCost: 30
+      skillPointCost: -1
+      burstPointCost: -1
+      actionSkillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 2
+    - characterCardSkillType: 2
       skillSprite: {fileID: -1690060763, guid: 82231563b2b2f9446996dde135997f1a, type: 3}
-      manaCost: 30
       descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(ti\xEAu
         hao 1 \u0111i\u1EC3m k\u1EF9 n\u0103ng"
-    - characterCardSkillType: 2
+      actionPointCost: 30
+      skillPointCost: 1
+      burstPointCost: -1
+      actionSkillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 3
+    - characterCardSkillType: 3
       skillSprite: {fileID: -1445444209, guid: d1aa83da8708e714a84dfd715e9ab5b9, type: 3}
-      manaCost: 40
       descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(ti\xEAu
         hao 2 \u0111i\u1EC3m k\u1EF9 n\u0103ng"
+      actionPointCost: 40
+      skillPointCost: 2
+      burstPointCost: 3
+      actionSkillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 4
     destinyType: 4
     descriptionDestiny: This is Destiny
     combatType:

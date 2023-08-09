@@ -16,21 +16,24 @@ public class ActionCardDataBase : ScriptableObject
 [Serializable]
 public class ActionCardBase
 {
-    [Header("Type")]
-    public ActionTargetType actionTargetType;
-    public List<ActionCardType> actionCardTypeList;
-    public int valueReceived;//giá trị nhận được
-    public int valueReduce; //giá trị mất đi
+    [Header("Skill")]
+    public List<ActionCardSkill> actionSkillList;
 
     [Header("Rarity")]
     public RarityType rarityType;
     public Color colorRarity;
+}
 
-    [Header("Action")]
+[Serializable]
+public class ActionCardSkill
+{
+    public ActionCardActionSkillType actionCardTypeList;
+    public ActionTargetType actionTargetType;
+    public int actionValue;
     public ActionPhase actionPhase;
     public ActionLimit actionLimit;
 }
-public enum ActionCardType
+public enum ActionCardActionSkillType
 {
     None,
     Healing, //hồi máu

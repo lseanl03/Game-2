@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+public enum CardSelectType
+{
+    None,
+    CharacterCard,
+    ActionCard
+}
 public class GameManager : MonoBehaviour
 {
+    public int characterCardDeckSize;
+    public int actionCardListSize;
+
+    public CardListData cardListData;
+
     public static GameManager instance;
     protected CollectionManager collectionManager => CollectionManager.instance;
     protected UIManager uIManager => UIManager.instance;
@@ -21,6 +32,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        characterCardDeckSize = cardListData.characterCardList.Count;
+        actionCardListSize = cardListData.actionCardList.Count;
     }
     private void Start()
     {

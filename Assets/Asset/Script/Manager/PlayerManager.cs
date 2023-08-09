@@ -20,7 +20,6 @@ public class PlayerManager : CharacterBase
             return;
         }
     }
-
     public override void Start()
     {
         base.Start();
@@ -28,33 +27,8 @@ public class PlayerManager : CharacterBase
 
     public void SaveCard()
     {
-        if (characterCardDeckData.Count == 0) AddCharacterCard();
-        else
-        {
-            for (int i = 0; i < characterCardDeckData.Count; i++)
-            {
-                if (characterCardDeckData[i] != collectionManager.characterCardDataList[i])
-                {
-                    RemoveCharacterCard();
-                    AddCharacterCard();
-                    break;
-                }
-            }
-        }
-
-        if (actionCardDeckData.Count == 0) AddActionCard();
-        else
-        {
-            for (int i = 0; i < actionCardDeckData.Count; i++)
-            {
-                if (actionCardDeckData[i] != collectionManager.actionCardDataList[i])
-                {
-                    RemoveActionCard();
-                    AddActionCard();
-                    break;
-                }
-            }
-        }
+        SaveCharacterCard();
+        SaveActionCard();
         deckSaved = true;
     }
     public void AddCharacterCard()
@@ -80,4 +54,37 @@ public class PlayerManager : CharacterBase
     {
         actionCardDeckData.Clear();
     }
+    public void SaveActionCard()
+    {
+        if (actionCardDeckData.Count == 0) AddActionCard();
+        else
+        {
+            for (int i = 0; i < actionCardDeckData.Count; i++)
+            {
+                if (actionCardDeckData[i] != collectionManager.actionCardDataList[i])
+                {
+                    RemoveActionCard();
+                    AddActionCard();
+                    break;
+                }
+            }
+        }
+    }
+    public void SaveCharacterCard()
+    {
+        if (characterCardDeckData.Count == 0) AddCharacterCard();
+        else
+        {
+            for (int i = 0; i < characterCardDeckData.Count; i++)
+            {
+                if (characterCardDeckData[i] != collectionManager.characterCardDataList[i])
+                {
+                    RemoveCharacterCard();
+                    AddCharacterCard();
+                    break;
+                }
+            }
+        }
+    }
+
 }

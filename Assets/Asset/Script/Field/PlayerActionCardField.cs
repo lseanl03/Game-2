@@ -8,7 +8,6 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
     public bool isZooming = false;
     public RectTransform rectTransform;
     public Animator animator;
-
     protected UIManager uiManager => UIManager.instance;
     public void Start()
     {
@@ -18,7 +17,6 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-
         ZoomState(true);
     }
     public void InitialUnZoom(bool state)
@@ -37,9 +35,14 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
         for (int i = 0; i < transform.childCount; i++)
         {
             Transform child = transform.GetChild(i);
-            if (child.GetComponent<Draggable2>())
+            if (child.GetComponent<ActionCardDragHover>())
             {
-                child.GetComponent<Draggable2>().enabled = state;
+                child.GetComponent<ActionCardDragHover>().canDrag = state;
+                if (state == true)
+                {
+                    if (!GamePlayManager.instance.selectedCardBattleInitial)
+                        child.GetComponent<ActionCardDragHover>().canDrag = false;
+                }
             }
             if (child.GetComponent<CardInfo>())
             {

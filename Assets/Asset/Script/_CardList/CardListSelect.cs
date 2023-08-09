@@ -27,19 +27,19 @@ public class CardListSelect : SelectCardBase
     {
         if (cardSelectType == CardSelectType.CharacterCard)
         {
-            for (int i = 0; i < cardListManager.characterCardDeckSize; i++)
+            for (int i = 0; i < gameManager.characterCardDeckSize; i++)
             {
                 CharacterCard characterCard = Instantiate(characterCardPrefab, transform);
-                CharacterCardData cardData = cardListManager.cardListData.characterCardList[i];
+                CharacterCardData cardData = gameManager.cardListData.characterCardList[i];
                 characterCard.GetOriginalCardInfo(cardData);
             }
         }
         if (cardSelectType == CardSelectType.ActionCard)
         {
-            for (int i = 0; i < cardListManager.actionCardListSize; i++)
+            for (int i = 0; i < gameManager.actionCardListSize; i++)
             {
                 ActionCard actionCard = Instantiate(actionCardPrefab, transform);
-                ActionCardData cardData = cardListManager.cardListData.actionCardList[i];
+                ActionCardData cardData = gameManager.cardListData.actionCardList[i];
                 actionCard.GetOriginalCardInfo(cardData);
             }
         }

@@ -22,7 +22,7 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
 
     public ActionCard actionCard;
     public CharacterCard characterCard;
-    private Canvas canvas;
+    public Canvas canvas;
 
     void Start()
     {
@@ -79,7 +79,7 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                         placeHolderRoot.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
                     }
                 }
-                if (collectionManager.actionCardCount == playerDeckManager.actionCardMaxSize)
+                if (collectionManager.actionCardCount == playerManager.actionCardMaxSize)
                 {
                     notificationManager.SetNewNotification("Action cards is enough, can't add more");
                 }
@@ -131,7 +131,7 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                     placeHolderRoot.GetComponent<CharacterCard>().GetOriginalCardInfo(characterCard.characterCardData);
                     placeHolderRoot.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
                 }
-                if(collectionManager.characterCardCount == playerDeckManager.characterCardMaxSize)
+                if(collectionManager.characterCardCount == playerManager.characterCardMaxSize)
                 {
                     notificationManager.SetNewNotification("Character cards is enough, can't add more");
                 }
@@ -150,7 +150,7 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
 
         if (actionCard != null)
         {
-            actionCard.ManaState(false);
+            actionCard.ManaState(true);
 
             //-------------------------------------
 

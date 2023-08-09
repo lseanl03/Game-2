@@ -20,11 +20,11 @@ MonoBehaviour:
     ta trong hi\u1EC7p n\xE0y"
   cardSprite: {fileID: 633382988, guid: 91530f8ad32a0e642abda0e1057100fd, type: 3}
   actionCard:
-    actionTargetType: 4
-    actionCardTypeList: 05000000
-    valueReceived: 2
-    valueReduce: 0
+    actionSkillList:
+    - actionCardTypeList: 0
+      actionTargetType: 0
+      actionValue: 0
+      actionPhase: 0
+      actionLimit: 0
     rarityType: 3
     colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}
-    actionPhase: 1
-    actionLimit: 1

@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 3167514487203452552}
   - component: {fileID: 6849636527019213701}
   - component: {fileID: 2950444090913637406}
+  - component: {fileID: 72499418404624673}
   m_Layer: 5
   m_Name: CharacterCard
   m_TagString: Untagged
@@ -283,6 +284,7 @@ MonoBehaviour:
   - {fileID: 7708493194730771152}
   - {fileID: 4634801742720036035}
   characterCardData: {fileID: 0}
+  characterStats: {fileID: 0}
 --- !u!114 &6849636527019213701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +310,7 @@ MonoBehaviour:
   cardListBattle: {fileID: 0}
   actionCard: {fileID: 0}
   characterCard: {fileID: 0}
+  canvas: {fileID: 0}
 --- !u!114 &2950444090913637406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +327,23 @@ MonoBehaviour:
   recallCardImage: {fileID: 0}
   characterCard: {fileID: 0}
   actionCard: {fileID: 0}
+--- !u!114 &72499418404624673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2321133982752143645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f242814577fba8840bcf7713997f7863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterCard: {fileID: 0}
+  isActionCharacter: 0
+  isDead: 0
+  currentHealth: 0
+  maxHealth: 0
 --- !u!1 &2668474969445972120
 GameObject:
   m_ObjectHideFlags: 0

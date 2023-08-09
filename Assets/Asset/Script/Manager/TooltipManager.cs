@@ -21,4 +21,18 @@ public class TooltipManager : MonoBehaviour
             return;
         }
     }
+    public void ShowCharacterCardTooltip(CharacterCardData characterCardData)
+    {
+        tooltipCanvas.CanvasState(true);
+        tooltipCanvas.CharacterCardTooltipState(true);
+        tooltipCanvas.ActionCardTooltipState(false);
+        tooltipCanvas.characterCardTooltip.GetCharacterCardInfo(characterCardData);
+    }
+    public void ShowActionCardTooltip(ActionCardData actionCardData)
+    {
+        tooltipCanvas.CanvasState(true);
+        tooltipCanvas.ActionCardTooltipState(true);
+        tooltipCanvas.CharacterCardTooltipState(false);
+        tooltipCanvas.actionCardTooltip.GetActionCardInfo(actionCardData);
+    }
 }

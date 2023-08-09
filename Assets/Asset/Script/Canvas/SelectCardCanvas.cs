@@ -97,6 +97,8 @@ public class SelectCardCanvas : CanvasBase
         }
         else
         {
+            playerManager.ShuffleList(playerManager.actionCardDeckData);
+            enemyManager.ShuffleList(enemyManager.actionCardDeckData);
             sceneChanger.SceneChange(SceneType.GamePlay);
         }
 

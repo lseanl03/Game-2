@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     protected CollectionManager collectionManager => CollectionManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
     protected TooltipManager tooltipManager => TooltipManager.instance;
+    protected GamePlayManager gamePlayManager => GamePlayManager.instance;
     private void Awake()
     {
         if (instance == null)
@@ -28,6 +29,30 @@ public class UIManager : MonoBehaviour
     }
     public void HideTooltip()
     {
-        tooltipManager.tooltipCanvas.tooltipController.StateObj(false);
+        tooltipManager.tooltipCanvas.CanvasState(false);
+        if(tooltipManager.tooltipCanvas.characterCardTooltip != null)
+        {
+            CharacterCardTooltip characterCardTooltip = tooltipManager.tooltipCanvas.characterCardTooltip;
+            if (characterCardTooltip.normalAtk.isShowing)
+            {
+                characterCardTooltip.normalAtk.DescriptionState();
+            }
+            if (characterCardTooltip.elementalSkill.isShowing)
+            {
+                characterCardTooltip.elementalSkill.DescriptionState();
+            }
+            if (characterCardTooltip.elementalBurst.isShowing)
+            {
+                characterCardTooltip.elementalBurst.DescriptionState();
+            }
+        }
+    }
+    public void HideSwitchCardBattle()
+    {
+        battleCanvas.switchCardBattlePanel.PanelState(false);
+    }
+    public void ShowSkill()
+    {
+        battleCanvas.skillPanel.PanelState(true);
     }
 }

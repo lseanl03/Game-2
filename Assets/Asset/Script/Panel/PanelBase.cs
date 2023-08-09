@@ -9,6 +9,7 @@ public class PanelBase : MonoBehaviour
     protected EnemyManager enemyManager => EnemyManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
     protected UIManager uiManager => UIManager.instance;
+    protected TooltipManager tooltipManager => TooltipManager.instance;
     public void PanelState(bool state)
     {
         gameObject.SetActive(state);
