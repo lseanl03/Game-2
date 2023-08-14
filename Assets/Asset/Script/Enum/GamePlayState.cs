@@ -3,12 +3,11 @@ public enum GamePlayState
     SelectFirstTurn,
     SelectInitialActionCard,
     SelectInitialBattleCharacterCard,
-    DrawCards,
     Victory,
     Lose,
-    Combat,
-    EndCombat,
-    StartCombat,
+    ActionPhase,
+    EndPhase,
+    StartPhase,
 }
 public enum TurnState
 {

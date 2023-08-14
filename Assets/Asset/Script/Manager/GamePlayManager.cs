@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GamePlayManager : MonoBehaviour
 {
-    public bool startCombat = false;
-    public bool endCombat = false;
-    public bool isFighting = false;
-    public bool waitingTime = true;
-    public bool selectedCardBattleInitial = false;
+    public bool startPhase = false;
+    public bool endPhase = false;
+    public bool actionPhase = false;
+    public bool playerSelectedCardBattleInitial = false;
+    public bool playerEndingRound = false;
+    public bool enemyEndingRound = false;
 
 
     public int battleCardSwitchCost = 10;
@@ -32,6 +33,7 @@ public class GamePlayManager : MonoBehaviour
     public static GamePlayManager instance;
     protected UIManager uiManager => UIManager.instance;
     protected TooltipManager tooltipManager => TooltipManager.instance;
+    protected NotificationManager notificationManager => NotificationManager.instance;
     private void Awake()
     {
         if(instance == null)
@@ -47,7 +49,27 @@ public class GamePlayManager : MonoBehaviour
     {
         UpdateGameState(GamePlayState.SelectFirstTurn);
     }
-
+    private void Update()
+    {
+        if (playerEndingRound && enemyEndingRound)
+        {
+            playerEndingRound = false;
+            enemyEndingRound = false;
+            UpdateGameState(GamePlayState.EndPhase);
+        }
+    }
+    public void EnemyEndRound()
+    {
+        enemyEndingRound = true;
+        if (playerEndingRound == false)
+        {
+            UpdateTurnState(TurnState.YourTurn);
+        }
+        else
+        {
+            UpdateGameState(GamePlayState.EndPhase);
+        }
+    }
     public void UpdateGameState(GamePlayState gameState)
     {
         currentState = gameState;
@@ -74,6 +96,7 @@ public class GamePlayManager : MonoBehaviour
                 break;
 
             case GamePlayState.SelectInitialBattleCharacterCard:
+                notificationManager.SetNewNotification("Select your first character");
                 gamePlayCanvas.CanvasState(true);
                 HideTooltip();
 
@@ -85,33 +108,47 @@ public class GamePlayManager : MonoBehaviour
                 }
                 break;
 
-            case GamePlayState.Combat:
-                isFighting = true;
+            case GamePlayState.ActionPhase:
+                if(actionPhase == false)
+                {
+                    actionPhase = true;
+                    startPhase = false;
+                    endPhase = false;
+                    notificationManager.SetNewNotification("Action Phase");
+                }
                 HideTooltip();
                 break;
 
-            case GamePlayState.StartCombat:
-                startCombat = true;
+            case GamePlayState.StartPhase:
+                if(startPhase == false)
+                {
+                    startPhase = true;
+                    endPhase = false;
+                    actionPhase = false;
+                    notificationManager.SetNewNotification("Start Phase");
+                }
                 HideTooltip();
                 break;
 
-            case GamePlayState.EndCombat:
-                endCombat = true;
-                HideTooltip();
-                break;
-
-            case GamePlayState.DrawCards:
-
+            case GamePlayState.EndPhase:
+                if(endPhase == false)
+                {
+                    endPhase = true;
+                    actionPhase = false;
+                    startPhase = false;
+                    notificationManager.SetNewNotification("End Phase");
+                    StartCoroutine(gamePlayCanvas.DrawCard(2));
+                }
                 HideTooltip();
                 break;
 
             case GamePlayState.Victory:
-                isFighting = false;
+                actionPhase = false;
                 HideTooltip();
                 break;
 
             case GamePlayState.Lose:
-                isFighting = false;
+                actionPhase = false;
                 HideTooltip();
                 break;
 
@@ -125,9 +162,13 @@ public class GamePlayManager : MonoBehaviour
         currentTurn = turnState;
         switch(currentTurn)
         {
-            case TurnState.YourTurn: 
+            case TurnState.YourTurn:
+                if(actionPhase)
+                notificationManager.SetNewNotification("Your Turn");
                 break;
             case TurnState.EnemyTurn:
+                if(actionPhase)
+                notificationManager.SetNewNotification("Enemy Turn");
                 break;
         }
     }
@@ -170,6 +211,7 @@ public class GamePlayManager : MonoBehaviour
                 {
                     characterCard.SetHighlight(true);
                     characterCard.SetValueReceived(actionValue);
+
                 }
                 break;
 
@@ -198,13 +240,15 @@ public class GamePlayManager : MonoBehaviour
     }
     public void HideHighlightsCard()
     {
-        uiManager.battleCanvas.skillPanel.isHighlightActive = false;
-
+        uiManager.battleCanvas.skillPanel.HideHighLight();
         foreach (CharacterCard player in playerCharacterList)
+        {
             player.SetHighlight(false);
-
+        }
         foreach (CharacterCard enemy in enemyCharacterList)
+        {
             enemy.SetHighlight(false);
+        }
     }
     public void HideTooltip()
     {
@@ -212,7 +256,7 @@ public class GamePlayManager : MonoBehaviour
     }
     public void HideSwitchCardBattle()
     {
-        if (currentState == GamePlayState.Combat)
+        if (currentState == GamePlayState.ActionPhase)
         {
             uiManager.HideSwitchCardBattle();
             uiManager.ShowSkill();

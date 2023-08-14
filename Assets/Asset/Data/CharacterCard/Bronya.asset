@@ -33,8 +33,8 @@ MonoBehaviour:
         actionValue: 2
     - characterCardSkillType: 2
       skillSprite: {fileID: -1690060763, guid: 82231563b2b2f9446996dde135997f1a, type: 3}
-      descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(ti\xEAu
-        hao 1 \u0111i\u1EC3m k\u1EF9 n\u0103ng"
+      descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-1 \u0111i\u1EC3m
+        k\u1EF9 n\u0103ng)"
       actionPointCost: 30
       skillPointCost: 1
       burstPointCost: -1
@@ -44,8 +44,8 @@ MonoBehaviour:
         actionValue: 3
     - characterCardSkillType: 3
       skillSprite: {fileID: -1445444209, guid: d1aa83da8708e714a84dfd715e9ab5b9, type: 3}
-      descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(ti\xEAu
-        hao 2 \u0111i\u1EC3m k\u1EF9 n\u0103ng"
+      descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-2 \u0111i\u1EC3m
+        k\u1EF9 n\u0103ng)"
       actionPointCost: 40
       skillPointCost: 2
       burstPointCost: 3

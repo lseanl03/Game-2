@@ -21,10 +21,10 @@ public class GamePlayCanvas : CanvasBase
     public EnemyCharacterCardField enemyCharacterCardField;
     public void Start()
     {
-        SpawnInitialCharacterCard();
-        SpawnInitialActionCard();
+        DrawInitialCharacterCard();
+        DrawInitialActionCard();
     }
-    public void SpawnInitialCharacterCard()
+    public void DrawInitialCharacterCard()
     {
         //spawn character player
         if(playerManager.characterCardDeckData.Count > 0)
@@ -50,13 +50,13 @@ public class GamePlayCanvas : CanvasBase
             }
         }
     }
-    public void SpawnInitialActionCard()
+    public void DrawInitialActionCard()
     {
         //spawn action card player
         for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
         {
             actionCardHand = Instantiate(actionCardHandPrefab, playerActionCardField.transform);
-            actionCardHand.GetOriginalCardInfo(playerManager.actionCardTakenList[i]);;
+            actionCardHand.GetOriginalCardInfo(playerManager.actionCardTakenList[i]);
         }
 
         //spawn action card enemy
@@ -68,6 +68,34 @@ public class GamePlayCanvas : CanvasBase
             enemyManager.actionCardTakenList.Add(enemyManager.actionCardDeckData[0]);
             enemyManager.actionCardDeckData.RemoveAt(0);
             actionCardHand.GetOriginalCardInfo(enemyManager.actionCardTakenList[i]);
+        }
+    }
+    public IEnumerator DrawCard(int value)
+    {
+        yield return new WaitForSeconds(1f);
+        if (playerManager.actionCardDeckData.Count > 0)
+        {
+            for (int i = 0; i < value; i++)
+            {
+                actionCardHand = Instantiate(actionCardHandPrefab, playerActionCardField.transform);
+                actionCardHand.GetOriginalCardInfo(playerManager.actionCardDeckData[0]);
+                playerManager.actionCardTakenList.Add(playerManager.actionCardDeckData[0]);
+                playerManager.actionCardDeckData.RemoveAt(0);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        if (enemyManager.actionCardDeckData.Count > 0)
+        {
+            for (int i = 0; i < value; i++)
+            {
+                actionCardHand = Instantiate(actionCardHandPrefab, enemyActionCardField.transform);
+                actionCardHand.CardBackState(true);
+                actionCardHand.ManaState(false);
+                actionCardHand.GetOriginalCardInfo(enemyManager.actionCardDeckData[0]);
+                enemyManager.actionCardTakenList.Add(enemyManager.actionCardDeckData[0]);
+                enemyManager.actionCardDeckData.RemoveAt(0);
+                yield return new WaitForSeconds(0.5f);
+            }
         }
     }
 }

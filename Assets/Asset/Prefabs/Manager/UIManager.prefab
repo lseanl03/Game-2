@@ -241,7 +241,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 965879983}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayCardPanel, Assembly-CSharp
         m_MethodName: UnPlayCard
         m_Mode: 1
@@ -1371,7 +1371,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 965879983}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayCardPanel, Assembly-CSharp
         m_MethodName: PlayCard
         m_Mode: 1
@@ -1938,8 +1938,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 965879986}
-  - component: {fileID: 965879985}
-  - component: {fileID: 965879983}
+  - component: {fileID: 6606296799727979791}
   m_Layer: 0
   m_Name: PlayCardPanel
   m_TagString: Untagged
@@ -1969,15 +1968,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &965879985
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 965879982}
-  m_CullTransparentMesh: 1
---- !u!114 &965879983
+--- !u!114 &6606296799727979791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1986,12 +1977,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 965879982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8ceceb282a7e047ad22692d25472fb, type: 3}
+  m_Script: {fileID: 11500000, guid: e622609c195ebf4488fd243b363cd4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canShow: 0
   showTime: 1
-  cardImage: {fileID: 1299661995}
+  cardImage: {fileID: 111643379}
   backImage: {fileID: 969648873}
   playCardObj: {fileID: 6802684}
   cardImageObj: {fileID: 111643377}
@@ -2313,7 +2304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1081780262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3716,12 +3707,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0db952c6fc34641b0a150caca09ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillPanel: {fileID: 977712566061251917}
+  skillPanel: {fileID: 0}
   informationPanel: {fileID: 1081780263}
   selectTurnPanel: {fileID: 393948917}
   selectInitialActionCardPanel: {fileID: 1894726836}
   switchCardBattlePanel: {fileID: 1623157095}
-  playCardPanel: {fileID: 965879983}
+  playCardPanel: {fileID: 0}
 --- !u!1 &1579528584
 GameObject:
   m_ObjectHideFlags: 0
@@ -3995,7 +3986,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1599237176}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1541734688}
+        m_TargetAssemblyTypeName: BattleCanvas, Assembly-CSharp
+        m_MethodName: ReturnMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1623157093
 GameObject:
   m_ObjectHideFlags: 0
@@ -5741,7 +5744,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5754,7 +5757,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8720219760538713095}
-  - component: {fileID: 977712566061251917}
+  - component: {fileID: 8321161136266372122}
   m_Layer: 0
   m_Name: SkillPanel
   m_TagString: Untagged
@@ -5783,7 +5786,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &977712566061251917
+--- !u!114 &8321161136266372122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5792,7 +5795,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1491554327380739245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3051164028be8347a888d62c8b471fb, type: 3}
+  m_Script: {fileID: 11500000, guid: adf2d3fb312ef99428becb1270f973ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isHighlightActive: 0
@@ -5803,8 +5806,8 @@ MonoBehaviour:
   ESCostText: {fileID: 413450900}
   elementalBurstImage: {fileID: 8295887205469533050}
   EBCostText: {fileID: 798103416}
-  colorShowSkill: {r: 1, g: 1, b: 1, a: 1}
-  colorHideSkill: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  colorShowSkill: {r: 0, g: 0, b: 0, a: 0}
+  colorHideSkill: {r: 0, g: 0, b: 0, a: 0}
   currentCharacterCardData: {fileID: 0}
   currentCharacterCard: {fileID: 0}
 --- !u!1 &1991252028539953199
@@ -6319,7 +6322,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 977712566061251917}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: NormalAttack
         m_Mode: 1
@@ -8285,7 +8288,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 977712566061251917}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: ElementalBurst
         m_Mode: 1
@@ -8331,7 +8334,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9180,7 +9183,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 977712566061251917}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SkillPanel, Assembly-CSharp
         m_MethodName: ElementalSkill
         m_Mode: 1

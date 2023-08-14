@@ -56,7 +56,7 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     }
     public void HandleDrag()
     {
-        if (gamePlayManager.startCombat && cardInfo.enabled)
+        if (gamePlayManager.actionPhase && cardInfo.enabled)
         {
             isDragging = true;
             transform.position = Input.mousePosition;
@@ -66,12 +66,9 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     {
         if (transform.parent == gamePlayManager.gamePlayCanvas.playerActionCardField.transform)
         {
-            if (gamePlayManager.startCombat && cardInfo.enabled)
-            {
-                isPushing = state;
-                isSelecting = state;
-                transform.localPosition = new Vector2(transform.localPosition.x, posY);
-            }
+            isPushing = state;
+            isSelecting = state;
+            transform.localPosition = new Vector2(transform.localPosition.x, posY);
         }
     }
     public void HandleBeginDrag()

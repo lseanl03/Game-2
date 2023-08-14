@@ -6,17 +6,18 @@ using UnityEngine.UI;
 
 public class InformationPanel : PanelBase
 {
-    public float endTurnTime = 30;
-    public float endTurnCountDown;
+    public float endRoundTime = 30;
+    public float endRoundCountDown;
     public TextMeshProUGUI turnText;
     public TextMeshProUGUI roundText;
-    public Button endTurnButton;
-    public Slider endTurnSlider;
+    public Button endRoundButton;
+    public Slider endRoundSlider;
 
     public void Start()
     {
-        endTurnSlider.minValue = 0;
-        endTurnSlider.maxValue = endTurnTime;
+        endRoundSlider.minValue = 0;
+        endRoundSlider.maxValue = endRoundTime;
+        SetEndRoundSlider();
     }
 
     public void Update()
@@ -25,30 +26,31 @@ public class InformationPanel : PanelBase
     }
     public void OnEnable()
     {
-        endTurnCountDown = endTurnTime;
+        endRoundCountDown = endRoundTime;
     }
     public void SetTurnText(string text)
     {
         turnText.text = text;
     }
-    public void EndTurn()
+    public void EndRound()
     {
         if(gamePlayManager.currentTurn == TurnState.YourTurn)
         {
-            endTurnCountDown = 0;
+            endRoundCountDown = 0;
             notificationManager.SetNewNotification("I'm ending my round");
+            gamePlayManager.playerEndingRound = true;
         }
         else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
         {
             notificationManager.SetNewNotification("It's the enemy turn");
         }
     }
-    public void SetEndTurnTime()
+    public void SetEndRoundTime()
     {
-        if (gamePlayManager.isFighting)
+        if (gamePlayManager.actionPhase)
         {
-            endTurnCountDown -= Time.deltaTime;
-            if (endTurnCountDown <= 0)
+            endRoundCountDown -= Time.deltaTime;
+            if (endRoundCountDown <= 0)
             {
                 if (gamePlayManager.currentTurn == TurnState.YourTurn)
                 {
@@ -58,12 +60,12 @@ public class InformationPanel : PanelBase
                 {
                     gamePlayManager.UpdateTurnState(TurnState.YourTurn);
                 }
-                endTurnCountDown = endTurnTime;
+                endRoundCountDown = endRoundTime;
             }
         }
     }
-    public void SetEndTurnSlider()
+    public void SetEndRoundSlider()
     {
-        endTurnSlider.value = endTurnCountDown;
+        endRoundSlider.value = endRoundSlider.maxValue;
     }
 }

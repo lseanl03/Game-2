@@ -33,9 +33,8 @@ public class NotificationManager : MonoBehaviour
     public void SetNewNotification(string message)
     {
         if(NotificationCoroutine != null)
-        {
             StopCoroutine(NotificationCoroutine);
-        }
+
         NotificationCoroutine = FadeNotification(message);
         StartCoroutine(NotificationCoroutine);
     }

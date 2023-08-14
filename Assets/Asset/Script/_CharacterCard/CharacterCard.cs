@@ -95,6 +95,7 @@ public class CharacterCard : MonoBehaviour
     public void SetHighlight(bool state)
     {
         highLightObj.SetActive(state);
+        characterStats.isHighlighting = state;
     }
     public void BurstPointObjState(bool state)
     {
@@ -117,9 +118,13 @@ public class CharacterCard : MonoBehaviour
         else
         {
             currentBurstPoint -= value;
-            for (int i=0; i<currentBurstPoint; i++)
+            if (currentBurstPoint >= characterCardData.burstPointMax)
             {
-                burstPointIconObjects[i].SetActive(true);
+                currentBurstPoint = characterCardData.burstPointMax;
+            }
+            for (int i=0; i<burstPointIconObjects.Length; i++)
+            {
+                burstPointIconObjects[i].SetActive(i < currentBurstPoint);
             }
         }
     }

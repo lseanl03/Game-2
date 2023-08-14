@@ -56,6 +56,10 @@ public class CharacterBase : MonoBehaviour
             return;
         }
         currentSkillPoint -= value;
+        if(currentSkillPoint >= initialSkillPoint)
+        {
+            currentSkillPoint = initialSkillPoint;
+        }
     }
     public void RecoveryActionPoint(int value)
     {

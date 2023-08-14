@@ -40,7 +40,7 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
                 child.GetComponent<ActionCardDragHover>().canDrag = state;
                 if (state == true)
                 {
-                    if (!GamePlayManager.instance.selectedCardBattleInitial)
+                    if (!GamePlayManager.instance.playerSelectedCardBattleInitial)
                         child.GetComponent<ActionCardDragHover>().canDrag = false;
                 }
             }

@@ -21,12 +21,18 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if(transform.parent == gamePlayManager.gamePlayCanvas.playerCharacterCardField.transform)
-        HandleSelectCard();
+            HandleSelectCard();
+        if (characterStats.isHighlighting)
+            HandleCardHighLight();
     }
     public void SelectIconState(bool state)
     {
         isSelecting = state;
         selectIcon.gameObject.SetActive(state);
+    }
+    public void HandleCardHighLight()
+    {
+        uiManager.battleCanvas.skillPanel.SetHighlightCard(uiManager.battleCanvas.skillPanel.currentHighlightedSkill);
     }
     public void HandleCardSelecting()
     {
@@ -60,7 +66,7 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     }
     public void HandleSelectCard()
     {
-        if(gamePlayManager.currentTurn == TurnState.YourTurn || !gamePlayManager.selectedCardBattleInitial)
+        if(gamePlayManager.currentTurn == TurnState.YourTurn || !gamePlayManager.playerSelectedCardBattleInitial)
         {
             for (int i = 0; i < transform.parent.childCount; i++)
             {

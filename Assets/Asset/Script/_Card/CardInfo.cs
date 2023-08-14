@@ -37,10 +37,11 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         {
             if (characterCard != null)
             {
-                tooltipManager.ShowCharacterCardTooltip(characterCard.characterCardData);
                 gamePlayManager.HideHighlightsCard();
+                tooltipManager.ShowCharacterCardTooltip(characterCard.characterCardData);
+
             }
-            if (actionCard != null)
+            else if (actionCard != null)
             {
                 gamePlayManager.HideHighlightsCard();
                 if (actionCard.cardBack.IsActive()) return;
