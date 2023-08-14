@@ -33,10 +33,12 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if(canDrag)
         HandlePointer(true, 50f);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        if(canDrag)
         HandlePointer(false, 0f);
     }
     public void OnDrag(PointerEventData eventData)
