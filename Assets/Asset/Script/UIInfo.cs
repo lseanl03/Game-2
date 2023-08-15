@@ -7,7 +7,7 @@ public class UIInfo : PanelBase
 {
     public TextMeshProUGUI cardQuantityText;
     public TextMeshProUGUI actionPointText;
-    public List<GameObject> skillPointList;
+    public Transform skillPoint;
     public PlayerType playerType;
     private void Update()
     {
@@ -26,9 +26,9 @@ public class UIInfo : PanelBase
     }
     public void SetSkillPoint(int value)
     {
-        for(int i = 0; i < skillPointList.Count; i++)
+        for(int i = 0;i < skillPoint.childCount; i++)
         {
-            skillPointList[i].SetActive(i<value);
+            skillPoint.GetChild(i).gameObject.SetActive(i < value);
         }
     }
     public void SetActionPointText(int value)

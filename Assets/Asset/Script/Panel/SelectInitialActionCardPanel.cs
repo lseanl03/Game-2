@@ -25,6 +25,7 @@ public class SelectInitialActionCardPanel : PanelBase
     {
         if (recalled)
         {
+            recalled = false;
             StartCoroutine(HandleEndGetCard());
         }
     }
@@ -73,7 +74,6 @@ public class SelectInitialActionCardPanel : PanelBase
     {
         yield return new WaitForSeconds(delayTime);
         gamePlayManager.UpdateGameState(GamePlayState.SelectInitialBattleCharacterCard);
-        recalled = false;
     }
     IEnumerator ShowText(string text)
     {

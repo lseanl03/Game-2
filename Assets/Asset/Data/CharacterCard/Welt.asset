@@ -21,7 +21,7 @@ MonoBehaviour:
   characterCard:
     characterSkillList:
     - characterCardSkillType: 1
-      skillSprite: {fileID: 0}
+      skillSprite: {fileID: -1156626987, guid: 7ea63328675b5d64a84f191ece01a1d6, type: 3}
       descriptionSkill: "G\xE2y 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(+1 \u0111i\u1EC3m
         k\u1EF9 n\u0103ng)"
       actionPointCost: 30
@@ -32,7 +32,7 @@ MonoBehaviour:
         actionTargetType: 1
         actionValue: 2
     - characterCardSkillType: 2
-      skillSprite: {fileID: 0}
+      skillSprite: {fileID: -804701084, guid: 117426b9b67553c46a2465a70ee48219, type: 3}
       descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-1 \u0111i\u1EC3m
         k\u1EF9 n\u0103ng)"
       actionPointCost: 30
@@ -43,7 +43,7 @@ MonoBehaviour:
         actionTargetType: 1
         actionValue: 3
     - characterCardSkillType: 3
-      skillSprite: {fileID: 0}
+      skillSprite: {fileID: 612915416, guid: c7c09e115c2d83843ad978dfe3c33201, type: 3}
       descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-2 \u0111i\u1EC3m
         k\u1EF9 n\u0103ng)"
       actionPointCost: 40
