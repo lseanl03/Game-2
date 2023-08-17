@@ -21,7 +21,7 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if(transform.parent == gamePlayManager.gamePlayCanvas.playerCharacterCardField.transform)
-            HandleSelectCard();
+        HandleSelectCard();
         if (characterStats.isHighlighting)
             HandleCardHighLight();
     }
@@ -32,7 +32,7 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     }
     public void HandleCardHighLight()
     {
-        uiManager.battleCanvas.skillPanel.SetHighlightCard(uiManager.battleCanvas.skillPanel.currentHighlightedSkill);
+        uiManager.battleCanvas.skillPanel.HighlightActive(uiManager.battleCanvas.skillPanel.currentHighlightedSkill);
     }
     public void HandleCardSelecting()
     {
@@ -42,8 +42,9 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
             transform.localPosition = new Vector2(transform.localPosition.x, 30f);
             isSelected = true;
             characterStats.isActionCharacter = isSelected;
-            uiManager.battleCanvas.skillPanel.PanelState(isSelected);
             uiManager.battleCanvas.skillPanel.GetCharacterCard(characterCard.characterCardData, characterCard);
+            uiManager.battleCanvas.skillPanel.PanelState(isSelected);
+
             CharacterSkill[] skill = characterCard.characterCardData.characterCard.characterSkillList.ToArray();
             if (skill.Length >= 2)
             {
@@ -66,33 +67,37 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     }
     public void HandleSelectCard()
     {
-        if(gamePlayManager.currentTurn == TurnState.YourTurn || !gamePlayManager.playerSelectedCardBattleInitial)
+        if (gamePlayManager.currentTurn == TurnState.EnemyTurn && gamePlayManager.playerSelectedCharacterBattleInitial) 
+            return;
+
+        for (int i = 0; i < transform.parent.childCount; i++)
         {
-            for (int i = 0; i < transform.parent.childCount; i++)
+            CharacterCardDragHover characterCard = transform.parent.GetChild(i).GetComponent<CharacterCardDragHover>();
+            if (this.Equals(characterCard))
             {
-                CharacterCardDragHover characterCard = transform.parent.GetChild(i).GetComponent<CharacterCardDragHover>();
-                if (this.Equals(characterCard))
+                if (!isSelected && !isSelecting)
                 {
-                    if (!isSelected && !isSelecting)
-                    {
-                        SelectIconState(true);
-                        uiManager.battleCanvas.switchCardBattlePanel.PanelState(isSelecting);
-                        uiManager.battleCanvas.skillPanel.PanelState(!isSelecting);
-                    }
+                    if (!gamePlayManager.playerSelectedCharacterBattleInitial || gamePlayManager.actionPhase)
+                        ShowSwitchCharacter();
                 }
-                else
+            }
+            else
+            {
+                if (characterCard.isSelecting && !characterCard.isSelected)
                 {
-                    if (characterCard.isSelecting && !characterCard.isSelected)
-                    {
-                        characterCard.SelectIconState(false);
-                    }
+                    characterCard.SelectIconState(false);
                 }
             }
         }
-
         if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
         {
             gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
         }
+    }
+    public void ShowSwitchCharacter()
+    {
+        SelectIconState(true);
+        uiManager.battleCanvas.switchCardBattlePanel.PanelState(isSelecting);
+        uiManager.battleCanvas.skillPanel.PanelState(!isSelecting);
     }
 }

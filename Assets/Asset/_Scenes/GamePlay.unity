@@ -2535,29 +2535,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 735761294}
-  - component: {fileID: 735761293}
+  - component: {fileID: 735761295}
   m_Layer: 0
-  m_Name: AIController
+  m_Name: EnemyAIController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &735761293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735761292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cde55fa59b7afa24db6891f648af5f92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mixRandom: 1
-  maxRandom: 3
-  enemySelectedCardBattleInitial: 0
 --- !u!4 &735761294
 Transform:
   m_ObjectHideFlags: 0
@@ -2573,6 +2558,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735761295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735761292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cde55fa59b7afa24db6891f648af5f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRandom: 1
+  maxRandom: 1
+  currentCharacterCard: {fileID: 0}
 --- !u!1 &760458463
 GameObject:
   m_ObjectHideFlags: 0
@@ -7200,18 +7200,21 @@ MonoBehaviour:
   startPhase: 0
   endPhase: 0
   actionPhase: 0
-  playerSelectedCardBattleInitial: 0
   playerEndingRound: 0
   enemyEndingRound: 0
+  playerSelectedCharacterBattleInitial: 0
+  enemySelectedCharacterBattleInitial: 0
+  playerSelectedActionCardInitial: 0
+  enemySelectedActionCardInitial: 0
   battleCardSwitchCost: 10
   quantityInitialActionCard: 5
   gamePlayCanvas: {fileID: 554946751}
   currentState: 0
   currentTurn: 0
-  playerDeckData: {fileID: 0}
-  enemyDeckData: {fileID: 0}
   playerCharacterList: []
+  playerActionCardList: []
   enemyCharacterList: []
+  enemyActionCardList: []
 --- !u!4 &1836432841
 Transform:
   m_ObjectHideFlags: 0

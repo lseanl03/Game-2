@@ -38,9 +38,9 @@ public class SelectInitialActionCardPanel : PanelBase
         for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
         {
             actionCard = Instantiate(actionCardInitialPrefab, holderActionCardToHand.transform);
-            playerManager.actionCardTakenList.Add(playerManager.actionCardDeckData[0]);
+            playerManager.actionCardTakenDataList.Add(playerManager.actionCardDeckData[0]);
             playerManager.actionCardDeckData.RemoveAt(0);
-            actionCard.GetOriginalCardInfo(playerManager.actionCardTakenList[i]);
+            actionCard.GetOriginalCardInfo(playerManager.actionCardTakenDataList[i]);
             if (actionCard.GetComponent<Draggable>())
             {
                 actionCard.GetComponent<Draggable>().enabled = false;
@@ -58,13 +58,14 @@ public class SelectInitialActionCardPanel : PanelBase
                 if (cardInfo.isRecall)
                 {
                     cardInfo.ReCallImageState(false);
-                    playerManager.actionCardDeckData.Add(playerManager.actionCardTakenList[i]);
-                    playerManager.actionCardTakenList.RemoveAt(i);
-                    playerManager.actionCardTakenList.Insert(i, playerManager.actionCardDeckData[0]);
+                    playerManager.actionCardDeckData.Add(playerManager.actionCardTakenDataList[i]);
+                    playerManager.actionCardTakenDataList.RemoveAt(i);
+                    playerManager.actionCardTakenDataList.Insert(i, playerManager.actionCardDeckData[0]);
                     playerManager.actionCardDeckData.RemoveAt(0);
-                    cardInfo.actionCard.GetOriginalCardInfo(playerManager.actionCardTakenList[i]);
+                    cardInfo.actionCard.GetOriginalCardInfo(playerManager.actionCardTakenDataList[i]);
                 }
             }
+            gamePlayManager.playerSelectedActionCardInitial = true;
             ConfirmButtonState(false);
             StartCoroutine(ShowText("Done select cards"));
             recalled = true;

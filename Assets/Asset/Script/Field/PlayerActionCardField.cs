@@ -9,6 +9,7 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
     public RectTransform rectTransform;
     public Animator animator;
     protected UIManager uiManager => UIManager.instance;
+    protected GamePlayManager gamePlayManager => GamePlayManager.instance;
     public void Start()
     {
         animator = GetComponent<Animator>();
@@ -38,9 +39,13 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
             if (child.GetComponent<ActionCardDragHover>())
             {
                 child.GetComponent<ActionCardDragHover>().canDrag = state;
+                child.GetComponent<ActionCardDragHover>().canPush = state;
+
                 if (state == true)
                 {
-                    if (!GamePlayManager.instance.playerSelectedCardBattleInitial)
+                    if (!gamePlayManager.playerSelectedCharacterBattleInitial || 
+                        !gamePlayManager.actionPhase ||
+                        gamePlayManager.currentTurn != TurnState.YourTurn)
                         child.GetComponent<ActionCardDragHover>().canDrag = false;
                 }
             }

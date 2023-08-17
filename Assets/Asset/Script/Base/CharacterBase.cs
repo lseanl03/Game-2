@@ -12,14 +12,14 @@ public class CharacterBase : MonoBehaviour
     public int initialSkillPoint = 5;
     public int currentSkillPoint;
 
-    [Header("Deck")]
+    [Header("Deck Data")]
     public int characterCardMaxSize = 3;
     public int actionCardMaxSize = 30;
     public List<CharacterCardData> characterCardDeckData;
     public List<ActionCardData> actionCardDeckData;
 
-    [Header("Action Card Taken")]
-    public List<ActionCardData> actionCardTakenList;
+    [Header("Action Card Taken Data")]
+    public List<ActionCardData> actionCardTakenDataList;
     
     protected CollectionManager collectionManager => CollectionManager.instance;
     protected UIManager uiManager => UIManager.instance;
@@ -28,6 +28,14 @@ public class CharacterBase : MonoBehaviour
     {
         ResetActionPoint();
         ResetSkillPoint();
+        ShuffleDeck();
+    }
+    public void ShuffleDeck()
+    {
+        if (actionCardDeckData != null)
+        {
+            ShuffleList(actionCardDeckData);
+        }
     }
     public void ShuffleList<T>(List<T> list)
     {

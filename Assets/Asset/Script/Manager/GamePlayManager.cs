@@ -7,9 +7,15 @@ public class GamePlayManager : MonoBehaviour
     public bool startPhase = false;
     public bool endPhase = false;
     public bool actionPhase = false;
-    public bool playerSelectedCardBattleInitial = false;
+
     public bool playerEndingRound = false;
     public bool enemyEndingRound = false;
+
+    public bool playerSelectedCharacterBattleInitial = false;
+    public bool enemySelectedCharacterBattleInitial = false;
+
+    public bool playerSelectedActionCardInitial = false;
+    public bool enemySelectedActionCardInitial = false;
 
 
     public int battleCardSwitchCost = 10;
@@ -21,13 +27,13 @@ public class GamePlayManager : MonoBehaviour
     public GamePlayState currentState;
     public TurnState currentTurn;
 
-    [Header("Data")]
-    public PlayerDeckData playerDeckData;
-    public EnemyDeckData enemyDeckData;
-
-    [Header("Character Card List")]
+    [Header("Player Card List")]
     public List<CharacterCard> playerCharacterList;
+    public List<ActionCard> playerActionCardList;
+
+    [Header("Enemy Card List")]
     public List<CharacterCard> enemyCharacterList;
+    public List<ActionCard> enemyActionCardList;
 
 
     public static GamePlayManager instance;
@@ -163,12 +169,15 @@ public class GamePlayManager : MonoBehaviour
         switch(currentTurn)
         {
             case TurnState.YourTurn:
+
                 if(actionPhase)
                 notificationManager.SetNewNotification("Your Turn");
                 break;
             case TurnState.EnemyTurn:
                 if(actionPhase)
                 notificationManager.SetNewNotification("Enemy Turn");
+
+                HideHighlightsCard();
                 break;
         }
     }

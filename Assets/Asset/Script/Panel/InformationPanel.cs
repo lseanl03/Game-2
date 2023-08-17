@@ -22,7 +22,10 @@ public class InformationPanel : PanelBase
 
     public void Update()
     {
-        SetTurnText(gamePlayManager.currentTurn.ToString());
+        if (gamePlayManager.currentTurn == TurnState.YourTurn)
+            SetTurnText("Your Turn");
+        else if (gamePlayManager.currentTurn == TurnState.EnemyTurn)
+            SetTurnText("Enemy Turn");
     }
     public void OnEnable()
     {

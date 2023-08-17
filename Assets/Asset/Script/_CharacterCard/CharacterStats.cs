@@ -21,6 +21,8 @@ public class CharacterStats : MonoBehaviour
 
     [Header("Component")]
     public CharacterCard characterCard;
+
+    private Coroutine takeDamageCoroutine;
     public void Awake()
     {
         characterCard = GetComponent<CharacterCard>();
@@ -50,7 +52,7 @@ public class CharacterStats : MonoBehaviour
             isDead = true;
         }
         SetHealthText();
-        StartCoroutine(TakeDamageState(value));
+        takeDamageCoroutine = StartCoroutine(TakeDamageState(value));
     }
     public void Damage(int value)
     {
@@ -77,13 +79,14 @@ public class CharacterStats : MonoBehaviour
     }
     IEnumerator TakeDamageState(int value)
     {
-        if(TakeDamageState(value) != null)
-            StopCoroutine(TakeDamageState(value));
+        if(takeDamageCoroutine != null)
+            StopCoroutine(takeDamageCoroutine);
 
         if (value > 0)
             takeDamageText.text = "-" + value.ToString();
         else
             takeDamageText.text = "+" + value.ToString();
+        takeDamageObj.SetActive(false);
         takeDamageObj.SetActive(true);
         yield return new WaitForSeconds(2f);
         takeDamageObj.SetActive(false);

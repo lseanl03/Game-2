@@ -51,7 +51,7 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
 
         if (gamePlayManager != null)
         {
-            if (gamePlayManager.currentState == GamePlayState.SelectInitialActionCard)
+            if (gamePlayManager.currentState == GamePlayState.SelectInitialActionCard && gamePlayManager.playerSelectedActionCardInitial == false)
             {
                 ReCallImageState(isRecall = !isRecall);
             }

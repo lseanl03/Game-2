@@ -50,15 +50,15 @@ public class SkillPanel : PanelBase
     }
     public void NormalAttack()
     {
-        SetHighlightCard(CharacterCardSkillType.NormalAttack);
+        HighlightActive(CharacterCardSkillType.NormalAttack);
     }
     public void ElementalSkill()
     {
-        SetHighlightCard(CharacterCardSkillType.ElementalSkill);
+        HighlightActive(CharacterCardSkillType.ElementalSkill);
     }
     public void ElementalBurst()
     {
-        SetHighlightCard(CharacterCardSkillType.ElementalBurst);
+        HighlightActive(CharacterCardSkillType.ElementalBurst);
     }
 
     public void SetNormalAttackColor()
@@ -105,7 +105,7 @@ public class SkillPanel : PanelBase
 
                 if (isShowSkill)
                 {
-                    image.color = colorShowSkill; // Sử dụng màu sắc từ Dictionary
+                    image.color = colorShowSkill;
                 }
                 else
                 {
@@ -114,86 +114,79 @@ public class SkillPanel : PanelBase
             }
         }
     }
-    public void SetHighlightCard(CharacterCardSkillType skillType)
+    public void HighlightActive(CharacterCardSkillType skillType)
     {
-        if (gamePlayManager.actionPhase)
+        if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.YourTurn)
         {
-            if (isHighlightActive && skillType != currentHighlightedSkill)
+            if (isHighlightActive)
             {
-                foreach (CharacterSkill characterSkill in currentCharacterCardData.characterCard.characterSkillList)
+                if(skillType != currentHighlightedSkill)
                 {
-                    if (characterSkill.characterCardSkillType == skillType)
-                    {
-                        foreach (Skill skill in characterSkill.actionSkillList)
-                        {
-                            gamePlayManager.HighlightCardTarget(skill.actionTargetType, skill.actionValue);
-                        }
-                        currentHighlightedSkill = skillType; // Cập nhật loại kỹ năng đang được highlight
-                    }
+                    SetCurrentHighlight(skillType);
+                }
+                else
+                {
+                    PerformSkill(currentHighlightedSkill, currentCharacterCardData.characterCard.characterSkillList);
                 }
             }
-            else if (isHighlightActive && skillType == currentHighlightedSkill)
+            else
             {
-                PerformSkill(currentHighlightedSkill, currentCharacterCardData.characterCard.characterSkillList);
+                isHighlightActive = true;
+                SetCurrentHighlight(skillType);
             }
-            else if (!isHighlightActive)
+        }
+        else if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.EnemyTurn)
+        {
+            notificationManager.SetNewNotification("Enemy Turn");
+        }
+    }
+    public void SetCurrentHighlight(CharacterCardSkillType skillType)
+    {
+        foreach (CharacterSkill characterSkill in currentCharacterCardData.characterCard.characterSkillList)
+        {
+            if (characterSkill.characterCardSkillType == skillType)
             {
-                foreach (CharacterSkill characterSkill in currentCharacterCardData.characterCard.characterSkillList)
+                foreach (Skill skill in characterSkill.actionSkillList)
                 {
-                    if (characterSkill.characterCardSkillType == skillType)
-                    {
-                        foreach (Skill skill in characterSkill.actionSkillList)
-                        {
-                            gamePlayManager.HighlightCardTarget(skill.actionTargetType, skill.actionValue);
-                        }
-                        currentHighlightedSkill = skillType; // Lưu loại kỹ năng đang được hiển thị
-                        isHighlightActive = true;
-                        return;
-                    }
+                    gamePlayManager.HighlightCardTarget(skill.actionTargetType, skill.actionValue);
                 }
+                currentHighlightedSkill = skillType; // Cập nhật loại kỹ năng đang được highlight
             }
         }
     }
     public void PerformSkill(CharacterCardSkillType currentSkillType, List<CharacterSkill> characterSkillList)
     {
-        if(gamePlayManager.currentTurn == TurnState.YourTurn)
+        foreach (CharacterSkill characterSkill in characterSkillList)
         {
-            foreach (CharacterSkill characterSkill in characterSkillList)
+            if (characterSkill.characterCardSkillType == currentSkillType)
             {
-                if (characterSkill.characterCardSkillType == currentSkillType)
+                if (playerManager.currentActionPoint >= characterSkill.actionPointCost &&
+                    playerManager.currentSkillPoint >= characterSkill.skillPointCost &&
+                    currentCharacterCard.currentBurstPoint >= characterSkill.burstPointCost)
                 {
-                    if (playerManager.currentActionPoint >= characterSkill.actionPointCost &&
-                        playerManager.currentSkillPoint >= characterSkill.skillPointCost &&
-                        currentCharacterCard.currentBurstPoint >= characterSkill.burstPointCost)
+                    UseSkill(characterSkill); // Thực hiện kỹ năng
+                }
+                else
+                {
+                    if (currentCharacterCard.currentBurstPoint < characterSkill.burstPointCost)
                     {
-                        UseSkill(characterSkill); // Thực hiện kỹ năng
+                        notificationManager.SetNewNotification("Burst point are not enough");
+                        return;
                     }
-                    else
+                    else if (playerManager.currentSkillPoint < characterSkill.skillPointCost)
                     {
-                        if (currentCharacterCard.currentBurstPoint < characterSkill.burstPointCost)
-                        {
-                            notificationManager.SetNewNotification("Burst point are not enough");
-                            return;
-                        }
-                        else if (playerManager.currentSkillPoint < characterSkill.skillPointCost)
-                        {
-                            notificationManager.SetNewNotification("Skill point are not enough");
-                            return;
-                        }
-                        else if (playerManager.currentActionPoint < characterSkill.actionPointCost)
-                        {
-                            notificationManager.SetNewNotification("Action point are not enough");
-                            return;
-                        }
+                        notificationManager.SetNewNotification("Skill point are not enough");
+                        return;
+                    }
+                    else if (playerManager.currentActionPoint < characterSkill.actionPointCost)
+                    {
+                        notificationManager.SetNewNotification("Action point are not enough");
+                        return;
                     }
                 }
             }
-            gamePlayManager.HideHighlightsCard();
         }
-        else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
-        {
-            notificationManager.SetNewNotification("Enemy Turn");
-        }
+        gamePlayManager.HideHighlightsCard();
     }
 
     public void UseSkill(CharacterSkill characterSkill)
@@ -204,6 +197,10 @@ public class SkillPanel : PanelBase
             playerManager.ConsumeActionPoint(characterSkill.actionPointCost);
             playerManager.ConsumeSkillPoint(characterSkill.skillPointCost);
             gamePlayManager.DealDamageToTargets(skill.actionTargetType, skill.actionValue);
+        }
+        if(gamePlayManager.currentTurn == TurnState.YourTurn)
+        {
+            gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
         }
     }
 

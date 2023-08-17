@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public bool canDrag = false;
+    public bool canPush = false;
     public bool canPlayCard = true;
     public bool isSelecting = false;
     public bool isDragging = false;
@@ -33,12 +34,12 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(canDrag)
+        if(canPush)
         HandlePointer(true, 50f);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(canDrag)
+        if(canPush)
         HandlePointer(false, 0f);
     }
     public void OnDrag(PointerEventData eventData)

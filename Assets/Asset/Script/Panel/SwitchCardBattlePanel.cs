@@ -34,12 +34,11 @@ public class SwitchCardBattlePanel : PanelBase
                     }
                     else if (characterCardDragHovers[i].isSelecting)
                     {
-                        if (!gamePlayManager.playerSelectedCardBattleInitial)
+                        if (!gamePlayManager.playerSelectedCharacterBattleInitial)
                         {
-                            gamePlayManager.playerSelectedCardBattleInitial = true;
+                            gamePlayManager.playerSelectedCharacterBattleInitial = true;
                             SetCostText(gamePlayManager.battleCardSwitchCost.ToString());
                             ManaCostState(true);
-
                         }
                         else
                         {

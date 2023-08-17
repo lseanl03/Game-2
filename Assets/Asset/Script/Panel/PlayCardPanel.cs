@@ -30,6 +30,7 @@ public class PlayCardPanel : PanelBase
         playerManager.ConsumeActionPoint(currentCardData.cardCost);
         Destroy(currentCardDragHover.placeHolder);
         currentCardDragHover.actionCard.PlayCard();
+        gamePlayManager.playerActionCardList.Remove(currentCardDragHover.actionCard);
     }
     public void UnPlayCard()
     {
