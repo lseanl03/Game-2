@@ -27,10 +27,29 @@ MonoBehaviour:
       actionPointCost: 30
       skillPointCost: -1
       burstPointCost: -1
+      description: "G\xE2y 2 s\xE1t th\u01B0\u01A1ng (+1 \u0111i\u1EC3m k\u1EF9 n\u0103ng,
+        +1 \u0111i\u1EC3m n\u1ED9"
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 2
+      skillDescriptionDataList:
+      - description: "G\xE2y "
+        canModified: 0
+        useValue: 0
+        actionValue: 0
+      - description: 
+        canModified: 1
+        useValue: 1
+        actionValue: 0
+      - description: " \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng"
+        canModified: 0
+        useValue: 0
+        actionValue: 0
+      - description: " (+1 \u0111i\u1EC3m k\u1EF9 n\u0103ng, +1 \u0111i\u1EC3m n\u1ED9"
+        canModified: 0
+        useValue: 0
+        actionValue: 0
     - characterCardSkillType: 2
       skillSprite: {fileID: 502827136, guid: 5912e680ee7cc604eae176c36670e323, type: 3}
       descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-1 \u0111i\u1EC3m
@@ -38,10 +57,29 @@ MonoBehaviour:
       actionPointCost: 30
       skillPointCost: 1
       burstPointCost: -1
+      description: "G\xE2y 3 s\xE1t th\u01B0\u01A1ng (-1 \u0111i\u1EC3m k\u1EF9 n\u0103ng,
+        +1 \u0111i\u1EC3m n\u1ED9)"
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 3
+      skillDescriptionDataList:
+      - description: "G\xE2y "
+        canModified: 0
+        useValue: 0
+        actionValue: 0
+      - description: 
+        canModified: 1
+        useValue: 1
+        actionValue: 0
+      - description: " \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng"
+        canModified: 0
+        useValue: 0
+        actionValue: 0
+      - description: " (-1 \u0111i\u1EC3m k\u1EF9 n\u0103ng, +1 \u0111i\u1EC3m n\u1ED9)"
+        canModified: 0
+        useValue: 0
+        actionValue: 0
     - characterCardSkillType: 3
       skillSprite: {fileID: 17677217, guid: 3dadca417b877b742a0df6dd472b96c9, type: 3}
       descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-2 \u0111i\u1EC3m
@@ -49,10 +87,29 @@ MonoBehaviour:
       actionPointCost: 40
       skillPointCost: 2
       burstPointCost: 3
+      description: "G\xE2y 4 s\xE1t th\u01B0\u01A1ng (-2 \u0111i\u1EC3m k\u1EF9 n\u0103ng,
+        -3 \u0111i\u1EC3m n\u1ED9)"
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 4
+      skillDescriptionDataList:
+      - description: "G\xE2y "
+        canModified: 0
+        useValue: 0
+        actionValue: 0
+      - description: 
+        canModified: 1
+        useValue: 1
+        actionValue: 0
+      - description: " \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng"
+        canModified: 0
+        useValue: 0
+        actionValue: 0
+      - description: " (-2 \u0111i\u1EC3m k\u1EF9 n\u0103ng, -3 \u0111i\u1EC3m n\u1ED9)"
+        canModified: 0
+        useValue: 0
+        actionValue: 0
     destinyType: 3
     descriptionDestiny: This is Destiny
     combatType:

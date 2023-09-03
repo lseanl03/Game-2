@@ -4,19 +4,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SwitchCardBattlePanel : PanelBase
+public class SwitchCharacterBattlePanel : PanelBase
 {
-    public TextMeshProUGUI costManaText;
+    public TextMeshProUGUI actionCostText;
     public TextMeshProUGUI switchCardBattleText;
-
     public Button selectCardBattleButton;
-
-    public GameObject manaCostObj;
+    public GameObject actionCostObj;
     public void Start()
     {
-        SetText("Hãy chọn một nhân vật để xuất chiến");
-        SetCostText(string.Empty);
-        ManaCostState(false);
+        SetSwitchCardBattleText("Hãy chọn một nhân vật để xuất chiến");
+        SetActionCostText(string.Empty);
+        ActionCostState(false);
     }
     public void SelectCardBattle()
     {
@@ -30,37 +28,33 @@ public class SwitchCardBattlePanel : PanelBase
                 {
                     if (!characterCardDragHovers[i].isSelecting && !characterCardDragHovers[i].isSelected)
                     {
-                        SetText("Chọn nhân vật xuất chiến");
+                        SetSwitchCardBattleText("Chọn nhân vật xuất chiến");
                     }
                     else if (characterCardDragHovers[i].isSelecting)
                     {
                         if (!gamePlayManager.playerSelectedCharacterBattleInitial)
                         {
                             gamePlayManager.playerSelectedCharacterBattleInitial = true;
-                            SetCostText(gamePlayManager.battleCardSwitchCost.ToString());
-                            ManaCostState(true);
+                            SetActionCostText(gamePlayManager.battleCardSwitchCost.ToString());
+                            ActionCostState(true);
                         }
                         else
                         {
                             if (playerManager.currentActionPoint >= gamePlayManager.battleCardSwitchCost)
                             {
                                 playerManager.ConsumeActionPoint(gamePlayManager.battleCardSwitchCost);
-                                gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+                                if(!gamePlayManager.enemyEndingRound)
+                                    gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
                             }
                             else
                             {
-                                notificationManager.SetNewNotification("You don't have enough action points");
+                                notificationManager.SetNewNotification("Your don't have enough action points");
                                 return;
                             }
                         }
                         characterCardDragHovers[i].HandleCardSelecting();
                         PanelState(false);
                         uiManager.HideTooltip();
-
-                        if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
-                        {
-                            gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
-                        }
                     }
                     else if (characterCardDragHovers[i].isSelected)
                     {
@@ -68,19 +62,23 @@ public class SwitchCardBattlePanel : PanelBase
                         PanelState(false);
                     }
                 }
+                if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
+                {
+                    gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
+                }
             }
         }
     }
-    public void SetText(string text)
+    public void SetSwitchCardBattleText(string text)
     {
         switchCardBattleText.text = text;
     }
-    public void SetCostText(string text)
+    public void SetActionCostText(string text)
     {
-        costManaText.text = text;
+        actionCostText.text = text;
     }
-    public void ManaCostState(bool state)
+    public void ActionCostState(bool state)
     {
-        manaCostObj.SetActive(state);
+        actionCostObj.SetActive(state);
     }
 }

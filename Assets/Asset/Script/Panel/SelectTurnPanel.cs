@@ -82,10 +82,12 @@ public class SelectTurnPanel : PanelBase
         if (isYourTurn)
         {
             gamePlayManager.UpdateTurnState(TurnState.YourTurn);
+            gamePlayManager.playerAttackFirst = true;
         }
         else
         {
             gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+            gamePlayManager.enemyAttackFirst = true;
         } 
 
     }

@@ -7,19 +7,24 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ActionCard : CardBase
 {
-    [Header("Quantity")]
-    public int quantitySelected = 0;
-    public int remainingQuantity = 0;
-    public TextMeshProUGUI quantity;
-    public TextMeshProUGUI quantityInDeckText;
-    public TextMeshProUGUI quantitySelectedText;
+    [Header("Data")]
+    public int quantityInDeck;
+    public int quantityMaxInDeck;
+    public int actionCost;
+    [TextArea] public string description;
+    public ActionCardData actionCardData;
 
-    [Header("Info")]
+    [Header("Image")]
     public Sprite cardSprite;
     public Image cardImage;
     public Image backImage;
     public Image cardBack;
-    public TextMeshProUGUI manaText;
+
+    [Header("Text")]
+    public TextMeshProUGUI actionCostText;
+    public TextMeshProUGUI quantityText;
+    public TextMeshProUGUI quantityInDeckText;
+    public TextMeshProUGUI quantitySelectedText;
 
 
     [Header("GameObject")]
@@ -28,41 +33,51 @@ public class ActionCard : CardBase
     [SerializeField] private GameObject quantityObj;
     [SerializeField] private GameObject manaObj;
 
-    [Header("Data")]
-    public ActionCardData actionCardData;
-
     [Header("Component")]
     private ActionCardDragHover actionCardDragHover;
 
     private void Start()
     {
-        quantitySelected = 0;
         actionCardDragHover = GetComponent<ActionCardDragHover>();
     }
-    public void GetOriginalCardInfo(ActionCardData actionCardData) //nhận thông tin card ban đầu
+    public void GetCardData(ActionCardData actionCardData)
     {
         this.actionCardData = actionCardData;
-        manaText.text = actionCardData.cardCost.ToString();
-        quantity.text = actionCardData.quantityMax.ToString();
-        cardSprite = actionCardData.cardSprite;
+        quantityMaxInDeck = actionCardData.quantityMaxInDeck;
+        description = actionCardData.cardDescription;
+
+        SetCardImage(actionCardData.cardSprite);
+        SetBackImage(actionCardData.actionCard.colorRarity);
+        SetActionCost(actionCardData.actionCost);
+    }
+    public void SetActionCost(int value)
+    {
+        actionCost = value;
+        actionCostText.text = actionCost.ToString();
+    }
+    public void SetCardImage(Sprite sprite)
+    {
+        cardSprite = sprite;
         cardImage.sprite = cardSprite;
-        backImage.color = actionCardData.actionCard.colorRarity;
-        remainingQuantity = actionCardData.quantityMax;
+    }
+    public void SetBackImage(Color color)
+    {
+        backImage.color = color;
     }
     public void RecallCard(int quantity) 
     {
-        quantitySelected -= quantity;
-        remainingQuantity += quantity;
-        quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
-        quantityInDeckText.text = quantitySelected.ToString();
+        quantityInDeck -= quantity;
+        quantityMaxInDeck += quantity;
+        quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
+        quantityInDeckText.text = quantityInDeck.ToString();
         collectionManager.actionCardDataList.Remove(actionCardData);
     }
     public void AddCard(int quantity)
     {
-        quantitySelected += quantity;
-        remainingQuantity -= quantity;
-        quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
-        quantityInDeckText.text = quantitySelected.ToString();
+        quantityInDeck += quantity;
+        quantityMaxInDeck -= quantity;
+        quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
+        quantityInDeckText.text = quantityInDeck.ToString();
         collectionManager.actionCardDataList.Add(actionCardData);
     }
     public void ManaState(bool state)
@@ -99,17 +114,31 @@ public class ActionCard : CardBase
             ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
             ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
             List<CharacterCard> targetList = DetermineTarget(actionTargetType, playerCharacterList, enemyCharacterList);
-            DoAction(this.actionCardData, actionCardSkill, targetList);
+            DoAction(this.actionCardData, actionCardSkill, targetList, actionCardSkill.statusList);
         }
     }
-    public void DoAction(ActionCardData actionCardData, ActionCardSkill actionCardSkill, List<CharacterCard> targetList)
+    public void DoAction(ActionCardData actionCardData, ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList)
     {
         switch (actionCardSkill.actionCardTypeList)
         {
             case ActionCardActionSkillType.Healing:
-                Debug.Log("Do Action Healing");
                 HealingAction healingAction = new HealingAction();
-                healingAction.DoAction(actionCardData, actionCardSkill, targetList);
+                healingAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                break;
+            case ActionCardActionSkillType.IncreaseAttack:
+                IncreaseAttackAction increaseAttackAction = new IncreaseAttackAction();
+                increaseAttackAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                break;
+            case ActionCardActionSkillType.SkillPointRecovery:
+                playerManager.RecoverySkillPoint(actionCardSkill.actionValue);
+                break;
+            case ActionCardActionSkillType.IncreaseBurstPoint:
+                IncreaseBurstPointAction increaseBurstPointAction = new IncreaseBurstPointAction();
+                increaseBurstPointAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                break;
+            case ActionCardActionSkillType.CreateShield:
+                CreateShiedAction createShiedAction = new CreateShiedAction();
+                createShiedAction.DoAction(actionCardData,actionCardSkill, targetList, statusList);
                 break;
         }
     }
@@ -149,10 +178,12 @@ public class ActionCard : CardBase
                 break;
 
             case ActionTargetType.ChooseAlly:
+                Debug.Log("ChooseAlly");
                 foreach (CharacterCard characterCard in playerCharacterList)
                 {
                     if (characterCard.characterStats.isChoosing)
                     {
+
                         targetList.Add(characterCard);
                     }
                 }
@@ -179,15 +210,24 @@ public class ActionCard : CardBase
         {
             ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
             ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
-            ActionPhase actionPhase = actionCardSkill.actionPhase;
-            ActionLimit actionLimit = actionCardSkill.actionLimit;
             List<CharacterCard> targetList = DetermineTarget(actionTargetType, playerCharacterList, enemyCharacterList);
             switch (actionCardSkill.actionCardTypeList)
             {
                 case ActionCardActionSkillType.Healing:
                     foreach (CharacterCard characterCard in targetList)
                     {
-                        if (characterCard.characterStats.currentHealth >= characterCard.characterStats.maxHealth)
+                        if (characterCard.currentHealth >= characterCard.characterCardData.maxHealth ||
+                            characterCard.characterStats.isUsingHealing)
+                        {
+                            actionCardDragHover.ReturnCard();
+                            notificationManager.SetNewNotification("Card cannot be used at this time");
+                        }
+                    }
+                    break;
+                case ActionCardActionSkillType.IncreaseAttack:
+                    foreach (CharacterCard characterCard in targetList)
+                    {
+                        if (characterCard.characterStats.isIncreasingAttack)
                         {
                             actionCardDragHover.ReturnCard();
                             notificationManager.SetNewNotification("Card cannot be used at this time");

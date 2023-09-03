@@ -54,7 +54,7 @@ public class SelectCardCanvas : CanvasBase
         if (characterCardSize == characterCardMaxSize && actionCardSize == actionCardMaxSize)
         {
             playerManager.SaveCard();
-            notificationManager.SetNewNotification("Deck saved");
+            notificationManager.SetNewNotification("Deck Saved");
         }
         else if (characterCardSize != characterCardMaxSize && actionCardSize != actionCardMaxSize)
         {

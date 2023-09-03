@@ -13,17 +13,22 @@ MonoBehaviour:
   m_Name: Card 1
   m_EditorClassIdentifier: 
   cardName: "M\xE1y T\u1EA1o L\u1EF1c Tr\u01B0\u1EDDng Ph\u1EA3n V\u1EADt Ch\u1EA5t"
-  cardCost: 30
-  quantityMax: 2
-  cardDescription: "Trong hi\u1EC7p n\xE0y, T\u0103ng 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng
-    \u0111\xF2n k\u1EBF ti\u1EBFp"
+  actionCost: 30
+  quantityMaxInDeck: 2
+  cardDescription: "Trong hi\u1EC7p n\xE0y, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn
+    +2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng g\xE2y ra l\u1EA7n sau."
   cardSprite: {fileID: 554538497, guid: 65197ee855e0d8d4a87e7184cadd6d65, type: 3}
   actionCard:
     actionSkillList:
     - actionCardTypeList: 4
       actionTargetType: 2
       actionValue: 2
-      actionPhase: 1
-      actionLimit: 4
+      statusList:
+      - statusSprite: {fileID: -60628940, guid: 6b2e6b6144c62f04dab88bf0a71d52b3, type: 3}
+        statusName: "M\xE1y T\u1EA1o L\u1EF1c Tr\u01B0\u1EDDng Ph\u1EA3n V\u1EADt
+          Ch\u1EA5t"
+        statusDescription: "Nh\xE2n v\u1EADt n\xE0y trong hi\u1EC7p n\xE0y +2 s\xE1t
+          th\u01B0\u01A1ng g\xE2y ra l\u1EA7n sau"
+        actionEndPhase: 4
     rarityType: 3
     colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}

@@ -37,15 +37,18 @@ public class InformationPanel : PanelBase
     }
     public void EndRound()
     {
-        if(gamePlayManager.currentTurn == TurnState.YourTurn)
+        if (gamePlayManager.actionPhase)
         {
-            endRoundCountDown = 0;
-            notificationManager.SetNewNotification("I'm ending my round");
-            gamePlayManager.playerEndingRound = true;
-        }
-        else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
-        {
-            notificationManager.SetNewNotification("It's the enemy turn");
+            gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
+            if (gamePlayManager.currentTurn == TurnState.YourTurn)
+            {
+                endRoundCountDown = 0;
+                StartCoroutine(gamePlayManager.PlayerEndRound());
+            }
+            else if (gamePlayManager.currentTurn == TurnState.EnemyTurn)
+            {
+                notificationManager.SetNewNotification("It's the enemy turn");
+            }
         }
     }
     public void SetEndRoundTime()

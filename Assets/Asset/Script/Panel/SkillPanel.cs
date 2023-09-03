@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -135,10 +134,6 @@ public class SkillPanel : PanelBase
                 SetCurrentHighlight(skillType);
             }
         }
-        else if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.EnemyTurn)
-        {
-            notificationManager.SetNewNotification("Enemy Turn");
-        }
     }
     public void SetCurrentHighlight(CharacterCardSkillType skillType)
     {
@@ -164,7 +159,7 @@ public class SkillPanel : PanelBase
                     playerManager.currentSkillPoint >= characterSkill.skillPointCost &&
                     currentCharacterCard.currentBurstPoint >= characterSkill.burstPointCost)
                 {
-                    UseSkill(characterSkill); // Thực hiện kỹ năng
+                    UseSkill(characterSkill);
                 }
                 else
                 {
@@ -193,14 +188,17 @@ public class SkillPanel : PanelBase
     {
         foreach (Skill skill in characterSkill.actionSkillList)
         {
-            currentCharacterCard.BurstPointConsumption(characterSkill.burstPointCost);
+            currentCharacterCard.SetBurstPoint(characterSkill.burstPointCost);
             playerManager.ConsumeActionPoint(characterSkill.actionPointCost);
             playerManager.ConsumeSkillPoint(characterSkill.skillPointCost);
             gamePlayManager.DealDamageToTargets(skill.actionTargetType, skill.actionValue);
         }
         if(gamePlayManager.currentTurn == TurnState.YourTurn)
         {
-            gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+            if (!gamePlayManager.enemyEndingRound)
+                gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+            else
+                notificationManager.SetNewNotification("Your turn continues...");
         }
     }
 

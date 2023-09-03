@@ -23,9 +23,9 @@ public class OptionalToolCanvas : CanvasBase
         currentActionCard = actionCard;
 
         cardImage.cardImage.sprite = actionCard.cardImage.sprite;
-        cardImage.healthText.text = actionCard.manaText.text;
+        cardImage.healthText.text = actionCard.actionCostText.text;
         cardDescription.descriptionCardText.text = actionCard.actionCardData.cardDescription;
         cardDescription.nameCard.text = actionCard.actionCardData.cardName;
-        cardDescription.quantityAddedText.text = actionCard.quantitySelected + " / " + actionCard.quantity.text;
+        cardDescription.quantityAddedText.text = actionCard.quantityInDeck + " / " + actionCard.quantityText.text;
     }
 }

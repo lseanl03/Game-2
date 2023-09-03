@@ -32,7 +32,6 @@ RectTransform:
   m_Children:
   - {fileID: 7188576461468731751}
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -122,7 +121,6 @@ RectTransform:
   - {fileID: 3761293711980732123}
   - {fileID: 6887888909674431941}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -211,17 +209,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937791bc6a1ca4c42b09cfb2df2ca62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quantitySelected: 0
-  remainingQuantity: 0
+  quantityInDeck: 0
+  quantityMaxInDeck: 0
+  actionCost: 0
+  description: 
   actionCardData: {fileID: 0}
-  manaText: {fileID: 7135459024925685315}
-  quantity: {fileID: 224375788891855522}
-  quantityInDeckText: {fileID: 5542720435086621214}
-  quantitySelectedText: {fileID: 5625746907572199347}
   cardSprite: {fileID: 0}
   cardImage: {fileID: 3761293711994577081}
   backImage: {fileID: 7708493196059883027}
   cardBack: {fileID: 3761293711980732122}
+  actionCostText: {fileID: 7135459024925685315}
+  quantityText: {fileID: 224375788891855522}
+  quantityInDeckText: {fileID: 5542720435086621214}
+  quantitySelectedText: {fileID: 5625746907572199347}
   quantityInDeckObj: {fileID: 7154328156716748433}
   quantitySelectedObj: {fileID: 2465057629188122966}
   quantityObj: {fileID: 1523072647076172134}
@@ -238,9 +238,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fad902a9836f8d49be802649bb108be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDrag: 0
+  canPush: 0
+  canPlayCard: 1
+  canShowPlayCardPanel: 0
   isSelecting: 0
   isDragging: 0
+  isPushing: 0
   placeHolderPrefab: {fileID: 2321133982752143645, guid: b590b19bb4bce224088be59116b8546b, type: 3}
+  placeHolder: {fileID: 0}
   parentToReturn: {fileID: 0}
   placeHolderParent: {fileID: 0}
   actionCard: {fileID: 0}
@@ -293,7 +299,6 @@ RectTransform:
   m_Children:
   - {fileID: 8861601135611322448}
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -369,7 +374,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4263547482758072904}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -505,7 +509,6 @@ RectTransform:
   m_Children:
   - {fileID: 3761293711436577145}
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -581,7 +584,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3761293710464368868}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -716,7 +718,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -792,7 +793,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7708493196059883025}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -868,7 +868,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3122707755975373399}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -984,7 +983,7 @@ GameObject:
   - component: {fileID: 2097758850293818709}
   - component: {fileID: 7135459024925685315}
   m_Layer: 5
-  m_Name: ManaText
+  m_Name: ActionCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1003,7 +1002,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7708493194730771153}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1139,7 +1137,6 @@ RectTransform:
   m_Children:
   - {fileID: 8722054940675805943}
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1215,7 +1212,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1350,7 +1346,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1407,7 +1402,7 @@ GameObject:
   - component: {fileID: 7708493194730771155}
   - component: {fileID: 7708493194730771154}
   m_Layer: 5
-  m_Name: Mana
+  m_Name: ActionCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1427,7 +1422,6 @@ RectTransform:
   m_Children:
   - {fileID: 7013852375857542176}
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1505,7 +1499,6 @@ RectTransform:
   m_Children:
   - {fileID: 3761293711994577082}
   m_Father: {fileID: 1371337312795047828}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1594,7 +1587,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 469362907536332788}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

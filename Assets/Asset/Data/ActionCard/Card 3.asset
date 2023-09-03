@@ -13,17 +13,19 @@ MonoBehaviour:
   m_Name: Card 3
   m_EditorClassIdentifier: 
   cardName: "M\xF3n \u0102n Tinh X\u1EA3o"
-  cardCost: 10
-  quantityMax: 2
+  actionCost: 10
+  quantityMaxInDeck: 2
   cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i 1 \u0111i\u1EC3m k\u1EF9
     n\u0103ng"
   cardSprite: {fileID: -157679003, guid: 4d76283bdd7ddb8468210735839a6a06, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 0
+    - actionCardTypeList: 3
       actionTargetType: 0
-      actionValue: 0
-      actionPhase: 0
-      actionLimit: 0
+      actionValue: 1
+      actionPhase: 1
+      actionLimit: 1
+      applyStatus: 0
+      statusList: []
     rarityType: 1
     colorRarity: {r: 0.56078434, g: 0.56078434, b: 0.6, a: 1}

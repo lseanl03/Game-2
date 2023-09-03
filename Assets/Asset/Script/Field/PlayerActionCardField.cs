@@ -16,6 +16,18 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
         rectTransform = GetComponent<RectTransform>();
         InitialUnZoom(false);
     }
+    public void Update()
+    {
+        if (isZooming)
+        {
+            if(gamePlayManager.playerSelectedCharacterBattleInitial && 
+                gamePlayManager.actionPhase && 
+                gamePlayManager.currentTurn == TurnState.YourTurn)
+            {
+                EnableDraggableAndInfo(true);
+            }
+        }
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         ZoomState(true);

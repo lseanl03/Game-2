@@ -1,30 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterCard : MonoBehaviour
 {
-    [Header("Quantity Card")]
-    public int quantitySelected = 0;
-    public int remainingQuantity = 1;
-
-    [Header("Burst Point")]
-    public int burstPointMax;
-    public int currentBurstPoint = 0;
-
     [Header("Info")]
+    public CharacterCardData characterCardData;
+    public int currentHealth;
+    public int currentShield;
+    public int currentBurstPoint;
+    public int currentIncreaseAttack;
+    public int currentQuantitySelected;
+    public Sprite cardSprite;
+    public Image cardImage;
+
+    [Header("Text")]
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI quantityText;
     public TextMeshProUGUI quantitySelectedText;
     public TextMeshProUGUI valueReceivedText;
-    public Sprite cardSprite;
-    public Image cardImage;
-
+    public TextMeshProUGUI shieldText;
     [Header("GameObject")]
     [SerializeField] private GameObject burstPointObj;
     [SerializeField] private GameObject highLightObj;
@@ -32,7 +30,6 @@ public class CharacterCard : MonoBehaviour
     [SerializeField] private GameObject[] burstPointIconObjects;
 
     [Header("Component")]
-    public CharacterCardData characterCardData;
     public CharacterStats characterStats;
     public CharacterCardDragHover characterCardDragHover;
     protected NotificationManager notificationManager => NotificationManager.instance;
@@ -43,40 +40,55 @@ public class CharacterCard : MonoBehaviour
     }
     public void Start()
     {
-        remainingQuantity = characterCardData.quantityMax;
-        burstPointMax = characterCardData.burstPointMax;
         if(highLightObj != null) SetHighlight(false);
         if(burstPointObj != null) BurstPointObjState(true);
     }
     public void GetOriginalCardInfo(CharacterCardData characterCardData)
     {
         this.characterCardData = characterCardData;
-
+        currentQuantitySelected = 0;
+        currentBurstPoint = 0;
         nameText.text = characterCardData.characterName;
-        descriptionText.text = characterCardData.description;
-        cardSprite = characterCardData.cardSprite;
-        cardImage.sprite = cardSprite;
         quantityText.text = characterCardData.quantityMax.ToString();
-        if (characterStats != null)
-        {
-            characterStats.maxHealth = characterCardData.maxHealth;
-            characterStats.currentHealth = characterStats.maxHealth;
-            characterStats.SetHealthText();
-        }
+        currentHealth = characterCardData.maxHealth;
+        SetDescriptionText(characterCardData.description);
+        SetCardImage(characterCardData.cardSprite);
+        SetHealthText();
+    }
+    public void SetDescriptionText(string text)
+    {
+        descriptionText.text = text;
+    }
+    public void SetShieldText()
+    {
+        shieldText.text = currentShield.ToString();
+    }
+    public void SetHealthText()
+    {
+        healthText.text = currentHealth.ToString();
+    }
+    public void SetCardImage(Sprite sprite)
+    {
+        cardSprite = sprite;
+        cardImage.sprite = cardSprite;
     }
     public void AddCard(int quantity)
     {
-        quantitySelected += quantity;
-        remainingQuantity -= quantity;
-        quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
-        CollectionManager.instance.characterCardDataList.Add(characterCardData);
+        if(currentQuantitySelected < characterCardData.quantityMax)
+        {
+            currentQuantitySelected += quantity;
+            quantitySelectedText.text = "Selected " + currentQuantitySelected.ToString() + " Card";
+            CollectionManager.instance.characterCardDataList.Add(characterCardData);
+        }
     }
     public void RecallCard(int quantity)
     {
-        quantitySelected -= quantity;
-        remainingQuantity += quantity;
-        quantitySelectedText.text = "Selected " + quantitySelected.ToString() + " Card";
-        CollectionManager.instance.characterCardDataList.Remove(characterCardData);
+        if(currentQuantitySelected == characterCardData.quantityMax)
+        {
+            currentQuantitySelected -= quantity;
+            quantitySelectedText.text = "Selected " + currentQuantitySelected.ToString() + " Card";
+            CollectionManager.instance.characterCardDataList.Remove(characterCardData);
+        }
     }
     public void HideObjects()
     {
@@ -108,7 +120,11 @@ public class CharacterCard : MonoBehaviour
         else
             valueReceivedText.text = " - " + value.ToString();
     }
-    public void BurstPointConsumption(int value)
+    public void SetQuantitySelectedText()
+    {
+        quantitySelectedText.text = currentQuantitySelected.ToString();
+    }
+    public void SetBurstPoint(int value)
     {
         if (currentBurstPoint - value < 0)
         {

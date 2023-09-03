@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card 5
+  m_EditorClassIdentifier: 
+  cardName: "M\xE1y C\u1EA5p C\u1EE9u \u0110\u01A1n Gi\u1EA3n"
+  actionCost: 30
+  quantityMaxInDeck: 2
+  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i sinh 1 nh\xE2n v\u1EADt
+    \u0111\u01B0\u1EE3c ch\u1EC9 \u0111\u1ECBnh v\u1EDBi 1 hp"
+  cardSprite: {fileID: 813053508, guid: f55cbf2d59fd8f049bdcaa8347d3a7ff, type: 3}
+  actionCard:
+    actionSkillList:
+    - actionCardTypeList: 8
+      actionTargetType: 7
+      actionValue: 1
+      actionPhase: 1
+      actionLimit: 0
+      applyStatus: 1
+      statusList:
+      - statusSprite: {fileID: -1872455190, guid: f61e860b913ba0d48b04289ce4adb4a0, type: 3}
+        statusName: "M\xE1y C\u1EA5p C\u1EE9u \u0110\u01A1n Gi\u1EA3n"
+        statusDescription: "Nh\xE2n v\u1EADt kh\xF4ng th\u1EC3 h\u1ED3i sinh th\xEAm"
+    rarityType: 3
+    colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}

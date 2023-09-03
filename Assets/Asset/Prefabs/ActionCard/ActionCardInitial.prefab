@@ -263,21 +263,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937791bc6a1ca4c42b09cfb2df2ca62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quantitySelected: 0
-  remainingQuantity: 0
-  quantity: {fileID: 1500665444251666931}
-  quantityInDeckText: {fileID: 0}
-  quantitySelectedText: {fileID: 0}
+  quantityInDeck: 0
+  quantityMaxInDeck: 0
+  actionCost: 0
+  description: 
+  actionCardData: {fileID: 0}
   cardSprite: {fileID: 0}
   cardImage: {fileID: 3761293711994577081}
   backImage: {fileID: 7708493196059883027}
   cardBack: {fileID: 3761293711980732122}
-  manaText: {fileID: 7135459024925685315}
+  actionCostText: {fileID: 7135459024925685315}
+  quantityText: {fileID: 0}
+  quantityInDeckText: {fileID: 0}
+  quantitySelectedText: {fileID: 0}
   quantityInDeckObj: {fileID: 0}
   quantitySelectedObj: {fileID: 0}
   quantityObj: {fileID: 0}
   manaObj: {fileID: 0}
-  actionCardData: {fileID: 0}
 --- !u!114 &-8198409721846181308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,9 +684,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 926324894, guid: 5606dd35cf1631e469c22a796a86b66b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -704,7 +706,7 @@ GameObject:
   - component: {fileID: 2097758850293818709}
   - component: {fileID: 7135459024925685315}
   m_Layer: 5
-  m_Name: ManaText
+  m_Name: ActionCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1047,7 +1049,7 @@ GameObject:
   - component: {fileID: 7708493194730771155}
   - component: {fileID: 7708493194730771154}
   m_Layer: 5
-  m_Name: Mana
+  m_Name: ActionCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

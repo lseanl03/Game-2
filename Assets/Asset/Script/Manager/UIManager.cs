@@ -45,6 +45,8 @@ public class UIManager : MonoBehaviour
             {
                 characterCardTooltip.elementalBurst.DescriptionState();
             }
+
+            characterCardTooltip.HideStatusDes();
         }
     }
     public void HideSwitchCardBattle()

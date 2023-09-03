@@ -9,6 +9,7 @@ public class TooltipManager : MonoBehaviour
 {
     public TooltipCanvas tooltipCanvas;
     public static TooltipManager instance;
+    protected UIManager uiManager => UIManager.instance; 
     private void Awake()
     {
         if(instance == null)
@@ -30,9 +31,12 @@ public class TooltipManager : MonoBehaviour
     }
     public void ShowActionCardTooltip(ActionCardData actionCardData)
     {
-        tooltipCanvas.CanvasState(true);
-        tooltipCanvas.ActionCardTooltipState(true);
-        tooltipCanvas.CharacterCardTooltipState(false);
-        tooltipCanvas.actionCardTooltip.GetActionCardInfo(actionCardData);
+        if (!uiManager.battleCanvas.playCardPanel.isShowingCardInfo)
+        {
+            tooltipCanvas.CanvasState(true);
+            tooltipCanvas.ActionCardTooltipState(true);
+            tooltipCanvas.CharacterCardTooltipState(false);
+            tooltipCanvas.actionCardTooltip.GetActionCardInfo(actionCardData);
+        }
     }
 }

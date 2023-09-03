@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class GamePlayCanvas : CanvasBase
 {
-    [Header("CharacterCard")]
-    private CharacterCard characterCardHand;
+    [Header("Field")]
+    public GroundField groundField;
+
+    [Header("Character Card")]
     public CharacterCard characterCardHandPrefab;
+    private CharacterCard characterCardHand;
 
-    [Header("ActionCard")]
-    private ActionCard actionCardHand;
+    [Header("Action Card")]
     public ActionCard actionCardHandPrefab;
+    private ActionCard actionCardHand;
 
-    [Header("Player")]
+    [Header("Player Field")]
     public PlayerCharacterCardField playerCharacterCardField;
     public PlayerActionCardField playerActionCardField;
 
-    [Header("EnemyField")]
+    [Header("Enemy Field")]
     public EnemyActionCardField enemyActionCardField;
     public EnemyCharacterCardField enemyCharacterCardField;
     public void Start()
@@ -56,7 +59,7 @@ public class GamePlayCanvas : CanvasBase
         for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
         {
             actionCardHand = Instantiate(actionCardHandPrefab, playerActionCardField.transform);
-            actionCardHand.GetOriginalCardInfo(playerManager.actionCardTakenDataList[i]);
+            actionCardHand.GetCardData(playerManager.actionCardTakenDataList[i]);
 
             gamePlayManager.playerActionCardList.Add(actionCardHand);
         }
@@ -69,20 +72,19 @@ public class GamePlayCanvas : CanvasBase
             actionCardHand.ManaState(false);
             enemyManager.actionCardTakenDataList.Add(enemyManager.actionCardDeckData[0]);
             enemyManager.actionCardDeckData.RemoveAt(0);
-            actionCardHand.GetOriginalCardInfo(enemyManager.actionCardTakenDataList[i]);
+            actionCardHand.GetCardData(enemyManager.actionCardTakenDataList[i]);
 
             gamePlayManager.enemyActionCardList.Add(actionCardHand);
         }
     }
     public IEnumerator DrawCard(int value)
     {
-        yield return new WaitForSeconds(1f);
         if (playerManager.actionCardDeckData.Count > 0)
         {
             for (int i = 0; i < value; i++)
             {
                 actionCardHand = Instantiate(actionCardHandPrefab, playerActionCardField.transform);
-                actionCardHand.GetOriginalCardInfo(playerManager.actionCardDeckData[0]);
+                actionCardHand.GetCardData(playerManager.actionCardDeckData[0]);
                 playerManager.actionCardTakenDataList.Add(playerManager.actionCardDeckData[0]);
                 playerManager.actionCardDeckData.RemoveAt(0);
                 yield return new WaitForSeconds(0.5f);
@@ -95,11 +97,25 @@ public class GamePlayCanvas : CanvasBase
                 actionCardHand = Instantiate(actionCardHandPrefab, enemyActionCardField.transform);
                 actionCardHand.CardBackState(true);
                 actionCardHand.ManaState(false);
-                actionCardHand.GetOriginalCardInfo(enemyManager.actionCardDeckData[0]);
+                actionCardHand.GetCardData(enemyManager.actionCardDeckData[0]);
                 enemyManager.actionCardTakenDataList.Add(enemyManager.actionCardDeckData[0]);
                 enemyManager.actionCardDeckData.RemoveAt(0);
                 yield return new WaitForSeconds(0.5f);
             }
+        }
+    }
+    public void PlayerActionCardHandState(bool state)
+    {
+        foreach(Transform card in playerActionCardField.transform)
+        {
+            card.gameObject.SetActive(state);
+        }
+    }
+    public void EnemyActionCardHandState(bool state)
+    {
+        foreach (Transform card in enemyActionCardField.transform)
+        {
+            card.gameObject.SetActive(state);
         }
     }
 }

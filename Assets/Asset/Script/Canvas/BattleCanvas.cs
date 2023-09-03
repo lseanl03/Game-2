@@ -9,7 +9,7 @@ public class BattleCanvas : CanvasBase
     public InformationPanel informationPanel;
     public SelectTurnPanel selectTurnPanel;
     public SelectInitialActionCardPanel selectInitialActionCardPanel;
-    public SwitchCardBattlePanel switchCardBattlePanel;
+    public SwitchCharacterBattlePanel switchCardBattlePanel;
     public PlayCardPanel playCardPanel;
 
     public void ReturnMainMenu()

@@ -6,8 +6,8 @@ using UnityEngine;
 public class ActionCardDataBase : ScriptableObject
 {
     public string cardName;
-    public int cardCost;
-    public int quantityMax = 2;
+    public int actionCost;
+    public int quantityMaxInDeck = 2;
     [TextArea] public string cardDescription;
     public Sprite cardSprite;
     public ActionCardBase actionCard;
@@ -27,20 +27,31 @@ public class ActionCardBase
 [Serializable]
 public class ActionCardSkill
 {
+    [Header("Action")]
     public ActionCardActionSkillType actionCardTypeList;
     public ActionTargetType actionTargetType;
     public int actionValue;
-    public ActionPhase actionPhase;
-    public ActionLimit actionLimit;
+
+    [Header("Status")]
+    public List<Status> statusList;
+}
+[Serializable]
+public class Status
+{
+    public Sprite statusSprite;
+    public string statusName;
+    [TextArea] public string statusDescription;
+    public ActionEndPhase actionEndPhase;
 }
 public enum ActionCardActionSkillType
 {
     None,
     Healing, //hồi máu
     WeaknessRecovery, //hồi điểm yếu
-    SkillPointRecovery, //hồi điểm
+    SkillPointRecovery, //hồi điểm kĩ năng
     IncreaseAttack, //tăng tấn công
-    CreateArmor, //Tạo giáp
+    IncreaseBurstPoint, //tăng điểm nộ
+    CreateShield, //Tạo khiên
     Weapon, //Vũ khí
     Artifact, //Thánh di vật
     Revival, //hồi sinh
@@ -59,13 +70,8 @@ public enum ActionTargetType
     AllAllies,
     ChooseAlly,
     ChooseEnemy,
-}
-public enum ActionPhase
-{
-    None,
-    Now, //hành động ngay
-    EndRound, //sau khi kết thúc hiệp
-    StartRound, //sau khi bắt đầu hiệp
+    ChooseDeadAlly,
+    ChooseDeadEnemy,
 }
 public enum RarityType
 {
@@ -75,14 +81,18 @@ public enum RarityType
     High,
     VeryHigh,
 }
-public enum ActionLimit
+public enum ActionStartPhase
 {
     None,
-    OneAction,
-    TwoAction,
-    ThreeAction,
-    OneRound,
-    TwoRound,
-    ThreeRound,
-    Infinite
+    Now, //hành động ngay
+    StartRound, //sau khi bắt đầu hiệp
+    EndRound, //sau khi kết thúc hiệp
+}
+public enum ActionEndPhase
+{
+    None,
+    StartRound,
+    EndRound,
+    Infinite,
+    OneActionOrEndRound,
 }

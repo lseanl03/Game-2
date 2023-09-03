@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card 9
+  m_EditorClassIdentifier: 
+  cardName: "\u0110\u1ED3 B\u1EA3o V\u1EC7 C\xF4ng Ngh\u1EC7 Cao"
+  actionCost: 30
+  quantityMaxInDeck: 2
+  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c t\u1EA1o khi\xEAn ch\u1ED1ng
+    \u0111\u1EE1 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng v\xE0 t\u0103ng 2 \u0111i\u1EC3m
+    t\u1EA5n c\xF4ng cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
+  cardSprite: {fileID: 877082815, guid: d3dc077a7491b0e409c36b15033da41b, type: 3}
+  actionCard:
+    actionSkillList:
+    - actionCardTypeList: 6
+      actionTargetType: 2
+      actionValue: 2
+      actionPhase: 1
+      actionLimit: 1
+      applyStatus: 0
+      statusList:
+      - statusSprite: {fileID: -1128931271, guid: ece81257ff6f4814eb95fbdff3844495, type: 3}
+        statusName: "\u0110\u1ED3 B\u1EA3o V\u1EC7 C\xF4ng Ngh\u1EC7 Cao"
+        statusDescription: "Nh\xE2n v\u1EADt n\xE0y ch\u1ED1ng \u0111\u1EE1 2 \u0111i\u1EC3m
+          s\xE1t th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp"
+    - actionCardTypeList: 4
+      actionTargetType: 2
+      actionValue: 2
+      actionPhase: 1
+      actionLimit: 1
+      applyStatus: 0
+      statusList:
+      - statusSprite: {fileID: -60628940, guid: 6b2e6b6144c62f04dab88bf0a71d52b3, type: 3}
+        statusName: "\u0110\u1ED3 B\u1EA3o V\u1EC7 C\xF4ng Ngh\u1EC7 Cao"
+        statusDescription: "Nh\xE2n v\u1EADt n\xE0y +2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng
+          \u0111\xF2n k\u1EBF ti\u1EBFp"
+    rarityType: 3
+    colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card 12
+  m_EditorClassIdentifier: 
+  cardName: "N\u01B0\u1EDBc Vui V\u1EBB \u0110\xF3ng H\u1ED9p"
+  actionCost: 20
+  quantityMaxInDeck: 2
+  cardDescription: "D\xF9ng s\u1EBD h\u1ED3i 1 hp cho nh\xE2n v\u1EADt xu\u1EA5t
+    chi\u1EBFn, m\u1ED7i khi k\u1EBFt th\xFAc hi\u1EC7p h\u1ED3i th\xEAm 1 hp (t\u1ED1i
+    \u0111a 2 l\u1EA7n)"
+  cardSprite: {fileID: -1493651277, guid: 16f9e00671b1f2849982c22252f3419f, type: 3}
+  actionCard:
+    actionSkillList:
+    - actionCardTypeList: 1
+      actionTargetType: 2
+      actionValue: 1
+      statusList:
+      - statusSprite: {fileID: -1312624263, guid: 2a2ad170d35f4f24686358eea6689216, type: 3}
+        statusName: "N\u01B0\u1EDBc Vui V\u1EBB \u0110\xF3ng H\u1ED9p"
+        statusDescription: "Nh\xE2n v\u1EADt n\xE0y h\u1ED3i 1 hp m\u1ED7i khi k\u1EBFt
+          th\xFAc hi\u1EC7p"
+        actionEndPhase: 0
+      - statusSprite: {fileID: -1037714965, guid: c1bd417379a21d142a1ca238ffe692df, type: 3}
+        statusName: "No b\u1EE5ng"
+        statusDescription: "Kh\xF4ng th\u1EC3 d\xF9ng th\xEAm th\u1EE9c \u0103n trong
+          hi\u1EC7p n\xE0y"
+        actionEndPhase: 0
+    rarityType: 2
+    colorRarity: {r: 0.24705884, g: 0.4039216, b: 0.43921572, a: 1}

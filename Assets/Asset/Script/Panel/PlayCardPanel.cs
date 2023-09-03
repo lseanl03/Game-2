@@ -6,60 +6,77 @@ using UnityEngine.UI;
 
 public class PlayCardPanel : PanelBase
 {
-    public bool canShow = false;
-    public float showTime = 1f;
+    public bool isUsingCard = false;
+    public bool isShowingCardInfo = false;
+
+    public Button playCardButton;
     public Image cardImage;
     public Image backImage;
 
     public GameObject playCardObj;
-    public GameObject cardImageObj;
+    public GameObject cardInfoObj;
 
-    private ActionCardData currentCardData;
-    private ActionCardDragHover currentCardDragHover;
+    public ActionCard currentActionCard;
+    public ActionCardDragHover currentCardDragHover;
     public void Update()
     {
-        if (canShow)
-        {
-            if(ShowCardInfo() != null) StopCoroutine(ShowCardInfo());
-            StartCoroutine(ShowCardInfo());
-        }
     }
     public void PlayCard()
     {
-        canShow = true;
-        playerManager.ConsumeActionPoint(currentCardData.cardCost);
+        if (isUsingCard)
+        {
+            StartCoroutine(ShowCardInfo());
+            StartCoroutine(HandlePlayCard());
+        }
+    }
+    public IEnumerator HandlePlayCard()
+    {
+        uiManager.battleCanvas.skillPanel.PanelState(true);
+        uiManager.battleCanvas.informationPanel.PanelState(true);
+        yield return new WaitForSeconds(1);
+        playerManager.ConsumeActionPoint(currentActionCard.actionCost);
+        currentActionCard.PlayCard();
         Destroy(currentCardDragHover.placeHolder);
-        currentCardDragHover.actionCard.PlayCard();
         gamePlayManager.playerActionCardList.Remove(currentCardDragHover.actionCard);
     }
     public void UnPlayCard()
     {
-        PlayCardState(false);
-        currentCardDragHover.ReturnCard();
+        if (isUsingCard)
+        {
+            currentCardDragHover.ReturnCard();
+            PlayCardState(false);
+            uiManager.battleCanvas.skillPanel.PanelState(true);
+            uiManager.battleCanvas.informationPanel.PanelState(true);
+        }
     }
      public IEnumerator ShowCardInfo()
     {
-        canShow = false;
         PlayCardState(false);
         CardImageObj(true);
-        yield return new WaitForSeconds(showTime);
+        yield return new WaitForSeconds(1);
         CardImageObj(false);
     }
-    public void GetInfoCard(ActionCardData actionCardData, ActionCardDragHover cardDragHover)
+    public void GetCardInfo(ActionCard actionCard, ActionCardDragHover cardDragHover)
     {
-        currentCardData = actionCardData;
+        currentActionCard = actionCard;
         currentCardDragHover = cardDragHover;
-        cardImage.sprite = currentCardData.cardSprite;
-        backImage.color = currentCardData.actionCard.colorRarity;
+        cardImage.sprite = currentActionCard.cardSprite;
+        backImage.color = currentActionCard.backImage.color;
         PlayCardState(true);
         CardImageObj(false);
     }
     public void PlayCardState(bool state)
     {
+        isUsingCard = state;
         playCardObj.SetActive(state);
     }
     public void CardImageObj(bool state)
     {
-        cardImageObj.SetActive(state);
+        isShowingCardInfo = state;
+        cardInfoObj.SetActive(state);
+    }
+    public void PlayCardButtonState(bool state)
+    {
+        playCardButton.gameObject.SetActive(state);
     }
 }

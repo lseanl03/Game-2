@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
-
-
 public class CardListSelect : SelectCardBase
 {
     public ContentSizeFitter contentSizeFitter;
@@ -40,7 +37,7 @@ public class CardListSelect : SelectCardBase
             {
                 ActionCard actionCard = Instantiate(actionCardPrefab, transform);
                 ActionCardData cardData = gameManager.cardListData.actionCardList[i];
-                actionCard.GetOriginalCardInfo(cardData);
+                actionCard.GetCardData(cardData);
             }
         }
     }

@@ -12,10 +12,13 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
 
     public CharacterCard characterCard;
     public ActionCard actionCard;
+
+    public CharacterStats characterStats;
     void Start()
     {
         characterCard = GetComponent<CharacterCard>();
         actionCard = GetComponent<ActionCard>();
+        characterStats = GetComponent<CharacterStats>();
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -37,9 +40,9 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         {
             if (characterCard != null)
             {
-                gamePlayManager.HideHighlightsCard();
                 tooltipManager.ShowCharacterCardTooltip(characterCard.characterCardData);
-
+                gamePlayManager.HideHighlightsCard();
+                CheckApplyStatus();
             }
             else if (actionCard != null)
             {
@@ -78,5 +81,20 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         isRecall = state;
         recallCardImage.gameObject.SetActive(isRecall);
     }
-
+    public void CheckApplyStatus()
+    {
+        if (characterStats.isApplyingStatus)
+        {
+            tooltipManager.tooltipCanvas.characterCardTooltip.StatusDescriptionObjState(true);
+            foreach (Status status in characterStats.statusList)
+            {
+                tooltipManager.tooltipCanvas.characterCardTooltip.
+                    GetStatusInfo(status.statusSprite, status.statusName, status.statusDescription, characterStats.statusList.Count);
+            }
+        }
+        else
+        {
+            tooltipManager.tooltipCanvas.characterCardTooltip.StatusDescriptionObjState(false);
+        }
+    }
 }

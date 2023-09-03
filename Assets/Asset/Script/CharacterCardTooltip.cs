@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CharacterCardTooltip : MonoBehaviour
 {
+
     [Header("SkillScript")]
     public SkillTooltip normalAtk;
     public SkillTooltip elementalSkill;
@@ -43,9 +44,47 @@ public class CharacterCardTooltip : MonoBehaviour
     public Button elementalBurstDesButton;
     public TextMeshProUGUI elementalBurstDesText;
 
+    [Header("CharacterStatus")]
+    public GameObject statusDescriptionObj;
+    public List<StatusTooltip> statusTooltipList;
+    public List<StatusDesTooltip> statusDesTooltipList;
+
     [Header("Data")]
     public CharacterCardData currentCharacterCardData;
 
+    public void Start()
+    {
+        gameObject.SetActive(false);
+        StatusDescriptionObjState(false);
+    }
+    public void StatusDescriptionObjState(bool state)
+    {
+        statusDescriptionObj.SetActive(state);
+    }
+    public void HideStatusDes()
+    {
+    }
+    public void GetStatusInfo(Sprite sprite, string name, string description, int count)
+    {
+        for(int i=0;i<statusTooltipList.Count;i++)
+        {
+            if (!statusTooltipList[i].gameObject.activeSelf && i < count)
+            {
+                statusTooltipList[i].gameObject.SetActive(true);
+                statusTooltipList[i].statusImage.sprite = sprite;
+                statusTooltipList[i].statusNameText.text = name;
+                break;
+            }
+        }
+        for(int i=0; i<statusDesTooltipList.Count; i++)
+        {
+            if (statusDesTooltipList[i].statusDesText.text == string.Empty && i< count)
+            {
+                statusDesTooltipList[i].statusDesText.text = description;
+                break;
+            }
+        }
+    }
     public void GetCharacterCardInfo(CharacterCardData characterCardData)
     {
         currentCharacterCardData = characterCardData;

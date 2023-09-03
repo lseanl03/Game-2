@@ -62,10 +62,10 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
         {
             if (transform.parent == cardListSelect.transform)
             {
-                if (actionCard.remainingQuantity > 1)
+                if (actionCard.quantityMaxInDeck > 1)
                 {
                     thisObj = Instantiate(gameObject, transform.parent);
-                    thisObj.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
+                    thisObj.GetComponent<ActionCard>().GetCardData(actionCard.actionCardData);
                     thisObj.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
                 }
                 else
@@ -73,8 +73,8 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                     if (placeHolderRoot == null)
                     {
                         placeHolderRoot = Instantiate(placeHolderRootPrefab, transform.parent);
-                        placeHolderRoot.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
-                        placeHolderRoot.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
+                        placeHolderRoot.GetComponent<ActionCard>().GetCardData(actionCard.actionCardData);
+                        placeHolderRoot.GetComponent<ActionCard>().quantityInDeck = actionCard.quantityInDeck;
                         placeHolderRoot.GetComponent<ActionCard>().quantitySelectedText.text = actionCard.quantitySelectedText.text;
                         placeHolderRoot.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
                     }
@@ -86,10 +86,10 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
             }
             if (transform.parent == cardListBattle.transform)
             {
-                if (actionCard.quantitySelected > 1)
+                if (actionCard.quantityInDeck > 1)
                 {
                     thisObj = Instantiate(gameObject, transform.parent);
-                    thisObj.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
+                    thisObj.GetComponent<ActionCard>().GetCardData(actionCard.actionCardData);
                     thisObj.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
                 }
                 else
@@ -97,8 +97,8 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                     if (placeHolder == null)
                     {
                         placeHolder = Instantiate(placeHolderPrefab, transform.parent);
-                        placeHolder.GetComponent<ActionCard>().GetOriginalCardInfo(actionCard.actionCardData);
-                        placeHolder.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
+                        placeHolder.GetComponent<ActionCard>().GetCardData(actionCard.actionCardData);
+                        placeHolder.GetComponent<ActionCard>().quantityInDeck = actionCard.quantityInDeck;
                         placeHolder.GetComponent<ActionCard>().quantityInDeckText.text = actionCard.quantityInDeckText.text;
                         placeHolder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
                     }
@@ -164,9 +164,9 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                     {
                         if (card.actionCardData== this.actionCard.actionCardData)
                         {
-                            if (this.actionCard.quantitySelected > 0)
+                            if (this.actionCard.quantityInDeck > 0)
                             {
-                                if (thisObj != null && this.actionCard.quantitySelected > 1)
+                                if (thisObj != null && this.actionCard.quantityInDeck > 1)
                                 {
                                     if (placeHolder == null)
                                     {
@@ -181,7 +181,7 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                                 {
                                     this.actionCard.RecallCard(1);
                                 }
-                                if (this.actionCard.quantitySelected > 0)
+                                if (this.actionCard.quantityInDeck > 0)
                                 {
                                     this.actionCard.QuantitySelectedState(true);
                                 }
@@ -212,7 +212,7 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                     {
                         if (card.actionCardData == this.actionCard.actionCardData) // kiểm tra nếu có thẻ giống thẻ này 
                         {
-                            if (this.actionCard.quantitySelected < 2) // kiểm tra nếu thẻ này có số lượng thẻ đã chọn ít hơn 2
+                            if (this.actionCard.quantityInDeck < 2) // kiểm tra nếu thẻ này có số lượng thẻ đã chọn ít hơn 2
                             {
                                 if (placeHolder == null)
                                 {
@@ -244,8 +244,8 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                 {
                     //Debug.Log(placeHolderRoot);
                     placeHolderRoot.GetComponent<ActionCard>().QuantitySelectedState(true);
-                    placeHolderRoot.GetComponent<ActionCard>().quantitySelected = this.actionCard.quantitySelected;
-                    placeHolderRoot.GetComponent<ActionCard>().remainingQuantity = this.actionCard.remainingQuantity;
+                    placeHolderRoot.GetComponent<ActionCard>().quantityInDeck = this.actionCard.quantityInDeck;
+                    placeHolderRoot.GetComponent<ActionCard>().quantityMaxInDeck = this.actionCard.quantityMaxInDeck;
                     placeHolderRoot.GetComponent<ActionCard>().quantitySelectedText.text = this.actionCard.quantitySelectedText.text;
                     placeHolderRoot.GetComponent<ActionCard>().quantityInDeckText.text = this.actionCard.quantityInDeckText.text;
                 }
@@ -258,8 +258,8 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
                 if (thisObj.transform.parent == cardListBattle.transform)
                     thisObj.GetComponent<ActionCard>().QuantitySelectedState(false);
 
-                thisObj.GetComponent<ActionCard>().quantitySelected = actionCard.quantitySelected;
-                thisObj.GetComponent<ActionCard>().remainingQuantity = actionCard.remainingQuantity;
+                thisObj.GetComponent<ActionCard>().quantityInDeck = actionCard.quantityInDeck;
+                thisObj.GetComponent<ActionCard>().quantityMaxInDeck = actionCard.quantityMaxInDeck;
                 thisObj.GetComponent<ActionCard>().quantitySelectedText.text = actionCard.quantitySelectedText.text;
                 thisObj.GetComponent<ActionCard>().quantityInDeckText.text = actionCard.quantityInDeckText.text;
             }
@@ -286,12 +286,12 @@ public class Draggable : SelectCardBase, IBeginDragHandler, IDragHandler, IEndDr
             }
             if(transform.parent == cardListSelect.transform)
             {
-                if (characterCard.quantitySelected > 0)
+                if (characterCard.currentQuantitySelected > 0)
                     characterCard.RecallCard(1);
             }
             if(transform.parent == cardListBattle.transform)
             {
-                if (characterCard.quantitySelected == 0)
+                if (characterCard.currentQuantitySelected == 0)
                     characterCard.AddCard(1);
             }
         }

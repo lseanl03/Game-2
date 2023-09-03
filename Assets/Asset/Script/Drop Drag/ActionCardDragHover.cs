@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,6 +8,7 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     public bool canDrag = false;
     public bool canPush = false;
     public bool canPlayCard = true;
+    public bool canShowPlayCardPanel = false;
     public bool isSelecting = false;
     public bool isDragging = false;
     public bool isPushing = false;
@@ -44,17 +44,17 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     }
     public void OnDrag(PointerEventData eventData)
     {
-        if (canDrag)
+        if (canDrag && !uiManager.battleCanvas.playCardPanel.isShowingCardInfo)
         HandleDrag();
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(canDrag)
+        if(canDrag && !uiManager.battleCanvas.playCardPanel.isShowingCardInfo)
         HandleBeginDrag();
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(canDrag)
+        if(canDrag && !uiManager.battleCanvas.playCardPanel.isShowingCardInfo)
         HandleEndDrag();
     }
     public void HandleDrag()
@@ -94,16 +94,19 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     }
     public void ReturnCard()
     {
-        canPlayCard = false;
-        actionCard.CardState(true);
-        transform.SetParent(placeHolder.transform.parent);
-        transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
-        Destroy(placeHolder);
+        if(placeHolder != null)
+        {
+            canPlayCard = false;
+            actionCard.CardState(true);
+            transform.SetParent(placeHolder.transform.parent);
+            transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
+            Destroy(placeHolder);
+        }
     }
 
     public void CheckPlayCard()
     {
-        if (playerManager.currentActionPoint < actionCard.actionCardData.cardCost)
+        if (playerManager.currentActionPoint < actionCard.actionCardData.actionCost)
         {
             ReturnCard();
             notificationManager.SetNewNotification("Action point not enough");
@@ -113,9 +116,11 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
             actionCard.CheckTarget();
             if (canPlayCard)
             {
-                actionCard.CardState(false);
+                uiManager.battleCanvas.skillPanel.PanelState(false);
+                uiManager.battleCanvas.informationPanel.PanelState(false);
                 uiManager.battleCanvas.playCardPanel.PanelState(true);
-                uiManager.battleCanvas.playCardPanel.GetInfoCard(actionCard.actionCardData, this);
+                actionCard.CardState(false);
+                uiManager.battleCanvas.playCardPanel.GetCardInfo(actionCard, this);
             }
         }
     }

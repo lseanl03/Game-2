@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card 11
+  m_EditorClassIdentifier: 
+  cardName: "L\xE1 Ch\u1EAFn D\xF9ng 1 L\u1EA7n"
+  actionCost: 40
+  quantityMaxInDeck: 2
+  cardDescription: "T\u1EA1o khi\xEAn ch\u1ED1ng \u0111\u1EE1 2 \u0111i\u1EC3m s\xE1t
+    th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp cho to\xE0n \u0111\u1ED9i "
+  cardSprite: {fileID: -188373302, guid: 26236e85b571d0a42a27ac4108bb27e3, type: 3}
+  actionCard:
+    actionSkillList:
+    - actionCardTypeList: 6
+      actionTargetType: 4
+      actionValue: 2
+      actionPhase: 1
+      actionLimit: 1
+      applyStatus: 1
+      statusList:
+      - statusSprite: {fileID: -1128931271, guid: ece81257ff6f4814eb95fbdff3844495, type: 3}
+        statusName: "L\xE1 Ch\u1EAFn D\xF9ng 1 L\u1EA7n"
+        statusDescription: "Nh\xE2n v\u1EADt n\xE0y ch\u1ED1ng \u0111\u1EE1 2 \u0111i\u1EC3m
+          s\xE1t th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp"
+    rarityType: 4
+    colorRarity: {r: 0.42352945, g: 0.32156864, b: 0.62352943, a: 1}

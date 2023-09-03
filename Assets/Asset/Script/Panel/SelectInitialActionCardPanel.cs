@@ -6,32 +6,23 @@ using UnityEngine.UI;
 
 public class SelectInitialActionCardPanel : PanelBase
 {
-    public float delayTime = 0f;
-    public bool recalled = false;
+    public float delayTime;
 
     [Header("Prefab")]
     public ActionCard actionCardInitialPrefab;
     private ActionCard actionCard;
 
-    public TextMeshProUGUI selectToStartText;
+    [Header("Component")]
+    public TextMeshProUGUI startingHandText;
+    public TextMeshProUGUI selectCardToSwitchText;
+    public TextMeshProUGUI doneSelectCardText;
     public Button confirmButton;
     public GameObject holderActionCardToHand;
     private void Start()
     {
-        StartCoroutine(ShowText("Select cards to start"));
+        SetStartingHandText("Starting Hand");
+        SetSelectCardToSwitchText("Select card(s) to switch");
         SpawnChooseInitialActionCard();
-    }
-    private void Update()
-    {
-        if (recalled)
-        {
-            recalled = false;
-            StartCoroutine(HandleEndGetCard());
-        }
-    }
-    public void OnEnable()
-    {
-        ConfirmButtonState(true);
     }
     public void SpawnChooseInitialActionCard()
     {
@@ -40,48 +31,52 @@ public class SelectInitialActionCardPanel : PanelBase
             actionCard = Instantiate(actionCardInitialPrefab, holderActionCardToHand.transform);
             playerManager.actionCardTakenDataList.Add(playerManager.actionCardDeckData[0]);
             playerManager.actionCardDeckData.RemoveAt(0);
-            actionCard.GetOriginalCardInfo(playerManager.actionCardTakenDataList[i]);
+            actionCard.GetCardData(playerManager.actionCardTakenDataList[i]);
             if (actionCard.GetComponent<Draggable>())
             {
                 actionCard.GetComponent<Draggable>().enabled = false;
             }
         }
     }
-    public void GetCard()
+    public void GetActionCard()
     {
-        if (!recalled)
+        for (int i = 0; i < holderActionCardToHand.transform.childCount; i++)
         {
-            for(int i = 0; i< holderActionCardToHand.transform.childCount; i++)
+            Transform childTransform = holderActionCardToHand.transform.GetChild(i);
+            CardInfo cardInfo = childTransform.GetComponent<CardInfo>();
+            if (cardInfo.isRecall)
             {
-                Transform childTransform = holderActionCardToHand.transform.GetChild(i);
-                CardInfo cardInfo = childTransform.GetComponent<CardInfo>();
-                if (cardInfo.isRecall)
-                {
-                    cardInfo.ReCallImageState(false);
-                    playerManager.actionCardDeckData.Add(playerManager.actionCardTakenDataList[i]);
-                    playerManager.actionCardTakenDataList.RemoveAt(i);
-                    playerManager.actionCardTakenDataList.Insert(i, playerManager.actionCardDeckData[0]);
-                    playerManager.actionCardDeckData.RemoveAt(0);
-                    cardInfo.actionCard.GetOriginalCardInfo(playerManager.actionCardTakenDataList[i]);
-                }
+                cardInfo.ReCallImageState(false);
+                playerManager.actionCardDeckData.Add(playerManager.actionCardTakenDataList[i]);
+                playerManager.actionCardTakenDataList.RemoveAt(i);
+                playerManager.actionCardTakenDataList.Insert(i, playerManager.actionCardDeckData[0]);
+                playerManager.actionCardDeckData.RemoveAt(0);
+                cardInfo.actionCard.GetCardData(playerManager.actionCardTakenDataList[i]);
             }
-            gamePlayManager.playerSelectedActionCardInitial = true;
-            ConfirmButtonState(false);
-            StartCoroutine(ShowText("Done select cards"));
-            recalled = true;
         }
+        StartCoroutine(HandleAfterGetActionCard());
     }
-    public IEnumerator HandleEndGetCard()
+    IEnumerator HandleAfterGetActionCard()
     {
+        ConfirmButtonState(false);
+        SetDoneSelectCardText("Done Select Cards");
+        gamePlayManager.playerSelectedActionCardInitial = true;
         yield return new WaitForSeconds(delayTime);
-        gamePlayManager.UpdateGameState(GamePlayState.SelectInitialBattleCharacterCard);
+        gamePlayManager.UpdateGameState(GamePlayState.SelectInitialBattleCharacter);
     }
-    IEnumerator ShowText(string text)
+    void SetStartingHandText(string text)
     {
-        selectToStartText.text = text;
-        yield return null;
+        startingHandText.text = text;
     }
-    public void ConfirmButtonState(bool state)
+    void SetSelectCardToSwitchText(string text)
+    {
+        selectCardToSwitchText.text = text;
+    }
+    void SetDoneSelectCardText(string text)
+    {
+        doneSelectCardText.text = text;
+    }
+    void ConfirmButtonState(bool state)
     {
         confirmButton.gameObject.SetActive(state);
     }

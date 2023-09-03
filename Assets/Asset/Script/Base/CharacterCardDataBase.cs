@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 public class CharacterCardDataBase : ScriptableObject
 {
@@ -19,7 +20,7 @@ public class CharacterCardDataBase : ScriptableObject
 public class CharacterCardBase
 {
     [Header("Skill")]
-    public List<CharacterSkill> characterSkillList;
+    public List<CharacterSkill> characterSkillList; 
 
     [Header("Destiny")]
     public DestinyType destinyType;
