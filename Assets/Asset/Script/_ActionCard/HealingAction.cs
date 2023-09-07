@@ -17,6 +17,5 @@ public class HealingAction : ActionCardSkillBase
                 target.characterStats.statusList.Add(status);
             }
         }
-
     }
 }

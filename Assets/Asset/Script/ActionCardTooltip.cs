@@ -10,19 +10,20 @@ public class ActionCardTooltip : MonoBehaviour
     public Image actionBackImage;
     public Image actionCardImage;
 
-    public TextMeshProUGUI manaText;
+    public TextMeshProUGUI actionPointCostText;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
 
     [Header("Data")]
-    public ActionCardData currentActionCardData;
-    public void GetActionCardInfo(ActionCardData actionCardData)
+    public ActionCard currentActionCard;
+    public void GetActionCardInfo(ActionCard actionCard)
     {
-        currentActionCardData = actionCardData;
+        currentActionCard = actionCard;
 
-        actionCardImage.sprite = currentActionCardData.cardSprite;
-        actionBackImage.color = currentActionCardData.actionCard.colorRarity;
-        nameText.text = currentActionCardData.cardName;
-        descriptionText.text = currentActionCardData.cardDescription;
+        actionCardImage.sprite = currentActionCard.actionCardData.cardSprite;
+        actionBackImage.color = currentActionCard.actionCardData.actionCard.colorRarity;
+        nameText.text = currentActionCard.actionCardData.cardName;
+        descriptionText.text = currentActionCard.actionCardData.cardDescription;
+        actionPointCostText.text = currentActionCard.actionCost.ToString();
     }
 }

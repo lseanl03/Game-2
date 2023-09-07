@@ -50,7 +50,7 @@ public class CharacterCardTooltip : MonoBehaviour
     public List<StatusDesTooltip> statusDesTooltipList;
 
     [Header("Data")]
-    public CharacterCardData currentCharacterCardData;
+    public CharacterCard currentCharacterCard;
 
     public void Start()
     {
@@ -64,38 +64,47 @@ public class CharacterCardTooltip : MonoBehaviour
     public void HideStatusDes()
     {
     }
-    public void GetStatusInfo(Sprite sprite, string name, string description, int count)
+    public void GetStatusInfo(List<Status> statusList)
     {
-        for(int i=0;i<statusTooltipList.Count;i++)
+        for(int i = 0; i < statusList.Count; i++)
         {
-            if (!statusTooltipList[i].gameObject.activeSelf && i < count)
+            if (!statusTooltipList[i].gameObject.activeSelf)
             {
                 statusTooltipList[i].gameObject.SetActive(true);
-                statusTooltipList[i].statusImage.sprite = sprite;
-                statusTooltipList[i].statusNameText.text = name;
-                break;
+                statusTooltipList[i].statusImage.sprite = statusList[i].statusSprite;
+                statusTooltipList[i].statusNameText.text = statusList[i].statusName;
+            }
+            if (statusDesTooltipList[i].statusDesText.text == string.Empty)
+            {
+                statusDesTooltipList[i].statusDesText.text = statusList[i].statusDescription;
+            }
+        }
+        for (int i = 0; i < statusTooltipList.Count; i++)
+        {
+            if (i >= statusList.Count)
+            {
+                statusTooltipList[i].gameObject.SetActive(false);
             }
         }
         for(int i=0; i<statusDesTooltipList.Count; i++)
         {
-            if (statusDesTooltipList[i].statusDesText.text == string.Empty && i< count)
+            if (i >= statusList.Count)
             {
-                statusDesTooltipList[i].statusDesText.text = description;
-                break;
+                statusDesTooltipList[i].statusDesText.text = string.Empty;
             }
         }
     }
-    public void GetCharacterCardInfo(CharacterCardData characterCardData)
+    public void GetCharacterCardInfo(CharacterCard characterCard)
     {
-        currentCharacterCardData = characterCardData;
+        currentCharacterCard = characterCard;
 
-        characterCardImage.sprite = currentCharacterCardData.cardSprite;
-        healthText.text = currentCharacterCardData.maxHealth.ToString();
-        cardNameText.text = currentCharacterCardData.characterName;
-        combatTypeImage.sprite = currentCharacterCardData.characterCard.combatType.combatTypeSprite;
+        characterCardImage.sprite = currentCharacterCard.characterCardData.cardSprite;
+        cardNameText.text = currentCharacterCard.characterCardData.characterName;
+        combatTypeImage.sprite = currentCharacterCard.characterCardData.characterCard.combatType.combatTypeSprite;
+        healthText.text = currentCharacterCard.currentHealth.ToString();
 
         //weakness
-        Weakness[] weakness = currentCharacterCardData.characterCard.weakness.ToArray();
+        Weakness[] weakness = currentCharacterCard.characterCardData.characterCard.weakness.ToArray();
         if(weakness.Length >= 2)
         {
             weaknessImage1.sprite = weakness[0].weaknessTypeSprite;
@@ -104,9 +113,9 @@ public class CharacterCardTooltip : MonoBehaviour
         }
 
         //skill
-        for (int i = 0; i < currentCharacterCardData.characterCard.characterSkillList.Count; i++)
+        for (int i = 0; i < currentCharacterCard.characterCardData.characterCard.characterSkillList.Count; i++)
         {
-            CharacterSkill characterSkill = currentCharacterCardData.characterCard.characterSkillList[i];
+            CharacterSkill characterSkill = currentCharacterCard.characterCardData.characterCard.characterSkillList[i];
             CharacterCardSkillType skillType = characterSkill.characterCardSkillType;
 
             //normal atk

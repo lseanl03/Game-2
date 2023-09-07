@@ -15,15 +15,14 @@ MonoBehaviour:
   cardName: "Th\u1EE9c U\u1ED1ng N\u0103ng L\u01B0\u1EE3ng"
   actionCost: 30
   quantityMaxInDeck: 2
-  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c t\u0103ng 1 \u0111i\u1EC3m
+  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c t\u0103ng 2 \u0111i\u1EC3m
     n\u1ED9 cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn phe ta"
   cardSprite: {fileID: 1150116074, guid: 564472339b37b3c43975bdd5b3211037, type: 3}
   actionCard:
     actionSkillList:
     - actionCardTypeList: 5
       actionTargetType: 2
-      actionValue: 1
-      actionPhase: 1
-      actionLimit: 1
+      actionValue: 2
+      statusList: []
     rarityType: 3
     colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}

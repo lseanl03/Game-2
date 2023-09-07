@@ -27,28 +27,10 @@ MonoBehaviour:
       actionPointCost: 30
       skillPointCost: -1
       burstPointCost: -1
-      description: 
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 2
-      skillDescriptionDataList:
-      - description: "G\xE2y "
-        canModified: 0
-        useValue: 0
-        actionValue: 0
-      - description: 
-        canModified: 1
-        useValue: 1
-        actionValue: 0
-      - description: " \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng"
-        canModified: 0
-        useValue: 0
-        actionValue: 0
-      - description: " (+1 \u0111i\u1EC3m k\u1EF9 n\u0103ng, +1 \u0111i\u1EC3m n\u1ED9"
-        canModified: 0
-        useValue: 0
-        actionValue: 0
     - characterCardSkillType: 2
       skillSprite: {fileID: 597885506, guid: 1b409596c26cf6042832937386883577, type: 3}
       descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-1 \u0111i\u1EC3m
@@ -56,28 +38,10 @@ MonoBehaviour:
       actionPointCost: 30
       skillPointCost: 1
       burstPointCost: -1
-      description: 
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 3
-      skillDescriptionDataList:
-      - description: "G\xE2y "
-        canModified: 0
-        useValue: 0
-        actionValue: 0
-      - description: 
-        canModified: 1
-        useValue: 1
-        actionValue: 0
-      - description: " \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng"
-        canModified: 0
-        useValue: 0
-        actionValue: 0
-      - description: " (-1 \u0111i\u1EC3m k\u1EF9 n\u0103ng, +1 \u0111i\u1EC3m n\u1ED9)"
-        canModified: 0
-        useValue: 0
-        actionValue: 0
     - characterCardSkillType: 3
       skillSprite: {fileID: -1298220777, guid: b72dd279b62b5374294a42a236db98d3, type: 3}
       descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-2 \u0111i\u1EC3m
@@ -85,28 +49,10 @@ MonoBehaviour:
       actionPointCost: 40
       skillPointCost: 2
       burstPointCost: 3
-      description: 
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 4
-      skillDescriptionDataList:
-      - description: "G\xE2y "
-        canModified: 0
-        useValue: 0
-        actionValue: 0
-      - description: 
-        canModified: 1
-        useValue: 1
-        actionValue: 0
-      - description: " \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng"
-        canModified: 0
-        useValue: 0
-        actionValue: 0
-      - description: " (-2 \u0111i\u1EC3m k\u1EF9 n\u0103ng, -3 \u0111i\u1EC3m n\u1ED9)"
-        canModified: 0
-        useValue: 0
-        actionValue: 0
     destinyType: 1
     descriptionDestiny: This is Destiny
     combatType:

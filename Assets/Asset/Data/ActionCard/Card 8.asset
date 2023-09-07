@@ -15,20 +15,17 @@ MonoBehaviour:
   cardName: "C\xE1nh Tay \u0110\u1ED9ng L\u1EF1c D\xF9ng 1 L\u1EA7n"
   actionCost: 40
   quantityMaxInDeck: 2
-  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c t\u0103ng 2 \u0111i\u1EC3m
-    s\xE1t th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp cho t\u1EA5t c\u1EA3 phe
-    ta. (t\u1ED1i \u0111a 1 th\u1EBB b\xE0i nh\xE2n v\u1EADt 1 l\u1EA7n)"
+  cardDescription: "Trong hi\u1EC7p n\xE0y, t\u0103ng 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng
+    \u0111\xF2n k\u1EBF ti\u1EBFp cho t\u1EA5t c\u1EA3 phe ta."
   cardSprite: {fileID: -1586584066, guid: a73fe958122fb074fbd9a9b69f00bc93, type: 3}
   actionCard:
     actionSkillList:
     - actionCardTypeList: 4
       actionTargetType: 4
       actionValue: 2
-      actionPhase: 1
-      actionLimit: 1
-      applyStatus: 1
       statusList:
-      - statusSprite: {fileID: -60628940, guid: 6b2e6b6144c62f04dab88bf0a71d52b3, type: 3}
+      - statusType: 2
+        statusSprite: {fileID: -60628940, guid: 6b2e6b6144c62f04dab88bf0a71d52b3, type: 3}
         statusName: "C\xE1nh Tay \u0110\u1ED9ng L\u1EF1c D\xF9ng 1 L\u1EA7n"
         statusDescription: "Nh\xE2n v\u1EADt n\xE0y +2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng
           \u0111\xF2n k\u1EBF ti\u1EBFp"

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +11,7 @@ public class CharacterCard : MonoBehaviour
     public int currentBurstPoint;
     public int currentIncreaseAttack;
     public int currentQuantitySelected;
+    public int currentReduceSkillActionPoints;
     public Sprite cardSprite;
     public Image cardImage;
 
@@ -22,7 +22,8 @@ public class CharacterCard : MonoBehaviour
     public TextMeshProUGUI quantityText;
     public TextMeshProUGUI quantitySelectedText;
     public TextMeshProUGUI valueReceivedText;
-    public TextMeshProUGUI shieldText;
+    public TextMeshProUGUI shieldValueText;
+    public TextMeshProUGUI increaseAttackValueText;
     [Header("GameObject")]
     [SerializeField] private GameObject burstPointObj;
     [SerializeField] private GameObject highLightObj;
@@ -32,16 +33,21 @@ public class CharacterCard : MonoBehaviour
     [Header("Component")]
     public CharacterStats characterStats;
     public CharacterCardDragHover characterCardDragHover;
+    public RectTransform rectTransform;
     protected NotificationManager notificationManager => NotificationManager.instance;
     public void Awake()
     {
         characterStats = GetComponent<CharacterStats>();
         characterCardDragHover = GetComponent<CharacterCardDragHover>();
+        rectTransform = GetComponent<RectTransform>();
     }
     public void Start()
     {
         if(highLightObj != null) SetHighlight(false);
         if(burstPointObj != null) BurstPointObjState(true);
+    }
+    public void Update()
+    {
     }
     public void GetOriginalCardInfo(CharacterCardData characterCardData)
     {
@@ -59,9 +65,13 @@ public class CharacterCard : MonoBehaviour
     {
         descriptionText.text = text;
     }
-    public void SetShieldText()
+    public void SetShieldValueText()
     {
-        shieldText.text = currentShield.ToString();
+        shieldValueText.text = currentShield.ToString();
+    }
+    public void SetIncreaseValueText()
+    {
+        increaseAttackValueText.text = currentIncreaseAttack.ToString();
     }
     public void SetHealthText()
     {

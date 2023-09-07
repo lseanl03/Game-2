@@ -13,23 +13,21 @@ MonoBehaviour:
   m_Name: Card 7
   m_EditorClassIdentifier: 
   cardName: "C\u01A1m Chi\xEAn \u0110\u1EA1i V\u0169 Tr\u1EE5"
-  actionCost: 20
+  actionCost: 30
   quantityMaxInDeck: 2
-  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i 2 hp cho nh\xE2n v\u1EADt
-    m\u1EE5c ti\xEAu"
+  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i 2 hp cho t\u1EA5t
+    c\u1EA3 nh\xE2n v\u1EADt trong \u0111\u1ED9i"
   cardSprite: {fileID: -777056371, guid: d8d32e88ab689fb45b6caf303dfc4d55, type: 3}
   actionCard:
     actionSkillList:
     - actionCardTypeList: 1
-      actionTargetType: 5
+      actionTargetType: 4
       actionValue: 2
-      actionPhase: 1
-      actionLimit: 1
-      applyStatus: 1
       statusList:
-      - statusSprite: {fileID: -1037714965, guid: c1bd417379a21d142a1ca238ffe692df, type: 3}
+      - statusType: 7
+        statusSprite: {fileID: 1329290075, guid: 290df9f302195dc48b733ea36d4f1e47, type: 3}
         statusName: "No b\u1EE5ng"
         statusDescription: "Kh\xF4ng th\u1EC3 d\xF9ng th\xEAm th\u1EE9c \u0103n trong
           hi\u1EC7p n\xE0y"
-    rarityType: 2
-    colorRarity: {r: 0.24705884, g: 0.4039216, b: 0.43921572, a: 1}
+    rarityType: 3
+    colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}

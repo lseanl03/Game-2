@@ -40,16 +40,25 @@ public class SwitchCharacterBattlePanel : PanelBase
                         }
                         else
                         {
-                            if (playerManager.currentActionPoint >= gamePlayManager.battleCardSwitchCost)
+                            if (gamePlayManager.playerCanSwitchCharacterDying)
                             {
-                                playerManager.ConsumeActionPoint(gamePlayManager.battleCardSwitchCost);
-                                if(!gamePlayManager.enemyEndingRound)
-                                    gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+                                gamePlayManager.UpdateGameState(GamePlayState.ActionPhase);
                             }
                             else
                             {
-                                notificationManager.SetNewNotification("Your don't have enough action points");
-                                return;
+                                if (playerManager.currentActionPoint >= gamePlayManager.battleCardSwitchCost)
+                                {
+                                    playerManager.ConsumeActionPoint(gamePlayManager.battleCardSwitchCost);
+                                    if (!gamePlayManager.enemyEndingRound)
+                                    {
+                                        gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
+                                    }
+                                }
+                                else
+                                {
+                                    notificationManager.SetNewNotification("Your don't have enough action points");
+                                    return;
+                                }
                             }
                         }
                         characterCardDragHovers[i].HandleCardSelecting();
@@ -58,8 +67,11 @@ public class SwitchCharacterBattlePanel : PanelBase
                     }
                     else if (characterCardDragHovers[i].isSelected)
                     {
-                        characterCardDragHovers[i].HandleCardSelected();
-                        PanelState(false);
+                        if (playerManager.currentActionPoint >= gamePlayManager.battleCardSwitchCost)
+                        {
+                            characterCardDragHovers[i].HandleCardSelected();
+                            PanelState(false);
+                        }
                     }
                 }
                 if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)

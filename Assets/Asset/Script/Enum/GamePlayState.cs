@@ -2,7 +2,7 @@ public enum GamePlayState
 {
     SelectFirstTurn,
     SelectInitialActionCard,
-    SelectInitialBattleCharacter,
+    SelectBattleCharacter,
     Victory,
     Lose,
     ActionPhase,

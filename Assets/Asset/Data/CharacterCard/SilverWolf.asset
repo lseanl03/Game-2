@@ -30,7 +30,7 @@ MonoBehaviour:
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
-        actionValue: 6
+        actionValue: 2
     - characterCardSkillType: 2
       skillSprite: {fileID: -2072026519, guid: eb8fa153545cb8f408dda4820d91827c, type: 3}
       descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-1 \u0111i\u1EC3m
@@ -41,7 +41,7 @@ MonoBehaviour:
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
-        actionValue: 7
+        actionValue: 3
     - characterCardSkillType: 3
       skillSprite: {fileID: -691123917, guid: 0f20b19c63190c849a174b0832da0626, type: 3}
       descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-2 \u0111i\u1EC3m
@@ -52,7 +52,7 @@ MonoBehaviour:
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
-        actionValue: 8
+        actionValue: 4
     destinyType: 0
     descriptionDestiny: This is Destiny
     combatType:

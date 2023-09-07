@@ -24,22 +24,18 @@ MonoBehaviour:
     - actionCardTypeList: 6
       actionTargetType: 2
       actionValue: 2
-      actionPhase: 1
-      actionLimit: 1
-      applyStatus: 0
       statusList:
-      - statusSprite: {fileID: -1128931271, guid: ece81257ff6f4814eb95fbdff3844495, type: 3}
+      - statusType: 6
+        statusSprite: {fileID: -1128931271, guid: ece81257ff6f4814eb95fbdff3844495, type: 3}
         statusName: "\u0110\u1ED3 B\u1EA3o V\u1EC7 C\xF4ng Ngh\u1EC7 Cao"
         statusDescription: "Nh\xE2n v\u1EADt n\xE0y ch\u1ED1ng \u0111\u1EE1 2 \u0111i\u1EC3m
           s\xE1t th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp"
     - actionCardTypeList: 4
       actionTargetType: 2
       actionValue: 2
-      actionPhase: 1
-      actionLimit: 1
-      applyStatus: 0
       statusList:
-      - statusSprite: {fileID: -60628940, guid: 6b2e6b6144c62f04dab88bf0a71d52b3, type: 3}
+      - statusType: 2
+        statusSprite: {fileID: -60628940, guid: 6b2e6b6144c62f04dab88bf0a71d52b3, type: 3}
         statusName: "\u0110\u1ED3 B\u1EA3o V\u1EC7 C\xF4ng Ngh\u1EC7 Cao"
         statusDescription: "Nh\xE2n v\u1EADt n\xE0y +2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng
           \u0111\xF2n k\u1EBF ti\u1EBFp"

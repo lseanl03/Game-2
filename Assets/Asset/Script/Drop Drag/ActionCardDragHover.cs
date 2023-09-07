@@ -76,14 +76,14 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     }
     public void HandleBeginDrag()
     {
-        uiManager.HideTooltip();
-
-        GetComponent<CanvasGroup>().blocksRaycasts = false;
         placeHolder = Instantiate(placeHolderPrefab, transform.parent);
         placeHolder.transform.SetSiblingIndex(transform.GetSiblingIndex());
         parentToReturn = transform.parent;
         placeHolderParent = parentToReturn;
         transform.SetParent(canvas.transform);
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
+
+        uiManager.HideTooltip();
     }
 
     public void HandleEndDrag()
@@ -114,13 +114,13 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
         else
         {
             actionCard.CheckTarget();
-            if (canPlayCard)
+            if (placeHolder != null && canPlayCard)
             {
                 uiManager.battleCanvas.skillPanel.PanelState(false);
                 uiManager.battleCanvas.informationPanel.PanelState(false);
                 uiManager.battleCanvas.playCardPanel.PanelState(true);
-                actionCard.CardState(false);
                 uiManager.battleCanvas.playCardPanel.GetCardInfo(actionCard, this);
+                actionCard.CardState(false);
             }
         }
     }

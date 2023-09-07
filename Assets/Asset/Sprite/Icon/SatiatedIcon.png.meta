@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c1bd417379a21d142a1ca238ffe692df
+guid: 290df9f302195dc48b733ea36d4f1e47
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Satiated_0
+      name: SatiatedIcon_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 11
-        width: 580
-        height: 579
+        x: 16
+        y: 16
+        width: 480
+        height: 480
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b000adfa56393f24f939cdb02b869dfe
-      internalID: -1037714965
+      spriteID: 9a5832e2c6b867244824248867f5cefb
+      internalID: 1329290075
       vertices: []
       indices: 
       edges: []
@@ -146,7 +146,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 4e4de31cee33dd847a9b4118596276e4
+    spriteID: 1dd83d8a70e8d7141b6e836b14272f42
     internalID: 0
     vertices: []
     indices: 
@@ -154,7 +154,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Satiated_0: -1037714965
+      SatiatedIcon_0: 1329290075
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

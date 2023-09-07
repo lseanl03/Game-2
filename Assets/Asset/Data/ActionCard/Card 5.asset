@@ -20,14 +20,12 @@ MonoBehaviour:
   cardSprite: {fileID: 813053508, guid: f55cbf2d59fd8f049bdcaa8347d3a7ff, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 8
-      actionTargetType: 7
+    - actionCardTypeList: 6
+      actionTargetType: 5
       actionValue: 1
-      actionPhase: 1
-      actionLimit: 0
-      applyStatus: 1
       statusList:
-      - statusSprite: {fileID: -1872455190, guid: f61e860b913ba0d48b04289ce4adb4a0, type: 3}
+      - statusType: 5
+        statusSprite: {fileID: -1872455190, guid: f61e860b913ba0d48b04289ce4adb4a0, type: 3}
         statusName: "M\xE1y C\u1EA5p C\u1EE9u \u0110\u01A1n Gi\u1EA3n"
         statusDescription: "Nh\xE2n v\u1EADt kh\xF4ng th\u1EC3 h\u1ED3i sinh th\xEAm"
     rarityType: 3

@@ -23,11 +23,9 @@ MonoBehaviour:
     - actionCardTypeList: 6
       actionTargetType: 4
       actionValue: 2
-      actionPhase: 1
-      actionLimit: 1
-      applyStatus: 1
       statusList:
-      - statusSprite: {fileID: -1128931271, guid: ece81257ff6f4814eb95fbdff3844495, type: 3}
+      - statusType: 6
+        statusSprite: {fileID: -1128931271, guid: ece81257ff6f4814eb95fbdff3844495, type: 3}
         statusName: "L\xE1 Ch\u1EAFn D\xF9ng 1 L\u1EA7n"
         statusDescription: "Nh\xE2n v\u1EADt n\xE0y ch\u1ED1ng \u0111\u1EE1 2 \u0111i\u1EC3m
           s\xE1t th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp"

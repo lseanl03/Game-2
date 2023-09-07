@@ -13,19 +13,21 @@ MonoBehaviour:
   m_Name: Card 13
   m_EditorClassIdentifier: 
   cardName: Kapo-Kali
-  actionCost: 30
+  actionCost: 40
   quantityMaxInDeck: 2
-  cardDescription: "Nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn t\u0103ng g\u1EA5p \u0111\xF4i
-    s\u1ED1 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp"
+  cardDescription: "Trong hi\u1EC7p n\xE0y, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn
+    \u0111\xF2n k\u1EBF ti\u1EBFp t\u0103ng g\u1EA5p \u0111\xF4i s\xE1t th\u01B0\u01A1ng"
   cardSprite: {fileID: 1556205330, guid: 961cc5b7ae93aa64d8a5dc0915f9f9eb, type: 3}
   actionCard:
     actionSkillList:
     - actionCardTypeList: 13
       actionTargetType: 2
       actionValue: 0
-      actionPhase: 1
-      actionLimit: 1
-      applyStatus: 0
-      statusList: []
-    rarityType: 3
-    colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}
+      statusList:
+      - statusType: 4
+        statusSprite: {fileID: -186188460, guid: 76dba6e75662f734b9b75149c1b5bbb0, type: 3}
+        statusName: Kapo-Kali
+        statusDescription: "Nh\xE2n v\u1EADt n\xE0y s\xE1t th\u01B0\u01A1ng l\u1EA7n
+          k\u1EBF ti\u1EBFp t\u0103ng g\u1EA5p \u0111\xF4i s\xE1t th\u01B0\u01A1ng"
+    rarityType: 4
+    colorRarity: {r: 0.42352945, g: 0.32156864, b: 0.62352943, a: 1}

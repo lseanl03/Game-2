@@ -8,38 +8,47 @@ public class GamePlayManager : MonoBehaviour
     public GamePlayState currentState;
     public TurnState currentTurn;
 
-    public bool canAction = false;
 
     [Header("Phase")]
     public bool startPhase = false;
     public bool endPhase = false;
     public bool actionPhase = false;
+
     [Header("Attack First")]
     public bool playerAttackFirst = false;
     public bool enemyAttackFirst = false;
+
     [Header("EndingRound")]
     public bool playerEndingRound = false;
     public bool enemyEndingRound = false;
 
-    [Header("SelectedCharacter")]
+    [Header("Selected Character")]
     public bool playerSelectedCharacterBattleInitial = false;
     public bool enemySelectedCharacterBattleInitial = false;
+
+    [Header("Switch Character Dying")]
+    public bool playerCanSwitchCharacterDying = false;
+    public bool enemyCanSwitchCharacterDying = false;
 
     [Header("Selected Action Card")]
     public bool playerSelectedActionCardInitial = false;
     public bool enemySelectedActionCardInitial = false;
+
+    [Header("Character Dead First")]
+    public bool playerHaveCharacterDeadFirst = false;
+    public bool enemyHaveCharacterDeadFirst = false;
 
     [Header("Quantity")]
     public int battleCardSwitchCost = 10;
     public int quantityInitialActionCard = 5;
 
 
-    [Header("Player Card List")]
+    [Header("Character Card List")]
     public List<CharacterCard> playerCharacterList;
-    public List<ActionCard> playerActionCardList;
-
-    [Header("Enemy Card List")]
     public List<CharacterCard> enemyCharacterList;
+
+    [Header("Action Card List")]
+    public List<ActionCard> playerActionCardList;
     public List<ActionCard> enemyActionCardList;
 
     [Header("Canvas")]
@@ -91,8 +100,8 @@ public class GamePlayManager : MonoBehaviour
                 HideTooltip();
                 break;
 
-            case GamePlayState.SelectInitialBattleCharacter:
-                StartCoroutine(HandleSelectInitialBattleCharacter());
+            case GamePlayState.SelectBattleCharacter:
+                StartCoroutine(HandleSelectBattleCharacter());
                 HideTooltip();
                 break;
 
@@ -113,10 +122,12 @@ public class GamePlayManager : MonoBehaviour
 
             case GamePlayState.Victory:
                 HideTooltip();
+                HandleVictory();
                 break;
 
             case GamePlayState.Lose:
                 HideTooltip();
+                HandleLose();
                 break;
 
             default:
@@ -154,17 +165,32 @@ public class GamePlayManager : MonoBehaviour
             uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
         }
     }
-    IEnumerator HandleSelectInitialBattleCharacter()
+    IEnumerator HandleSelectBattleCharacter()
     {
-        if (uiManager != null)
+        actionPhase = false;
+
+        if (uiManager != null && !enemyCanSwitchCharacterDying)
         {
             uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
             uiManager.battleCanvas.informationPanel.PanelState(true);
             uiManager.battleCanvas.switchCardBattlePanel.PanelState(true);
+            uiManager.battleCanvas.skillPanel.PanelState(false);
         }
-        gamePlayCanvas.CanvasState(true);
-        yield return new WaitForSeconds(1);
-        notificationManager.SetNewNotification("Select your first character");
+        if (!playerSelectedCharacterBattleInitial)
+        {
+            gamePlayCanvas.CanvasState(true);
+            yield return new WaitForSeconds(1);
+            notificationManager.SetNewNotification("Select your first character");
+        }
+        if (playerCanSwitchCharacterDying)
+        {
+            uiManager.battleCanvas.switchCardBattlePanel.ActionCostState(false);
+            notificationManager.SetNewNotification("Select a character to fight");
+        }
+        else if (enemyCanSwitchCharacterDying)
+        {
+            notificationManager.SetNewNotification("Enemy selecting a character to fight");
+        }
     }
     IEnumerator HandleSelectInitialActionCard()
     {
@@ -217,16 +243,46 @@ public class GamePlayManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             StartCoroutine(gamePlayCanvas.DrawCard(2));
             yield return new WaitForSeconds(1);
+            ClearStatusApplying();
+            yield return new WaitForSeconds(1);
             UpdateGameState(GamePlayState.StartPhase);
         }
     }
     public void HandleVictory()
     {
-
+        notificationManager.SetNewNotification("You win");
     }
     public void HandleLose()
     {
+        notificationManager.SetNewNotification("You lose");
+    }
+    public void ClearStatusApplying()
+    {
+        foreach (CharacterCard player in playerCharacterList)
+        {
+            if (player.characterStats.isApplyingStatus)
+            {
+                if (player.characterStats.isSkippingRound)
+                {
+                    player.characterStats.ClearStatus(ActionCardActionSkillType.SkipRound);
+                }
+                if (player.characterStats.isDoublingDamage)
+                {
+                    player.characterStats.ClearStatus(ActionCardActionSkillType.DoubleDamage);
+                }
+                if (player.characterStats.isIncreasingAttack)
+                {
+                    player.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
+                }
+                if (player.characterStats.isUsingHealing)
+                {
+                    player.characterStats.ClearStatus(ActionCardActionSkillType.Healing);
+                }
+            }
+        }
 
+        foreach (CharacterCard enemy in enemyCharacterList)
+            enemy.characterCardDragHover.SelectIconState(false);
     }
     public void HighlightCardTarget(ActionTargetType actionTargetType, int actionValue)
     {
@@ -268,28 +324,6 @@ public class GamePlayManager : MonoBehaviour
                     characterCard.SetHighlight(true);
                     characterCard.SetValueReceived(actionValue);
 
-                }
-                break;
-
-            case ActionTargetType.ChooseAlly:
-                foreach (CharacterCard characterCard in playerCharacterList)
-                {
-                    if (characterCard.characterStats.isChoosing)
-                    {
-                        characterCard.SetHighlight(true);
-                        characterCard.SetValueReceived(actionValue);
-                    }
-                }
-                break;
-
-            case ActionTargetType.ChooseEnemy:
-                foreach (CharacterCard characterCard in enemyCharacterList)
-                {
-                    if (characterCard.characterStats.isChoosing)
-                    {
-                        characterCard.SetHighlight(true);
-                        characterCard.SetValueReceived(actionValue);
-                    }
                 }
                 break;
         }
@@ -350,7 +384,7 @@ public class GamePlayManager : MonoBehaviour
                 {
                     if (characterCard.characterStats.isActionCharacter)
                     {
-                        characterCard .characterStats.TakeDamage(damage);
+                        characterCard.characterStats.TakeDamage(damage);
                     }
                 }
                 break;

@@ -21,8 +21,9 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
         if (isZooming)
         {
             if(gamePlayManager.playerSelectedCharacterBattleInitial && 
-                gamePlayManager.actionPhase && 
-                gamePlayManager.currentTurn == TurnState.YourTurn)
+                gamePlayManager.currentTurn == TurnState.YourTurn || 
+                gamePlayManager.currentState == GamePlayState.ActionPhase ||
+                gamePlayManager.currentState == GamePlayState.SelectBattleCharacter)
             {
                 EnableDraggableAndInfo(true);
             }
@@ -56,8 +57,9 @@ public class PlayerActionCardField : MonoBehaviour, IPointerClickHandler
                 if (state == true)
                 {
                     if (!gamePlayManager.playerSelectedCharacterBattleInitial || 
+                        gamePlayManager.playerCanSwitchCharacterDying ||
                         !gamePlayManager.actionPhase ||
-                        gamePlayManager.currentTurn != TurnState.YourTurn)
+                        gamePlayManager.currentTurn == TurnState.EnemyTurn)
                         child.GetComponent<ActionCardDragHover>().canDrag = false;
                 }
             }

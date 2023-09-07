@@ -28,7 +28,7 @@ public class ActionCardBase
 public class ActionCardSkill
 {
     [Header("Action")]
-    public ActionCardActionSkillType actionCardTypeList;
+    public ActionCardActionSkillType actionSkillType;
     public ActionTargetType actionTargetType;
     public int actionValue;
 
@@ -38,28 +38,38 @@ public class ActionCardSkill
 [Serializable]
 public class Status
 {
+    public StatusType statusType;
     public Sprite statusSprite;
     public string statusName;
     [TextArea] public string statusDescription;
-    public ActionEndPhase actionEndPhase;
+}
+public enum StatusType
+{
+    none,
+    isSkippingRound,
+    isIncreasingAttack,
+    isReducingSkillActionPoints,
+    isDoublingDamage,
+    isReviving,
+    isShield,
+    isSatiated,
+    isUsingHealing,
 }
 public enum ActionCardActionSkillType
 {
     None,
     Healing, //hồi máu
-    WeaknessRecovery, //hồi điểm yếu
     SkillPointRecovery, //hồi điểm kĩ năng
     IncreaseAttack, //tăng tấn công
     IncreaseBurstPoint, //tăng điểm nộ
     CreateShield, //Tạo khiên
-    Weapon, //Vũ khí
-    Artifact, //Thánh di vật
     Revival, //hồi sinh
     ReduceHealth, //giảm máu
     SkipRound, //bỏ qua lượt
     DamageFree, //miễn sát thương
     DoubleDamage, //nhân đôi sát thương
-    IncreaseElementalBurstPoint, //tăng điểm kỹ năng nộ
+    ReduceSkillActionPoints, //giảm điểm hành động khi dùng kĩ năng
+    ReduceCharacterSwitchActionPoints, //giảm điểm hành động khi chuyển đổi nhân vật
 }
 public enum ActionTargetType
 {
@@ -68,10 +78,7 @@ public enum ActionTargetType
     Ally,
     AllEnemies,
     AllAllies,
-    ChooseAlly,
-    ChooseEnemy,
-    ChooseDeadAlly,
-    ChooseDeadEnemy,
+    DeadFirstAlly,
 }
 public enum RarityType
 {

@@ -22,21 +22,21 @@ public class TooltipManager : MonoBehaviour
             return;
         }
     }
-    public void ShowCharacterCardTooltip(CharacterCardData characterCardData)
+    public void ShowCharacterCardTooltip(CharacterCard characterCard)
     {
         tooltipCanvas.CanvasState(true);
         tooltipCanvas.CharacterCardTooltipState(true);
         tooltipCanvas.ActionCardTooltipState(false);
-        tooltipCanvas.characterCardTooltip.GetCharacterCardInfo(characterCardData);
+        tooltipCanvas.characterCardTooltip.GetCharacterCardInfo(characterCard);
     }
-    public void ShowActionCardTooltip(ActionCardData actionCardData)
+    public void ShowActionCardTooltip(ActionCard actionCard)
     {
         if (!uiManager.battleCanvas.playCardPanel.isShowingCardInfo)
         {
             tooltipCanvas.CanvasState(true);
             tooltipCanvas.ActionCardTooltipState(true);
             tooltipCanvas.CharacterCardTooltipState(false);
-            tooltipCanvas.actionCardTooltip.GetActionCardInfo(actionCardData);
+            tooltipCanvas.actionCardTooltip.GetActionCardInfo(actionCard);
         }
     }
 }

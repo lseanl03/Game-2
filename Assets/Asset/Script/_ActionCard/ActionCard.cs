@@ -119,7 +119,7 @@ public class ActionCard : CardBase
     }
     public void DoAction(ActionCardData actionCardData, ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList)
     {
-        switch (actionCardSkill.actionCardTypeList)
+        switch (actionCardSkill.actionSkillType)
         {
             case ActionCardActionSkillType.Healing:
                 HealingAction healingAction = new HealingAction();
@@ -139,6 +139,22 @@ public class ActionCard : CardBase
             case ActionCardActionSkillType.CreateShield:
                 CreateShiedAction createShiedAction = new CreateShiedAction();
                 createShiedAction.DoAction(actionCardData,actionCardSkill, targetList, statusList);
+                break;
+            case ActionCardActionSkillType.ReduceSkillActionPoints:
+                ReduceSkillActionPointsAction reduceSkillActionPointsAction = new ReduceSkillActionPointsAction();
+                reduceSkillActionPointsAction.DoAction(actionCardData,actionCardSkill,targetList, statusList);
+                break;
+            case ActionCardActionSkillType.DoubleDamage:
+                DoubleDamageAction doubleDamageAction = new DoubleDamageAction();
+                doubleDamageAction.DoAction(actionCardData,actionCardSkill,targetList,statusList);
+                break;
+            case ActionCardActionSkillType.SkipRound:
+                SkipRoundAction skipRoundAction = new SkipRoundAction();
+                skipRoundAction.DoAction(actionCardData,actionCardSkill,targetList,statusList);
+                break;
+            case ActionCardActionSkillType.Revival:
+                RevivalAction revivalAction = new RevivalAction();
+                revivalAction.DoAction(actionCardData, actionCardSkill,targetList,statusList); 
                 break;
         }
     }
@@ -176,23 +192,10 @@ public class ActionCard : CardBase
                     targetList.Add(characterCard);
                 }
                 break;
-
-            case ActionTargetType.ChooseAlly:
-                Debug.Log("ChooseAlly");
-                foreach (CharacterCard characterCard in playerCharacterList)
+            case ActionTargetType.DeadFirstAlly:
+                foreach(CharacterCard characterCard in playerCharacterList)
                 {
-                    if (characterCard.characterStats.isChoosing)
-                    {
-
-                        targetList.Add(characterCard);
-                    }
-                }
-                break;
-
-            case ActionTargetType.ChooseEnemy:
-                foreach (CharacterCard characterCard in enemyCharacterList)
-                {
-                    if (characterCard.characterStats.isChoosing)
+                    if (characterCard.characterStats.isDead && characterCard.characterStats.isDeadFirst)
                     {
                         targetList.Add(characterCard);
                     }
@@ -211,17 +214,37 @@ public class ActionCard : CardBase
             ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
             ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
             List<CharacterCard> targetList = DetermineTarget(actionTargetType, playerCharacterList, enemyCharacterList);
-            switch (actionCardSkill.actionCardTypeList)
+            bool canReturnCard = true;
+            switch (actionCardSkill.actionSkillType)
             {
                 case ActionCardActionSkillType.Healing:
                     foreach (CharacterCard characterCard in targetList)
                     {
-                        if (characterCard.currentHealth >= characterCard.characterCardData.maxHealth ||
-                            characterCard.characterStats.isUsingHealing)
+                        if(characterCard.currentHealth < characterCard.characterCardData.maxHealth &&
+                            !characterCard.characterStats.isSatiated && !characterCard.characterStats.isDead)
                         {
-                            actionCardDragHover.ReturnCard();
-                            notificationManager.SetNewNotification("Card cannot be used at this time");
+                            canReturnCard = false;
                         }
+                    }
+                    if (canReturnCard)
+                    {
+                        actionCardDragHover.ReturnCard();
+                        notificationManager.SetNewNotification("Card cannot be used at this time");
+                    }
+                    break;
+                case ActionCardActionSkillType.ReduceSkillActionPoints:
+                    canReturnCard = false;
+                    foreach (CharacterCard characterCard in targetList)
+                    {
+                        if(characterCard.characterStats.isReducingSkillActionPoints && !characterCard.characterStats.isDead)
+                        {
+                            canReturnCard = true;
+                        }
+                    }
+                    if (canReturnCard)
+                    {
+                        actionCardDragHover.ReturnCard();
+                        notificationManager.SetNewNotification("Card cannot be used at this time");
                     }
                     break;
                 case ActionCardActionSkillType.IncreaseAttack:
@@ -232,6 +255,13 @@ public class ActionCard : CardBase
                             actionCardDragHover.ReturnCard();
                             notificationManager.SetNewNotification("Card cannot be used at this time");
                         }
+                    }
+                    break;
+                case ActionCardActionSkillType.Revival:
+                    if (targetList.Count == 0)
+                    {
+                        actionCardDragHover.ReturnCard();
+                        notificationManager.SetNewNotification("Card cannot be used at this time");
                     }
                     break;
             }

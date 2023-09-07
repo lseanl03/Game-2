@@ -3646,7 +3646,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 30
+  m_Spacing: 50
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -3767,7 +3767,7 @@ MonoBehaviour:
   - {fileID: 398341088}
   - {fileID: 435199390}
   - {fileID: 1452683286}
-  currentCharacterCardData: {fileID: 0}
+  currentCharacterCard: {fileID: 0}
 --- !u!1 &735761292
 GameObject:
   m_ObjectHideFlags: 0
@@ -5999,6 +5999,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 648491654, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 648491654, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 648491655, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -6483,6 +6491,26 @@ PrefabInstance:
       propertyPath: playCardButton
       value: 
       objectReference: {fileID: 276590420}
+    - target: {fileID: 6606296799727979791, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
+      propertyPath: characterCardChooseFieldObj
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6606296799727979791, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
+      propertyPath: characterCardChooseList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6606296799727979791, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
+      propertyPath: characterCardChooseList.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6606296799727979791, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
+      propertyPath: characterCardChooseList.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6606296799727979791, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
+      propertyPath: characterCardChooseList.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6638241186043019905, guid: d0f26949e865e7c4780f85a9b0bbde4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -8121,7 +8149,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 30
+  m_Spacing: 50
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -8434,7 +8462,7 @@ GameObject:
   - component: {fileID: 1310580843}
   - component: {fileID: 1310580842}
   m_Layer: 5
-  m_Name: ManaText
+  m_Name: ActionPointCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8828,10 +8856,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionBackImage: {fileID: 837761978}
   actionCardImage: {fileID: 1167658627}
-  manaText: {fileID: 1310580842}
+  actionPointCostText: {fileID: 1310580842}
   nameText: {fileID: 832628783}
   descriptionText: {fileID: 1750775450}
-  currentActionCardData: {fileID: 0}
+  currentActionCard: {fileID: 0}
 --- !u!114 &1388815759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10832,7 +10860,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   currentTurn: 0
-  canAction: 0
   startPhase: 0
   endPhase: 0
   actionPhase: 0
@@ -10842,13 +10869,17 @@ MonoBehaviour:
   enemyEndingRound: 0
   playerSelectedCharacterBattleInitial: 0
   enemySelectedCharacterBattleInitial: 0
+  playerCanSwitchCharacterDying: 0
+  enemyCanSwitchCharacterDying: 0
   playerSelectedActionCardInitial: 0
   enemySelectedActionCardInitial: 0
+  playerHaveCharacterDeadFirst: 0
+  enemyHaveCharacterDeadFirst: 0
   battleCardSwitchCost: 10
   quantityInitialActionCard: 5
   playerCharacterList: []
-  playerActionCardList: []
   enemyCharacterList: []
+  playerActionCardList: []
   enemyActionCardList: []
   gamePlayCanvas: {fileID: 554946751}
 --- !u!4 &1836432841
@@ -11312,7 +11343,7 @@ GameObject:
   - component: {fileID: 1934516552}
   - component: {fileID: 1934516551}
   m_Layer: 5
-  m_Name: Mana
+  m_Name: ActionPointCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

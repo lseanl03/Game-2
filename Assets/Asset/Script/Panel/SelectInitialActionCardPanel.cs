@@ -62,7 +62,7 @@ public class SelectInitialActionCardPanel : PanelBase
         SetDoneSelectCardText("Done Select Cards");
         gamePlayManager.playerSelectedActionCardInitial = true;
         yield return new WaitForSeconds(delayTime);
-        gamePlayManager.UpdateGameState(GamePlayState.SelectInitialBattleCharacter);
+        gamePlayManager.UpdateGameState(GamePlayState.SelectBattleCharacter);
     }
     void SetStartingHandText(string text)
     {

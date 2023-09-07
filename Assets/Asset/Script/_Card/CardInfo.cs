@@ -40,7 +40,7 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         {
             if (characterCard != null)
             {
-                tooltipManager.ShowCharacterCardTooltip(characterCard.characterCardData);
+                tooltipManager.ShowCharacterCardTooltip(characterCard);
                 gamePlayManager.HideHighlightsCard();
                 CheckApplyStatus();
             }
@@ -48,7 +48,7 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
             {
                 gamePlayManager.HideHighlightsCard();
                 if (actionCard.cardBack.IsActive()) return;
-                else tooltipManager.ShowActionCardTooltip(actionCard.actionCardData);
+                else tooltipManager.ShowActionCardTooltip(actionCard);
             }
         }
 
@@ -86,11 +86,7 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         if (characterStats.isApplyingStatus)
         {
             tooltipManager.tooltipCanvas.characterCardTooltip.StatusDescriptionObjState(true);
-            foreach (Status status in characterStats.statusList)
-            {
-                tooltipManager.tooltipCanvas.characterCardTooltip.
-                    GetStatusInfo(status.statusSprite, status.statusName, status.statusDescription, characterStats.statusList.Count);
-            }
+            tooltipManager.tooltipCanvas.characterCardTooltip.GetStatusInfo(characterStats.statusList);
         }
         else
         {

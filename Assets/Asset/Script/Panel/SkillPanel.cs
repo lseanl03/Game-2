@@ -41,7 +41,7 @@ public class SkillPanel : PanelBase
         elementalSkillImage.sprite = ES;
         elementalBurstImage.sprite = eB;
     }
-    public void SetCostText(int NACost, int ESCost, int EBCost)
+    public void SetActionPointCostText(int NACost, int ESCost, int EBCost)
     {
         NACostText.text = NACost.ToString();
         ESCostText.text = ESCost.ToString();
@@ -115,7 +115,8 @@ public class SkillPanel : PanelBase
     }
     public void HighlightActive(CharacterCardSkillType skillType)
     {
-        if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.YourTurn)
+        if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.YourTurn && 
+            !currentCharacterCard.characterStats.isDead)
         {
             if (isHighlightActive)
             {
@@ -199,6 +200,26 @@ public class SkillPanel : PanelBase
                 gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
             else
                 notificationManager.SetNewNotification("Your turn continues...");
+        }
+        ClearStatusUsed();
+    }
+    public void ClearStatusUsed()
+    {
+        if (currentCharacterCard.characterStats.isReducingSkillActionPoints)
+        {
+            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
+        }
+        if (currentCharacterCard.characterStats.isDoublingDamage)
+        {
+            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.DoubleDamage);
+        }
+        if (currentCharacterCard.characterStats.isIncreasingAttack)
+        {
+            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
+        }
+        if (currentCharacterCard.characterStats.isReducingSkillActionPoints)
+        {
+            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
         }
     }
 

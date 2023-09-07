@@ -17,20 +17,18 @@ MonoBehaviour:
   quantityMaxInDeck: 2
   cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c k\u1EBFt th\xFAc l\u01B0\u1EE3t
     c\u1EE7a m\xECnh, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn phe ta s\u1EBD kh\xF4ng
-    th\u1EC3 b\u1ECB ch\u1ECDn l\xE0m m\u1EE5c ti\xEAu trong l\u01B0\u1EE3t n\xE0y"
+    ph\u1EA3i ch\u1ECBu s\xE1t th\u01B0\u01A1ng trong hi\u1EC7p n\xE0y"
   cardSprite: {fileID: 1437994934, guid: 5e987ec122bdb154abdc4565389d598c, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 11
-      actionTargetType: 1
+    - actionCardTypeList: 8
+      actionTargetType: 2
       actionValue: 0
-      actionPhase: 1
-      actionLimit: 4
-      applyStatus: 1
       statusList:
-      - statusSprite: {fileID: -1658587249, guid: f7c15ba76342c414e96bdc148f0cd918, type: 3}
+      - statusType: 1
+        statusSprite: {fileID: -1658587249, guid: f7c15ba76342c414e96bdc148f0cd918, type: 3}
         statusName: "S\u01A1n Ng\u1EE5y Trang"
-        statusDescription: "Nh\xE2n v\u1EADt n\xE0y kh\xF4ng th\u1EC3 b\u1ECB t\u1EA5n
-          c\xF4ng trong l\u01B0\u1EE3t n\xE0y"
+        statusDescription: "Nh\xE2n v\u1EADt n\xE0y kh\xF4ng ph\u1EA3i ch\u1ECBu
+          s\xE1t th\u01B0\u01A1ng trong hi\u1EC7p n\xE0y"
     rarityType: 4
     colorRarity: {r: 0.42352945, g: 0.32156864, b: 0.62352943, a: 1}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamePlayCanvas : CanvasBase
 {
@@ -68,7 +69,7 @@ public class GamePlayCanvas : CanvasBase
         for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
         {
             actionCardHand = Instantiate(actionCardHandPrefab, enemyActionCardField.transform);
-            actionCardHand.CardBackState(true);
+            //actionCardHand.CardBackState(true);
             actionCardHand.ManaState(false);
             enemyManager.actionCardTakenDataList.Add(enemyManager.actionCardDeckData[0]);
             enemyManager.actionCardDeckData.RemoveAt(0);
@@ -87,6 +88,8 @@ public class GamePlayCanvas : CanvasBase
                 actionCardHand.GetCardData(playerManager.actionCardDeckData[0]);
                 playerManager.actionCardTakenDataList.Add(playerManager.actionCardDeckData[0]);
                 playerManager.actionCardDeckData.RemoveAt(0);
+
+                gamePlayManager.playerActionCardList.Add(actionCardHand);
                 yield return new WaitForSeconds(0.5f);
             }
         }
@@ -95,11 +98,13 @@ public class GamePlayCanvas : CanvasBase
             for (int i = 0; i < value; i++)
             {
                 actionCardHand = Instantiate(actionCardHandPrefab, enemyActionCardField.transform);
-                actionCardHand.CardBackState(true);
+                //actionCardHand.CardBackState(true);
                 actionCardHand.ManaState(false);
                 actionCardHand.GetCardData(enemyManager.actionCardDeckData[0]);
                 enemyManager.actionCardTakenDataList.Add(enemyManager.actionCardDeckData[0]);
                 enemyManager.actionCardDeckData.RemoveAt(0);
+
+                gamePlayManager.enemyActionCardList.Add(actionCardHand);
                 yield return new WaitForSeconds(0.5f);
             }
         }

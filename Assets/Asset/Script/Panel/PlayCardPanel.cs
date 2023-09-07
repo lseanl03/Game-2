@@ -16,11 +16,9 @@ public class PlayCardPanel : PanelBase
     public GameObject playCardObj;
     public GameObject cardInfoObj;
 
+    [Header("Component")]
     public ActionCard currentActionCard;
     public ActionCardDragHover currentCardDragHover;
-    public void Update()
-    {
-    }
     public void PlayCard()
     {
         if (isUsingCard)
