@@ -69,7 +69,7 @@ public class GamePlayCanvas : CanvasBase
         for (int i = 0; i < gamePlayManager.quantityInitialActionCard; i++)
         {
             actionCardHand = Instantiate(actionCardHandPrefab, enemyActionCardField.transform);
-            //actionCardHand.CardBackState(true);
+            actionCardHand.CardBackState(true);
             actionCardHand.ManaState(false);
             enemyManager.actionCardTakenDataList.Add(enemyManager.actionCardDeckData[0]);
             enemyManager.actionCardDeckData.RemoveAt(0);
@@ -98,7 +98,7 @@ public class GamePlayCanvas : CanvasBase
             for (int i = 0; i < value; i++)
             {
                 actionCardHand = Instantiate(actionCardHandPrefab, enemyActionCardField.transform);
-                //actionCardHand.CardBackState(true);
+                actionCardHand.CardBackState(true);
                 actionCardHand.ManaState(false);
                 actionCardHand.GetCardData(enemyManager.actionCardDeckData[0]);
                 enemyManager.actionCardTakenDataList.Add(enemyManager.actionCardDeckData[0]);

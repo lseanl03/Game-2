@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardImage : MonoBehaviour
+public class OptionalToolCharacterCardImage : MonoBehaviour
 {
     public Image cardImage;
-    public TextMeshProUGUI manaText;
     public TextMeshProUGUI healthText;
+
 }

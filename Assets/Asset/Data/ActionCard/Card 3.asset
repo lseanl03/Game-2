@@ -20,12 +20,9 @@ MonoBehaviour:
   cardSprite: {fileID: -157679003, guid: 4d76283bdd7ddb8468210735839a6a06, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 3
+    - actionSkillType: 2
       actionTargetType: 0
       actionValue: 1
-      actionPhase: 1
-      actionLimit: 1
-      applyStatus: 0
       statusList: []
     rarityType: 1
     colorRarity: {r: 0.56078434, g: 0.56078434, b: 0.6, a: 1}

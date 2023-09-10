@@ -125,7 +125,17 @@ public class CharacterCard : MonoBehaviour
     }
     public void SetValueReceived(int value)
     {
-        if(value <= 0)
+        if (characterStats.isShield)
+        {
+            value -= currentShield;
+            if(value <= 0) value = 0;
+        }
+        if (characterStats.isSkippingRound)
+        {
+            value = 0;
+        }
+
+        if(value < 0)
         valueReceivedText.text =" + " + value.ToString();
         else
             valueReceivedText.text = " - " + value.ToString();

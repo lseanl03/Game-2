@@ -9,7 +9,7 @@ public class SelectTurnPanel : PanelBase
     public bool selected = false;
     public bool isYourTurn;
 
-    private float timeCount = 0f;
+    public float timeCount = 0f;
     private float timeDelay = 0f;
 
     public float timeEndCount = 5f;
@@ -22,9 +22,12 @@ public class SelectTurnPanel : PanelBase
 
     public Coroutine selectFirstTurnCoroutine;
     public Coroutine loadingCoroutine;
-    private void Start()
+    private void OnEnable()
     {
+        timeCount = 0;
         timeEndCount = Random.Range(timeEndCount, timeEndCount + 1);
+        StopAllCoroutines();
+
         selectFirstTurnCoroutine = StartCoroutine(SelectFirstTurn());
         loadingCoroutine = StartCoroutine(LoadText());
     }
@@ -77,7 +80,6 @@ public class SelectTurnPanel : PanelBase
 
         yield return new WaitForSeconds(delayEndSelect);
         PanelState(false);
-
         gamePlayManager.UpdateGameState(GamePlayState.SelectInitialActionCard);
         if (isYourTurn)
         {

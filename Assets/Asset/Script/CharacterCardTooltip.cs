@@ -61,23 +61,40 @@ public class CharacterCardTooltip : MonoBehaviour
     {
         statusDescriptionObj.SetActive(state);
     }
+    public void HideSkillDes()
+    {
+        if (normalAtk.isShowing)
+        {
+            normalAtk.DescriptionState();
+        }
+        if (elementalSkill.isShowing)
+        {
+            elementalSkill.DescriptionState();
+        }
+        if (elementalBurst.isShowing)
+        {
+            elementalBurst.DescriptionState();
+        }
+    }
     public void HideStatusDes()
     {
+        foreach(StatusTooltip statusTooltip in statusTooltipList)
+        {
+            if (statusTooltip.isShowing)
+            {
+                statusTooltip.ChangeDescriptionState();
+            }
+        }
     }
     public void GetStatusInfo(List<Status> statusList)
     {
         for(int i = 0; i < statusList.Count; i++)
         {
-            if (!statusTooltipList[i].gameObject.activeSelf)
-            {
-                statusTooltipList[i].gameObject.SetActive(true);
-                statusTooltipList[i].statusImage.sprite = statusList[i].statusSprite;
-                statusTooltipList[i].statusNameText.text = statusList[i].statusName;
-            }
-            if (statusDesTooltipList[i].statusDesText.text == string.Empty)
-            {
-                statusDesTooltipList[i].statusDesText.text = statusList[i].statusDescription;
-            }
+            statusTooltipList[i].gameObject.SetActive(true);
+            statusTooltipList[i].statusImage.sprite = statusList[i].statusSprite;
+            statusTooltipList[i].statusNameText.text = statusList[i].statusName;
+
+            statusDesTooltipList[i].statusDesText.text = statusList[i].statusDescription;
         }
         for (int i = 0; i < statusTooltipList.Count; i++)
         {

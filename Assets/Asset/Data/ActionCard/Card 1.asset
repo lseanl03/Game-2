@@ -16,11 +16,11 @@ MonoBehaviour:
   actionCost: 30
   quantityMaxInDeck: 2
   cardDescription: "Trong hi\u1EC7p n\xE0y, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn
-    +3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng g\xE2y ra l\u1EA7n sau."
+    t\u0103ng 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng g\xE2y ra l\u1EA7n sau"
   cardSprite: {fileID: 554538497, guid: 65197ee855e0d8d4a87e7184cadd6d65, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 4
+    - actionSkillType: 3
       actionTargetType: 2
       actionValue: 3
       statusList:

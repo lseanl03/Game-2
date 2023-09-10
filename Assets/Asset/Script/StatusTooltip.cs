@@ -14,7 +14,7 @@ public class StatusTooltip : MonoBehaviour
     public float rotateIndex = 0f;
     public GameObject statusDesObj;
 
-    public void DescriptionState()
+    public void ChangeDescriptionState()
     {
         isShowing = !isShowing;
         rotateIndex = isShowing ? 180f : 0f;

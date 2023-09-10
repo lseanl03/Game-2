@@ -83,10 +83,11 @@ public enum ActionTargetType
 public enum RarityType
 {
     None,
-    Low,
-    Normal,
-    High,
-    VeryHigh,
+    Low, //thấp
+    Medium, //bình thường
+    High, //cao
+    VeryHigh, //rất cao
+    Rare, //hiếm
 }
 public enum ActionStartPhase
 {

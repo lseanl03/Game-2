@@ -51,7 +51,7 @@ public class PlayCardPanel : PanelBase
     {
         PlayCardState(false);
         CardImageObj(true);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         CardImageObj(false);
     }
     public void GetCardInfo(ActionCard actionCard, ActionCardDragHover cardDragHover)

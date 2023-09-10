@@ -15,12 +15,12 @@ MonoBehaviour:
   cardName: "L\xF2ng T\u1EF1 Tr\u1ECDng C\u1EE7a Th\xF9ng R\xE1c"
   actionCost: 30
   quantityMaxInDeck: 2
-  cardDescription: "Trong hi\u1EC7p n\xE0y, t\u1EA1o khi\xEAn ch\u1ED1ng \u0111\u1EE1
-    3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
+  cardDescription: "T\u1EA1o khi\xEAn ch\u1ED1ng \u0111\u1EE1 3 \u0111i\u1EC3m s\xE1t
+    th\u01B0\u01A1ng cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
   cardSprite: {fileID: 633382988, guid: 91530f8ad32a0e642abda0e1057100fd, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 6
+    - actionSkillType: 5
       actionTargetType: 2
       actionValue: 3
       statusList:

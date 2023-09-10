@@ -78,9 +78,9 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
         if (gamePlayManager.currentTurn == TurnState.EnemyTurn && 
             gamePlayManager.playerSelectedCharacterBattleInitial &&
             gamePlayManager.currentState != GamePlayState.SelectBattleCharacter || 
-            characterStats.isDead) 
+            characterStats.isDead || 
+            gamePlayManager.actionPhase && gamePlayManager.playerCanSwitchCharacterDying) 
             return;
-
         for (int i = 0; i < transform.parent.childCount; i++)
         {
             CharacterCardDragHover characterCard = transform.parent.GetChild(i).GetComponent<CharacterCardDragHover>();
@@ -88,7 +88,7 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
             {
                 if (!isSelected && !isSelecting)
                 {
-                        ShowSwitchCharacter();
+                    ShowSwitchCharacter();
                 }
             }
             else

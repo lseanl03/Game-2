@@ -58,7 +58,7 @@ public class SceneChanger : MonoBehaviour
                 uIManager.selectCardCanvas.CanvasState(true);
                 uIManager.battleCanvas.CanvasState(false);
 
-                notificationManager.ResetText();
+                notificationManager.Reset();
                 break; 
             case SceneType.GamePlay:
                 SceneManager.LoadScene("GamePlay");
@@ -66,7 +66,7 @@ public class SceneChanger : MonoBehaviour
                 uIManager.selectCardCanvas.CanvasState(false);
                 uIManager.battleCanvas.CanvasState(true);
 
-                notificationManager.ResetText();
+                notificationManager.Reset();
                 break;
 
         }

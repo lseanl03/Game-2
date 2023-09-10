@@ -34,7 +34,7 @@ public class ActionCard : CardBase
     [SerializeField] private GameObject manaObj;
 
     [Header("Component")]
-    private ActionCardDragHover actionCardDragHover;
+    public ActionCardDragHover actionCardDragHover;
 
     private void Start()
     {
@@ -46,6 +46,7 @@ public class ActionCard : CardBase
         quantityMaxInDeck = actionCardData.quantityMaxInDeck;
         description = actionCardData.cardDescription;
 
+        SetQuantity(actionCardData.quantityMaxInDeck);
         SetCardImage(actionCardData.cardSprite);
         SetBackImage(actionCardData.actionCard.colorRarity);
         SetActionCost(actionCardData.actionCost);
@@ -63,6 +64,13 @@ public class ActionCard : CardBase
     public void SetBackImage(Color color)
     {
         backImage.color = color;
+    }
+    public void SetQuantity(int value)
+    {
+        quantityMaxInDeck = value;
+
+        if(quantityText != null)
+        quantityText.text = quantityMaxInDeck.ToString();
     }
     public void RecallCard(int quantity) 
     {
@@ -262,6 +270,16 @@ public class ActionCard : CardBase
                     {
                         actionCardDragHover.ReturnCard();
                         notificationManager.SetNewNotification("Card cannot be used at this time");
+                    }
+                    break;
+                case ActionCardActionSkillType.DoubleDamage:
+                    foreach (CharacterCard characterCard in targetList)
+                    {
+                        if (characterCard.characterStats.isDoublingDamage)
+                        {
+                            actionCardDragHover.ReturnCard();
+                            notificationManager.SetNewNotification("Card cannot be used at this time");
+                        }
                     }
                     break;
             }

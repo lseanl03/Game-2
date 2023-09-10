@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +26,6 @@ public class CharacterStats : MonoBehaviour
     public bool isReviving;
     public bool isShield;
     public bool isSatiated;
-    public bool isUsingHealing;
     public bool isDeadFirst;
 
     [Header("Image")]
@@ -86,19 +86,11 @@ public class CharacterStats : MonoBehaviour
         if (takeDamageCoroutine != null)
             StopCoroutine(takeDamageCoroutine);
 
-        if (value >= 0)
-            takeDamageText.text = "-" + value.ToString();
-        else
-            takeDamageText.text = "+" + value.ToString();
+        takeDamageText.text = "-" + value.ToString();
         takeDamageObj.SetActive(false);
         takeDamageObj.SetActive(true);
         yield return new WaitForSeconds(2f);
         takeDamageObj.SetActive(false);
-    }
-    public void HealingState(bool state)
-    {
-        isUsingHealing = state;
-        healingStatusImage.gameObject.SetActive(state);
     }
     public void IncreaseAttackState(bool state)
     {
@@ -134,16 +126,35 @@ public class CharacterStats : MonoBehaviour
     {
         if (!gamePlayManager.playerHaveCharacterDeadFirst)
         {
-            gamePlayManager.playerHaveCharacterDeadFirst = true;
             foreach (CharacterCard characterCard in gamePlayManager.playerCharacterList)
             {
-                if (characterCard.characterStats.isDead)
+                if(characterCard == this.characterCard)
                 {
-                    characterCard.characterStats.isDeadFirst = true;
-                    break;
+                    if (characterCard.characterStats.isDead)
+                    {
+                        characterCard.characterStats.isDeadFirst = true;
+                        gamePlayManager.playerHaveCharacterDeadFirst = true;
+                        break;
+                    }
                 }
             }
         }
+        if(!gamePlayManager.enemyHaveCharacterDeadFirst)
+        {
+            foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
+            {
+                if (characterCard == this.characterCard)
+                {
+                    if (characterCard.characterStats.isDead)
+                    {
+                        characterCard.characterStats.isDeadFirst = true;
+                        gamePlayManager.enemyHaveCharacterDeadFirst = true;
+                        break;
+                    }
+                }
+            }
+        }
+
     }
     public void SetSwitchCharacterDying()
     {
@@ -154,6 +165,40 @@ public class CharacterStats : MonoBehaviour
         else if (transform.parent == gamePlayManager.gamePlayCanvas.enemyCharacterCardField.transform)
         {
             gamePlayManager.enemyCanSwitchCharacterDying = true;
+        }
+    }
+    public void CheckAllDead()
+    {
+        bool allAlliesDead = true;
+        bool allEnemiesDead = true;
+        if (allAlliesDead && allEnemiesDead)
+        {
+            foreach (CharacterCard characterCard in gamePlayManager.playerCharacterList)
+            {
+                if (!characterCard.characterStats.isDead)
+                {
+                    allAlliesDead = false;
+                    break;
+                }
+            }
+            foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
+            {
+                if (!characterCard.characterStats.isDead)
+                {
+                    allEnemiesDead = false;
+                    break;
+                }
+            }
+        }
+        if (allAlliesDead)
+        {
+            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Lose");
+            gamePlayManager.UpdateGameState(GamePlayState.Lose);
+        }
+        else if (allEnemiesDead)
+        {
+            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Win");
+            gamePlayManager.UpdateGameState(GamePlayState.Victory);
         }
     }
     public IEnumerator DeadState(bool state)
@@ -168,11 +213,13 @@ public class CharacterStats : MonoBehaviour
         deadImage.gameObject.SetActive(state);
         gamePlayManager.UpdateGameState(GamePlayState.SelectBattleCharacter);
         characterCard.characterCardDragHover.HandleCardSelected();
+        CheckAllDead();
     }
     public void Revival(int value)
     {
         if (!isDead) return;
-        Debug.Log("Revival");
+
+        //Debug.Log("Revival");
         isDead = false;
         deadImage.gameObject.SetActive(false);
 
@@ -182,14 +229,18 @@ public class CharacterStats : MonoBehaviour
     public void SkipRound()
     {
         if (isDead) return;
+        //Debug.Log("Skip Round");
 
+        if(gamePlayManager.currentTurn == TurnState.YourTurn)
         StartCoroutine(gamePlayManager.PlayerEndRound());
+        else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
+        StartCoroutine(gamePlayManager.EnemyEndRound());
     }
     public void DoubleDamage()
     {
         if (isDead) return;
+        //Debug.Log("Double Damage");
 
-        DoubleDamageState(true);
         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
         {
             foreach (Skill skill in characterSkill.actionSkillList)
@@ -201,6 +252,7 @@ public class CharacterStats : MonoBehaviour
     public void Healing(int value)
     {
         if (isDead) return;
+        //Debug.Log("Healing");
 
         if (characterCard.currentHealth + value > characterCard.characterCardData.maxHealth)
             characterCard.currentHealth = characterCard.characterCardData.maxHealth;
@@ -212,6 +264,7 @@ public class CharacterStats : MonoBehaviour
     public void TakeDamage(int value)
     {
         if (isDead) return;
+        //Debug.Log("Take Damage");
 
         if (isShield)
         {
@@ -233,12 +286,14 @@ public class CharacterStats : MonoBehaviour
 
         characterCard.SetHealthText();
         characterCard.SetShieldValueText();
+
         takeDamageCoroutine = StartCoroutine(TakeDamageState(value));
 
     }
     public void Shield(int value)
     {
         if (isDead) return;
+        //Debug.Log("Shield");
 
         characterCard.currentShield += value;
         if(characterCard.currentShield <= 0)
@@ -252,10 +307,11 @@ public class CharacterStats : MonoBehaviour
     public void IncreaseAttack(int value)
     {
         if (isDead) return;
+        //Debug.Log("IncreaseAttack");
 
-        characterCard.currentIncreaseAttack += value;
+        characterCard.currentIncreaseAttack = value;
         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
-        {
+        { //8
             foreach (Skill skill in characterSkill.actionSkillList)
             {
                 skill.actionValue += characterCard.currentIncreaseAttack;
@@ -266,22 +322,27 @@ public class CharacterStats : MonoBehaviour
     public void IncreaseBurstPoint(int value)
     {
         if (isDead) return;
+        //Debug.Log("IncreaseBurstPoint");
 
         characterCard.SetBurstPoint(-value);
     }
     public void ReduceSkillActionPoints(int value)
     {
         if (isDead) return;
+        //Debug.Log("ReduceSkillActionPoints");
 
         isReducingSkillActionPoints = true;
         characterCard.currentReduceSkillActionPoints = value;
+
         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
-        {
             characterSkill.actionPointCost -= characterCard.currentReduceSkillActionPoints;
+
+        if(gamePlayManager.currentTurn == TurnState.YourTurn)
+        {
+            CharacterSkill[] skill = characterCard.characterCardData.characterCard.characterSkillList.ToArray();
+            uiManager.battleCanvas.skillPanel.
+                SetActionPointCostText(skill[0].actionPointCost, skill[1].actionPointCost, skill[2].actionPointCost);
         }
-        CharacterSkill[] skill = characterCard.characterCardData.characterCard.characterSkillList.ToArray();
-        uiManager.battleCanvas.skillPanel.
-            SetActionPointCostText(skill[0].actionPointCost, skill[1].actionPointCost, skill[2].actionPointCost);
     }
     public void ApplyStatus(ActionCardActionSkillType actionCardActionSkillType)
     {
@@ -326,6 +387,8 @@ public class CharacterStats : MonoBehaviour
         {
             if (!isIncreasingAttack) return;
 
+            int temp = characterCard.currentIncreaseAttack;
+            IncreaseAttack(-temp);
             characterCard.currentIncreaseAttack = 0;
             IncreaseAttackState(false);
             RemoveStatus(StatusType.isIncreasingAttack);
@@ -352,6 +415,8 @@ public class CharacterStats : MonoBehaviour
             if (!isDoublingDamage) return;
 
             DoubleDamageState(false);
+            RemoveStatus(StatusType.isDoublingDamage);
+
             foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
             {
                 foreach (Skill skill in characterSkill.actionSkillList)
@@ -365,12 +430,14 @@ public class CharacterStats : MonoBehaviour
             if(!isSkippingRound) return;
 
             SkipRoundState(false);
+            RemoveStatus(StatusType.isSkippingRound);
         }
         if(actionCardActionSkillType == ActionCardActionSkillType.Revival)
         {
             if (!isReviving) return;
 
             RevivalState(false);
+            RemoveStatus(StatusType.isReviving);
         }
     }
     public void RemoveStatus(StatusType statusType)
@@ -388,12 +455,10 @@ public class CharacterStats : MonoBehaviour
     {
         ClearStatus(ActionCardActionSkillType.Healing);
         ClearStatus(ActionCardActionSkillType.IncreaseAttack);
-        ClearStatus(ActionCardActionSkillType.IncreaseBurstPoint);
         ClearStatus(ActionCardActionSkillType.CreateShield);
         ClearStatus(ActionCardActionSkillType.SkipRound);
         ClearStatus(ActionCardActionSkillType.DoubleDamage);
         ClearStatus(ActionCardActionSkillType.Revival);
-        ClearStatus(ActionCardActionSkillType.ReduceHealth);
     }
     public void RemoveStatusList()
     {

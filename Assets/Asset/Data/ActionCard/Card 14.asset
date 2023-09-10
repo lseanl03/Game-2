@@ -20,7 +20,7 @@ MonoBehaviour:
   cardSprite: {fileID: 1150116074, guid: 564472339b37b3c43975bdd5b3211037, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 5
+    - actionSkillType: 4
       actionTargetType: 2
       actionValue: 2
       statusList: []

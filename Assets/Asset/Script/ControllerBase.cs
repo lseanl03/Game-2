@@ -8,4 +8,5 @@ public class ControllerBase : MonoBehaviour
     protected PlayerManager playerManager => PlayerManager.instance;
     protected GamePlayManager gamePlayManager => GamePlayManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
+    protected UIManager uiManager => UIManager.instance;
 }

@@ -1,14 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class NotificationManager : MonoBehaviour
 {
     [SerializeField] private string tempMessage = string.Empty;
     [SerializeField] public float resetTextTime;
     public TextMeshProUGUI notificationText;
+    public Image notificationGround;
     public Animator animator;
 
     IEnumerator NotificationCoroutine;
@@ -40,14 +40,18 @@ public class NotificationManager : MonoBehaviour
     }
     IEnumerator FadeNotification(string message)
     {
+        notificationGround.gameObject.SetActive(true);
         tempMessage = message;
         notificationText.text = message;
         animator.SetTrigger("Fade");
         yield return new WaitForSeconds(resetTextTime);
+        notificationGround.gameObject.SetActive(false);
         notificationText.text = "";
     }
-    public void ResetText()
+    public void Reset()
     {
         notificationText.text = string.Empty;
+        notificationGround.gameObject.SetActive(false);
+
     }
 }

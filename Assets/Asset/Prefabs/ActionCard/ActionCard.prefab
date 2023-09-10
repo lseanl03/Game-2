@@ -207,25 +207,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937791bc6a1ca4c42b09cfb2df2ca62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quantitySelected: 0
-  remainingQuantity: 0
-  currentCardCost: 0
-  currentRarityType: 0
-  currentColorRarity: {r: 0, g: 0, b: 0, a: 0}
-  currentActionCardSkill: []
-  quantityText: {fileID: 224375788891855522}
-  quantityInDeckText: {fileID: 5542720435086621214}
-  quantitySelectedText: {fileID: 5625746907572199347}
+  quantityInDeck: 0
+  quantityMaxInDeck: 0
+  actionCost: 0
+  description: 
+  actionCardData: {fileID: 0}
   cardSprite: {fileID: 0}
   cardImage: {fileID: 3761293711994577081}
   backImage: {fileID: 7708493196059883027}
   cardBack: {fileID: 3761293711980732122}
-  manaText: {fileID: 7135459024925685315}
+  actionCostText: {fileID: 7135459024925685315}
+  quantityText: {fileID: 224375788891855522}
+  quantityInDeckText: {fileID: 5542720435086621214}
+  quantitySelectedText: {fileID: 5625746907572199347}
   quantityInDeckObj: {fileID: 7154328156716748433}
   quantitySelectedObj: {fileID: 2465057629188122966}
   quantityObj: {fileID: 1523072647076172134}
   manaObj: {fileID: 7708493194730771152}
-  actionCardData: {fileID: 0}
+  actionCardDragHover: {fileID: 0}
 --- !u!114 &6849636527019213701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +267,7 @@ MonoBehaviour:
   recallCardImage: {fileID: 0}
   characterCard: {fileID: 0}
   actionCard: {fileID: 0}
+  characterStats: {fileID: 0}
 --- !u!1 &2465057629188122966
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,7 +774,7 @@ GameObject:
   - component: {fileID: 2097758850293818709}
   - component: {fileID: 7135459024925685315}
   m_Layer: 5
-  m_Name: ManaText
+  m_Name: ActionCardCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1059,7 +1059,7 @@ GameObject:
   - component: {fileID: 7708493194730771155}
   - component: {fileID: 7708493194730771154}
   m_Layer: 5
-  m_Name: Mana
+  m_Name: ActionCardCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

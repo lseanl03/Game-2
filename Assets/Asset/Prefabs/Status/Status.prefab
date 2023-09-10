@@ -123,7 +123,6 @@ MonoBehaviour:
   statusDesButton: {fileID: 5331518045492247149}
   isShowing: 0
   rotateIndex: 0
-  skillDesButtonObj: {fileID: 2853210656987615884}
   statusDesObj: {fileID: 0}
 --- !u!1 &2118606892986855315
 GameObject:
@@ -381,7 +380,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1748255632609585993}
         m_TargetAssemblyTypeName: StatusTooltip, Assembly-CSharp
-        m_MethodName: DescriptionState
+        m_MethodName: ChangeDescriptionState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

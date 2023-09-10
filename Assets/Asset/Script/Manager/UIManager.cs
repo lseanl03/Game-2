@@ -33,19 +33,7 @@ public class UIManager : MonoBehaviour
         if(tooltipManager.tooltipCanvas.characterCardTooltip != null)
         {
             CharacterCardTooltip characterCardTooltip = tooltipManager.tooltipCanvas.characterCardTooltip;
-            if (characterCardTooltip.normalAtk.isShowing)
-            {
-                characterCardTooltip.normalAtk.DescriptionState();
-            }
-            if (characterCardTooltip.elementalSkill.isShowing)
-            {
-                characterCardTooltip.elementalSkill.DescriptionState();
-            }
-            if (characterCardTooltip.elementalBurst.isShowing)
-            {
-                characterCardTooltip.elementalBurst.DescriptionState();
-            }
-
+            characterCardTooltip.HideSkillDes();
             characterCardTooltip.HideStatusDes();
         }
     }

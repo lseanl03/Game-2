@@ -15,13 +15,14 @@ MonoBehaviour:
   cardName: "\u0110\u1ED3 B\u1EA3o V\u1EC7 C\xF4ng Ngh\u1EC7 Cao"
   actionCost: 30
   quantityMaxInDeck: 2
-  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c t\u1EA1o khi\xEAn ch\u1ED1ng
-    \u0111\u1EE1 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng v\xE0 t\u0103ng 2 \u0111i\u1EC3m
-    t\u1EA5n c\xF4ng cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
+  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c t\u1EA1o khi\xEAn ch\u1ED1ng
+    \u0111\u1EE1 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng v\xE0 trong hi\u1EC7p n\xE0y,
+    nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn t\u0103ng 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng
+    g\xE2y ra l\u1EA7n sau"
   cardSprite: {fileID: 877082815, guid: d3dc077a7491b0e409c36b15033da41b, type: 3}
   actionCard:
     actionSkillList:
-    - actionCardTypeList: 6
+    - actionSkillType: 5
       actionTargetType: 2
       actionValue: 2
       statusList:
@@ -30,7 +31,7 @@ MonoBehaviour:
         statusName: "\u0110\u1ED3 B\u1EA3o V\u1EC7 C\xF4ng Ngh\u1EC7 Cao"
         statusDescription: "Nh\xE2n v\u1EADt n\xE0y ch\u1ED1ng \u0111\u1EE1 2 \u0111i\u1EC3m
           s\xE1t th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp"
-    - actionCardTypeList: 4
+    - actionSkillType: 3
       actionTargetType: 2
       actionValue: 2
       statusList:

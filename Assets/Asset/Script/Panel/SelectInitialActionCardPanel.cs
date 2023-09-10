@@ -18,11 +18,17 @@ public class SelectInitialActionCardPanel : PanelBase
     public TextMeshProUGUI doneSelectCardText;
     public Button confirmButton;
     public GameObject holderActionCardToHand;
-    private void Start()
+    private void OnEnable()
     {
+        DestroyInitialActionCard();
         SetStartingHandText("Starting Hand");
         SetSelectCardToSwitchText("Select card(s) to switch");
         SpawnChooseInitialActionCard();
+        ConfirmButtonState(true);
+        SetDoneSelectCardText(string.Empty);
+    }
+    public void Update()
+    {
     }
     public void SpawnChooseInitialActionCard()
     {
@@ -35,6 +41,17 @@ public class SelectInitialActionCardPanel : PanelBase
             if (actionCard.GetComponent<Draggable>())
             {
                 actionCard.GetComponent<Draggable>().enabled = false;
+            }
+
+        }
+    }
+    public void DestroyInitialActionCard()
+    {
+        foreach (Transform t in holderActionCardToHand.transform)
+        {
+            if (t.GetComponent<ActionCard>())
+            {
+                Destroy(t.gameObject);
             }
         }
     }
@@ -54,6 +71,7 @@ public class SelectInitialActionCardPanel : PanelBase
                 cardInfo.actionCard.GetCardData(playerManager.actionCardTakenDataList[i]);
             }
         }
+
         StartCoroutine(HandleAfterGetActionCard());
     }
     IEnumerator HandleAfterGetActionCard()

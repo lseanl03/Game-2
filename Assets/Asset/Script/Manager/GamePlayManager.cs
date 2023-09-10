@@ -250,11 +250,19 @@ public class GamePlayManager : MonoBehaviour
     }
     public void HandleVictory()
     {
-        notificationManager.SetNewNotification("You win");
+        ClearStatusApplying();
+        uiManager.battleCanvas.winLosePanel.PanelState(true);
+        uiManager.battleCanvas.skillPanel.PanelState(false);
+        uiManager.battleCanvas.informationPanel.PanelState(false);
+        uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
     }
     public void HandleLose()
     {
-        notificationManager.SetNewNotification("You lose");
+        ClearStatusApplying();
+        uiManager.battleCanvas.winLosePanel.PanelState(true);
+        uiManager.battleCanvas.skillPanel.PanelState(false);
+        uiManager.battleCanvas.informationPanel.PanelState(false);
+        uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
     }
     public void ClearStatusApplying()
     {
@@ -274,13 +282,50 @@ public class GamePlayManager : MonoBehaviour
                 {
                     player.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
                 }
-                if (player.characterStats.isUsingHealing)
+                if (player.characterStats.isSatiated)
                 {
                     player.characterStats.ClearStatus(ActionCardActionSkillType.Healing);
                 }
+                if (player.characterStats.isShield)
+                {
+                    player.characterStats.ClearStatus(ActionCardActionSkillType.CreateShield);
+                }
+                if (player.characterStats.isReviving)
+                {
+                    player.characterStats.ClearStatus(ActionCardActionSkillType.Revival);
+                }
             }
         }
-
+        foreach (CharacterCard enemy in enemyCharacterList)
+        {
+            if (enemy.characterStats.isApplyingStatus)
+            {
+                if (enemy.characterStats.isSkippingRound)
+                {
+                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.SkipRound);
+                }
+                if (enemy.characterStats.isDoublingDamage)
+                {
+                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.DoubleDamage);
+                }
+                if (enemy.characterStats.isIncreasingAttack)
+                {
+                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
+                }
+                if (enemy.characterStats.isSatiated)
+                {
+                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.Healing);
+                }
+                if (enemy.characterStats.isShield)
+                {
+                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.CreateShield);
+                }
+                if (enemy.characterStats.isReviving)
+                {
+                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.Revival);
+                }
+            }
+        }
         foreach (CharacterCard enemy in enemyCharacterList)
             enemy.characterCardDragHover.SelectIconState(false);
     }

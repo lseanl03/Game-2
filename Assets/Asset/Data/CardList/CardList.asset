@@ -23,7 +23,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9bb19a763aa543d44a081882b8b321c8, type: 2}
   - {fileID: 11400000, guid: 27a00c2aa9d2e284d8bb7b983267b0b6, type: 2}
   - {fileID: 11400000, guid: 3661850a611293a459901297074ed0c4, type: 2}
-  - {fileID: 11400000, guid: f60ca1a1ed467ef44af3dc565b00b3d6, type: 2}
   actionCardList:
   - {fileID: 11400000, guid: 1cda5d3075f59d94398e2db85c46a73e, type: 2}
   - {fileID: 11400000, guid: 491515815945c8e44b7024bf257410a2, type: 2}

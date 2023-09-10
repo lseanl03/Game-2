@@ -208,6 +208,8 @@ public class SkillPanel : PanelBase
         if (currentCharacterCard.characterStats.isReducingSkillActionPoints)
         {
             currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
+            CharacterSkill[] skill = currentCharacterCard.characterCardData.characterCard.characterSkillList.ToArray();
+            SetActionPointCostText(skill[0].actionPointCost, skill[1].actionPointCost, skill[2].actionPointCost);
         }
         if (currentCharacterCard.characterStats.isDoublingDamage)
         {
@@ -216,10 +218,6 @@ public class SkillPanel : PanelBase
         if (currentCharacterCard.characterStats.isIncreasingAttack)
         {
             currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
-        }
-        if (currentCharacterCard.characterStats.isReducingSkillActionPoints)
-        {
-            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
         }
     }
 
