@@ -115,6 +115,8 @@ public class SkillPanel : PanelBase
     }
     public void HighlightActive(CharacterCardSkillType skillType)
     {
+        if (gamePlayManager.isAttacking) return;
+
         if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.YourTurn && 
             !currentCharacterCard.characterStats.isDead)
         {
@@ -144,7 +146,7 @@ public class SkillPanel : PanelBase
             {
                 foreach (Skill skill in characterSkill.actionSkillList)
                 {
-                    gamePlayManager.HighlightCardTarget(skill.actionTargetType, skill.actionValue);
+                    gamePlayManager.HighlightCardTarget(skill.actionTargetType, skill.actionValue, characterSkill.weaknessBreakValue, currentCharacterCard);
                 }
                 currentHighlightedSkill = skillType; // Cập nhật loại kỹ năng đang được highlight
             }
@@ -160,7 +162,8 @@ public class SkillPanel : PanelBase
                     playerManager.currentSkillPoint >= characterSkill.skillPointCost &&
                     currentCharacterCard.currentBurstPoint >= characterSkill.burstPointCost)
                 {
-                    UseSkill(characterSkill);
+                    StartCoroutine(UseSkill(characterSkill));
+                    
                 }
                 else
                 {
@@ -185,15 +188,17 @@ public class SkillPanel : PanelBase
         gamePlayManager.HideHighlightsCard();
     }
 
-    public void UseSkill(CharacterSkill characterSkill)
+    public IEnumerator UseSkill(CharacterSkill characterSkill)
     {
         foreach (Skill skill in characterSkill.actionSkillList)
         {
             currentCharacterCard.SetBurstPoint(characterSkill.burstPointCost);
             playerManager.ConsumeActionPoint(characterSkill.actionPointCost);
             playerManager.ConsumeSkillPoint(characterSkill.skillPointCost);
-            gamePlayManager.DealDamageToTargets(skill.actionTargetType, skill.actionValue);
+
+            StartCoroutine(gamePlayManager.DealDamageToTargets(skill.actionTargetType, skill.actionValue, characterSkill.characterCardSkillType, currentCharacterCard));
         }
+        yield return new WaitForSeconds(1);
         if(gamePlayManager.currentTurn == TurnState.YourTurn)
         {
             if (!gamePlayManager.enemyEndingRound)

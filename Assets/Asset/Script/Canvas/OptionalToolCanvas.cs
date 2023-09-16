@@ -23,17 +23,10 @@ public class OptionalToolCanvas : CanvasBase
         characterImage.healthText.text = characterCard.healthText.text;
 
         characterDescription.cardNameText.text = characterCard.nameText.text;
-        Sprite combatTypeSprite = characterCard.characterCardData.characterCard.combatType.combatTypeSprite;
+        Sprite combatTypeSprite = characterCard.characterCardData.characterCard.combat.combatTypeSprite;
         characterDescription.combatTypeImage.sprite = combatTypeSprite;
 
         //weakness
-        Weakness[] weakness = currentCharacterCard.characterCardData.characterCard.weakness.ToArray();
-        if (weakness.Length >= 2)
-        {
-            characterDescription.weaknessImage1.sprite = weakness[0].weaknessTypeSprite;
-            characterDescription.weaknessImage2.sprite = weakness[1].weaknessTypeSprite;
-            characterDescription.weaknessImage3.sprite = weakness[2].weaknessTypeSprite;
-        }
 
         //skill
         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class ActionCardSkillBase
 {
-    public abstract void DoAction
-        (ActionCardData actionCardData, ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList);
+    public abstract void DoAction(ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList);
     protected GamePlayManager gamePlayManager => GamePlayManager.instance;
     protected UIManager uiManager => UIManager.instance;
 }

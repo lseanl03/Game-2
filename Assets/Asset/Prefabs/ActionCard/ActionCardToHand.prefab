@@ -226,6 +226,7 @@ MonoBehaviour:
   quantitySelectedObj: {fileID: 2465057629188122966}
   quantityObj: {fileID: 1523072647076172134}
   manaObj: {fileID: 7708493194730771152}
+  actionCardDragHover: {fileID: 0}
 --- !u!114 &2818003697511935996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321133982752143645}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8dc1e079a3ae0d45902aaf5fc089639, type: 3}
   m_Name: 
@@ -267,6 +268,7 @@ MonoBehaviour:
   recallCardImage: {fileID: 0}
   characterCard: {fileID: 0}
   actionCard: {fileID: 0}
+  characterStats: {fileID: 0}
 --- !u!1 &2465057629188122966
 GameObject:
   m_ObjectHideFlags: 0

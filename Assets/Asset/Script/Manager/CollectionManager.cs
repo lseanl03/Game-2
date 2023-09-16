@@ -16,7 +16,7 @@ public class CollectionManager : MonoBehaviour
     public static CollectionManager instance;
     protected UIManager uIManager => UIManager.instance;
     protected GameManager gameManager => GameManager.instance;
-    protected PlayerManager deckManager => PlayerManager.instance;
+    protected PlayerManager playerManager => PlayerManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class CollectionManager : MonoBehaviour
     {
         characterCardCount = characterCardDataList.Count;
         actionCardCount = actionCardDataList.Count;
-        uIManager.selectCardCanvas.QuantityCharacterCard(characterCardCount, deckManager.characterCardMaxSize);
-        uIManager.selectCardCanvas.QuantityActionCard(actionCardCount, deckManager.actionCardMaxSize);
+        uIManager.selectCardCanvas.QuantityCharacterCard(characterCardCount, playerManager.characterCardMaxSize);
+        uIManager.selectCardCanvas.QuantityActionCard(actionCardCount, playerManager.actionCardMaxSize);
     }
 }

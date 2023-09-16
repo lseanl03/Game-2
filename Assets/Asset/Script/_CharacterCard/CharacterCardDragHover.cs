@@ -18,6 +18,10 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
         characterCard = GetComponent<CharacterCard>();
         characterStats  = GetComponent<CharacterStats>();
     }
+    public void Update()
+    {
+        
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         if(transform.parent == gamePlayManager.gamePlayCanvas.playerCharacterCardField.transform)

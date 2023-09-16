@@ -15,8 +15,8 @@ MonoBehaviour:
   cardName: "R\xE1c \u0110\u1EB9p \u0110\u1EBD"
   actionCost: 20
   quantityMaxInDeck: 2
-  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c h\u1ED3i 2 \u0111i\u1EC3m
-    k\u1EF9 n\u0103ng"
+  cardDescription: "D\xF9ng s\u1EBD ngay l\u1EADp t\u1EE9c h\u1ED3i <color=yellow>2</color>
+    \u0111i\u1EC3m k\u1EF9 n\u0103ng"
   cardSprite: {fileID: 1784065399, guid: c627de6c725353f49ae3153719150290, type: 3}
   actionCard:
     actionSkillList:

@@ -72,22 +72,6 @@ public class ActionCard : CardBase
         if(quantityText != null)
         quantityText.text = quantityMaxInDeck.ToString();
     }
-    public void RecallCard(int quantity) 
-    {
-        quantityInDeck -= quantity;
-        quantityMaxInDeck += quantity;
-        quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
-        quantityInDeckText.text = quantityInDeck.ToString();
-        collectionManager.actionCardDataList.Remove(actionCardData);
-    }
-    public void AddCard(int quantity)
-    {
-        quantityInDeck += quantity;
-        quantityMaxInDeck -= quantity;
-        quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
-        quantityInDeckText.text = quantityInDeck.ToString();
-        collectionManager.actionCardDataList.Add(actionCardData);
-    }
     public void ManaState(bool state)
     {
         manaObj.gameObject.SetActive(state);
@@ -112,62 +96,77 @@ public class ActionCard : CardBase
     {
         gameObject.SetActive(state);
     }
+    public void RecallCard(int quantity)
+    {
+        quantityInDeck -= quantity;
+        quantityMaxInDeck += quantity;
+        quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
+        quantityInDeckText.text = quantityInDeck.ToString();
+        collectionManager.actionCardDataList.Remove(actionCardData);
+    }
+    public void AddCard(int quantity)
+    {
+        quantityInDeck += quantity;
+        quantityMaxInDeck -= quantity;
+        quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
+        quantityInDeckText.text = quantityInDeck.ToString();
+        collectionManager.actionCardDataList.Add(actionCardData);
+    }
     public void PlayCard()
     {
-        List<CharacterCard> playerCharacterList = gamePlayManager.playerCharacterList;
-        List<CharacterCard> enemyCharacterList = gamePlayManager.enemyCharacterList;
         for (int i = 0; i < actionCardData.actionCard.actionSkillList.Count; i++)
         {
-            Debug.Log("play card");
             ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
             ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
-            List<CharacterCard> targetList = DetermineTarget(actionTargetType, playerCharacterList, enemyCharacterList);
-            DoAction(this.actionCardData, actionCardSkill, targetList, actionCardSkill.statusList);
+            List<CharacterCard> targetList = DetermineTarget(actionTargetType);
+            DoAction(actionCardSkill, targetList, actionCardSkill.statusList);
         }
     }
-    public void DoAction(ActionCardData actionCardData, ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList)
+    public void DoAction(ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList)
     {
         switch (actionCardSkill.actionSkillType)
         {
             case ActionCardActionSkillType.Healing:
                 HealingAction healingAction = new HealingAction();
-                healingAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                healingAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.IncreaseAttack:
                 IncreaseAttackAction increaseAttackAction = new IncreaseAttackAction();
-                increaseAttackAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                increaseAttackAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.SkillPointRecovery:
                 playerManager.RecoverySkillPoint(actionCardSkill.actionValue);
                 break;
             case ActionCardActionSkillType.IncreaseBurstPoint:
                 IncreaseBurstPointAction increaseBurstPointAction = new IncreaseBurstPointAction();
-                increaseBurstPointAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                increaseBurstPointAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.CreateShield:
                 CreateShiedAction createShiedAction = new CreateShiedAction();
-                createShiedAction.DoAction(actionCardData,actionCardSkill, targetList, statusList);
+                createShiedAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.ReduceSkillActionPoints:
                 ReduceSkillActionPointsAction reduceSkillActionPointsAction = new ReduceSkillActionPointsAction();
-                reduceSkillActionPointsAction.DoAction(actionCardData,actionCardSkill,targetList, statusList);
+                reduceSkillActionPointsAction.DoAction(actionCardSkill,targetList, statusList);
                 break;
             case ActionCardActionSkillType.DoubleDamage:
                 DoubleDamageAction doubleDamageAction = new DoubleDamageAction();
-                doubleDamageAction.DoAction(actionCardData,actionCardSkill,targetList,statusList);
+                doubleDamageAction.DoAction(actionCardSkill,targetList,statusList);
                 break;
             case ActionCardActionSkillType.SkipRound:
                 SkipRoundAction skipRoundAction = new SkipRoundAction();
-                skipRoundAction.DoAction(actionCardData,actionCardSkill,targetList,statusList);
+                skipRoundAction.DoAction(actionCardSkill,targetList,statusList);
                 break;
             case ActionCardActionSkillType.Revival:
                 RevivalAction revivalAction = new RevivalAction();
-                revivalAction.DoAction(actionCardData, actionCardSkill,targetList,statusList); 
+                revivalAction.DoAction(actionCardSkill,targetList,statusList); 
                 break;
         }
     }
-    public List<CharacterCard> DetermineTarget(ActionTargetType actionTargetType, List<CharacterCard> playerCharacterList, List<CharacterCard> enemyCharacterList)
+    public List<CharacterCard> DetermineTarget(ActionTargetType actionTargetType)
     {
+        List<CharacterCard> playerCharacterList = gamePlayManager.playerCharacterList;
+        List<CharacterCard> enemyCharacterList = gamePlayManager.enemyCharacterList;
         List<CharacterCard> targetList = new List<CharacterCard>();
         switch (actionTargetType)
         {
@@ -203,7 +202,7 @@ public class ActionCard : CardBase
             case ActionTargetType.DeadFirstAlly:
                 foreach(CharacterCard characterCard in playerCharacterList)
                 {
-                    if (characterCard.characterStats.isDead && characterCard.characterStats.isDeadFirst)
+                    if (characterCard.characterStats.isDeadFirst)
                     {
                         targetList.Add(characterCard);
                     }
@@ -215,21 +214,19 @@ public class ActionCard : CardBase
     public void CheckTarget()
     {
         actionCardDragHover.canPlayCard = true;
-        List<CharacterCard> playerCharacterList = gamePlayManager.playerCharacterList;
-        List<CharacterCard> enemyCharacterList = gamePlayManager.enemyCharacterList;
+
         for (int i = 0; i < actionCardData.actionCard.actionSkillList.Count; i++)
         {
             ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
             ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
-            List<CharacterCard> targetList = DetermineTarget(actionTargetType, playerCharacterList, enemyCharacterList);
+            List<CharacterCard> targetList = DetermineTarget(actionTargetType);
             bool canReturnCard = true;
             switch (actionCardSkill.actionSkillType)
             {
                 case ActionCardActionSkillType.Healing:
                     foreach (CharacterCard characterCard in targetList)
                     {
-                        if(characterCard.currentHealth < characterCard.characterCardData.maxHealth &&
-                            !characterCard.characterStats.isSatiated && !characterCard.characterStats.isDead)
+                        if(characterCard.currentHealth < characterCard.characterCardData.maxHealth && !characterCard.characterStats.isSatiated)
                         {
                             canReturnCard = false;
                         }
@@ -244,7 +241,7 @@ public class ActionCard : CardBase
                     canReturnCard = false;
                     foreach (CharacterCard characterCard in targetList)
                     {
-                        if(characterCard.characterStats.isReducingSkillActionPoints && !characterCard.characterStats.isDead)
+                        if(characterCard.characterStats.isReducingSkillActionPoints)
                         {
                             canReturnCard = true;
                         }

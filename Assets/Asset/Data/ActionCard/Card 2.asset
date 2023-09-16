@@ -15,8 +15,8 @@ MonoBehaviour:
   cardName: "C\u01A1m Chi\xEAn Kh\xF3 \u0102n"
   actionCost: 20
   quantityMaxInDeck: 2
-  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i 1 hp cho t\u1EA5t
-    c\u1EA3 nh\xE2n v\u1EADt trong \u0111\u1ED9i"
+  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i <color=yellow>1</color>
+    hp cho t\u1EA5t c\u1EA3 nh\xE2n v\u1EADt trong \u0111\u1ED9i"
   cardSprite: {fileID: 261597931, guid: d492626501aca8043a3b60063b68d44e, type: 3}
   actionCard:
     actionSkillList:

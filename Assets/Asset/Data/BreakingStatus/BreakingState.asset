@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95973176ba56284d913223a4d8fa930, type: 3}
+  m_Name: BreakingState
+  m_EditorClassIdentifier: 
+  weaknessBreakingList:
+  - weaknessType: 1
+    weaknessBreakingName: "Ch\u1EA3y m\xE1u (L\xF4i)"
+    weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+      thu\u1ED9c t\xEDnh L\xF4i"
+  - weaknessType: 2
+    weaknessBreakingName: "Ch\u1EA3y m\xE1u (V\u1EADt l\xFD)"
+    weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+      thu\u1ED9c t\xEDnh v\u1EADt l\xFD"
+  - weaknessType: 3
+    weaknessBreakingName: "Ch\u1EA3y m\xE1u (H\u1ECFa)"
+    weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+      thu\u1ED9c t\xEDnh h\u1ECFa"
+  - weaknessType: 5
+    weaknessBreakingName: "Ch\u1EA3y m\xE1u (Phong)"
+    weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+      thu\u1ED9c t\xEDnh phong"
+  - weaknessType: 6
+    weaknessBreakingName: "Ch\u1EA3y m\xE1u (L\u01B0\u1EE3ng t\u1EED)"
+    weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+      thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng t\u1EED"
+  - weaknessType: 4
+    weaknessBreakingName: "\u0110\xF3ng b\u0103ng"
+    weaknessBreakingSprite: {fileID: 563715975, guid: d140dd5959021a84ca8e582ec6c7bf6e, type: 3}
+    weaknessBreakingDescription: "Nh\xE2n v\u1EADt trong hi\u1EC7p n\xE0y b\u1ECB
+      \u0111\xF3ng b\u0103ng s\u1EBD kh\xF4ng th\u1EC3 th\u1EF1c hi\u1EC7n t\u1EA5n
+      c\xF4ng"
+  - weaknessType: 7
+    weaknessBreakingName: "Giam c\u1EA7m"
+    weaknessBreakingSprite: {fileID: -72024269, guid: 3a3e095780341d54fa7b455a00de71af, type: 3}
+    weaknessBreakingDescription: "Nh\xE2n v\u1EADt trong hi\u1EC7p n\xE0y b\u1ECB
+      giam c\u1EA7m s\u1EBD kh\xF4ng th\u1EC3 th\u1EF1c hi\u1EC7n t\u1EA5n c\xF4ng"

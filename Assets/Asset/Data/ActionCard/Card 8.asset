@@ -15,8 +15,8 @@ MonoBehaviour:
   cardName: "C\xE1nh Tay \u0110\u1ED9ng L\u1EF1c D\xF9ng 1 L\u1EA7n"
   actionCost: 40
   quantityMaxInDeck: 2
-  cardDescription: "Trong hi\u1EC7p n\xE0y, t\u1EA5t c\u1EA3 phe ta t\u0103ng 2 \u0111i\u1EC3m
-    s\xE1t th\u01B0\u01A1ng g\xE2y ra l\u1EA7n sai"
+  cardDescription: "Trong hi\u1EC7p n\xE0y, t\u1EA5t c\u1EA3 phe ta t\u0103ng <color=yellow>2</color>
+    \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng g\xE2y ra l\u1EA7n sai"
   cardSprite: {fileID: -1586584066, guid: a73fe958122fb074fbd9a9b69f00bc93, type: 3}
   actionCard:
     actionSkillList:

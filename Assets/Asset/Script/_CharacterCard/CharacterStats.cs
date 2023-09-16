@@ -1,24 +1,28 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
 
-    [Header("Status")]
+    [Header("Status List")]
     public List<Status> statusList;
+    [Header("Weakness List")]
+    public List<Combat> weaknessList;
+    [Header("Breaking List")]
+    public List<WeaknessBreaking> breakingList;
 
     public bool isChoosing;
     public bool isActionCharacter;
     public bool isDead;
     public bool isHighlighting;
     public bool isApplyingStatus;
+    public bool isApplyingWeakness;
+    public bool isApplyBreaking;
 
-    [Header("Apply Status")]
+    [Header("Status")]
     public bool isSkippingRound;
     public bool isIncreasingAttack;
     public bool isReducingSkillActionPoints;
@@ -27,8 +31,20 @@ public class CharacterStats : MonoBehaviour
     public bool isShield;
     public bool isSatiated;
     public bool isDeadFirst;
+    public bool isBleeding;
+    public bool isDetention;
+    public bool isFreezing;
 
-    [Header("Image")]
+    [Header("Weakness")]
+    public bool isFireWeakness;
+    public bool isIceWeakness;
+    public bool isImaginaryWeakness;
+    public bool isWindWeakness;
+    public bool isLightningWeakness;
+    public bool isQuantumWeakness;
+    public bool isPhysicalWeakness;
+
+    [Header("Status Image")]
     public Image deadImage;
     public Image healingStatusImage;
     public Image increaseAttackStatusImage;
@@ -37,19 +53,35 @@ public class CharacterStats : MonoBehaviour
     public Image revivalImage;
     public Image skipRoundImage;
     public Image doubleDamageImage;
+    public Image bleedImage;
+    public Image detentionImage;
+    public Image freezeImage;
 
-
-    [Header("Color")]
-    public Color colorDeadStatus;
+    [Header("Weakness Image")]
+    public Image fireImage;
+    public Image iceImage;
+    public Image imaginaryImage;
+    public Image windImage;
+    public Image lightningImage;
+    public Image quantumImage;
+    public Image physicalImage;
 
     [Header("Take Damage")]
     public GameObject takeDamageObj;
     public TextMeshProUGUI takeDamageText;
 
+    [Header("Take Weakness")]
+    public GameObject takeWeaknessObj;
+    public TextMeshProUGUI takeWeaknessText;
+
+    [Header("Data")]
+    public WeaknessStateData weaknessBreakingStateData;
+
     [Header("Component")]
     public CharacterCard characterCard;
 
     private Coroutine takeDamageCoroutine;
+    private Coroutine takeWeaknessCoroutine;
     protected TooltipManager tooltipManager => TooltipManager.instance;
     protected UIManager uiManager => UIManager.instance;
     protected GamePlayManager gamePlayManager => GamePlayManager.instance;
@@ -63,8 +95,7 @@ public class CharacterStats : MonoBehaviour
     }
     public void CheckApplyStatus()
     {
-        if(isIncreasingAttack || isReviving || isIncreasingAttack || isShield || 
-            isSatiated || isSkippingRound || isDoublingDamage)
+        if(statusList.Count > 0)
         {
             isApplyingStatus = true;
         }
@@ -72,26 +103,24 @@ public class CharacterStats : MonoBehaviour
         {
             isApplyingStatus = false;
         }
+        if (weaknessList.Count > 0)
+        {
+            isApplyingWeakness = true;
+        }
+        else
+        {
+            isApplyingWeakness = false;
+        }
+        if(breakingList.Count > 0)
+        {
+            isApplyBreaking = true;
+        }
+        else
+        {
+            isApplyBreaking = false;
+        }
     }
-    public void GetStatusInfo(Status status)
-    {
-        statusList.Add(status);
-    }
-    public void ClearStatusInfo(Status status)
-    {
-        statusList.Remove(status);
-    }
-    IEnumerator TakeDamageState(int value)
-    {
-        if (takeDamageCoroutine != null)
-            StopCoroutine(takeDamageCoroutine);
-
-        takeDamageText.text = "-" + value.ToString();
-        takeDamageObj.SetActive(false);
-        takeDamageObj.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        takeDamageObj.SetActive(false);
-    }
+    //state
     public void IncreaseAttackState(bool state)
     {
         isIncreasingAttack = state;
@@ -117,10 +146,40 @@ public class CharacterStats : MonoBehaviour
         isSkippingRound = state;
         skipRoundImage.gameObject.SetActive(state);
     }
-    private void DoubleDamageState(bool state)
+    public void DoubleDamageState(bool state)
     {
         isDoublingDamage = state;
         doubleDamageImage.gameObject.SetActive(state);
+    }
+    public IEnumerator TakeDamageState(int value)
+    {
+        if (takeDamageCoroutine != null)
+            StopCoroutine(takeDamageCoroutine);
+
+        takeDamageText.text = "-" + value.ToString();
+        takeDamageObj.SetActive(false);
+        takeDamageObj.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        takeDamageObj.SetActive(false);
+    }
+    public IEnumerator DeadState(bool state)
+    {
+        isDead = state;
+
+        SetSwitchCharacterDying();
+        SetCharacterDeadFirst();
+        yield return new WaitForSeconds(2);
+        ClearAllStatus();
+        ClearAllWeakness();
+        ClearAllBreaking();
+
+        ClearStatusList();
+        ClearWeaknessList();
+        ClearBreakingList();
+        deadImage.gameObject.SetActive(state);
+        gamePlayManager.UpdateGameState(GamePlayState.SelectBattleCharacter);
+        characterCard.characterCardDragHover.HandleCardSelected();
+        CheckAllDead();
     }
     public void SetCharacterDeadFirst()
     {
@@ -154,7 +213,6 @@ public class CharacterStats : MonoBehaviour
                 }
             }
         }
-
     }
     public void SetSwitchCharacterDying()
     {
@@ -167,53 +225,34 @@ public class CharacterStats : MonoBehaviour
             gamePlayManager.enemyCanSwitchCharacterDying = true;
         }
     }
-    public void CheckAllDead()
+    public void TakeDamage(int value)
     {
-        bool allAlliesDead = true;
-        bool allEnemiesDead = true;
-        if (allAlliesDead && allEnemiesDead)
-        {
-            foreach (CharacterCard characterCard in gamePlayManager.playerCharacterList)
-            {
-                if (!characterCard.characterStats.isDead)
-                {
-                    allAlliesDead = false;
-                    break;
-                }
-            }
-            foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
-            {
-                if (!characterCard.characterStats.isDead)
-                {
-                    allEnemiesDead = false;
-                    break;
-                }
-            }
-        }
-        if (allAlliesDead)
-        {
-            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Lose");
-            gamePlayManager.UpdateGameState(GamePlayState.Lose);
-        }
-        else if (allEnemiesDead)
-        {
-            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Win");
-            gamePlayManager.UpdateGameState(GamePlayState.Victory);
-        }
-    }
-    public IEnumerator DeadState(bool state)
-    {
-        isDead = state;
+        if (isDead) return;
+        //Debug.Log("Take Damage");
 
-        SetSwitchCharacterDying();
-        SetCharacterDeadFirst();
-        yield return new WaitForSeconds(2);
-        ClearAllStatus();
-        RemoveStatusList();
-        deadImage.gameObject.SetActive(state);
-        gamePlayManager.UpdateGameState(GamePlayState.SelectBattleCharacter);
-        characterCard.characterCardDragHover.HandleCardSelected();
-        CheckAllDead();
+        if (isShield)
+        {
+            int shieldValue = characterCard.currentShield;
+            Shield(-value);
+            value -= shieldValue;
+        }
+        if (isSkippingRound)
+        {
+            value = 0;
+        }
+        characterCard.currentHealth -= value;
+
+        if (characterCard.currentHealth <= 0)
+        {
+            characterCard.currentHealth = 0;
+            StartCoroutine(DeadState(true));
+        }
+
+        characterCard.SetHealthText();
+        characterCard.SetShieldValueText();
+
+        takeDamageCoroutine = StartCoroutine(TakeDamageState(value));
+
     }
     public void Revival(int value)
     {
@@ -260,35 +299,6 @@ public class CharacterStats : MonoBehaviour
             characterCard.currentHealth += value;
 
         characterCard.SetHealthText();
-    }
-    public void TakeDamage(int value)
-    {
-        if (isDead) return;
-        //Debug.Log("Take Damage");
-
-        if (isShield)
-        {
-            int shieldValue = characterCard.currentShield;
-            Shield(-value);
-            value -= shieldValue;
-        }
-        if (isSkippingRound)
-        {
-            value = 0;
-        }
-        characterCard.currentHealth -= value;
-
-        if (characterCard.currentHealth <= 0)
-        {
-            characterCard.currentHealth = 0;
-            StartCoroutine(DeadState(true));
-        }
-
-        characterCard.SetHealthText();
-        characterCard.SetShieldValueText();
-
-        takeDamageCoroutine = StartCoroutine(TakeDamageState(value));
-
     }
     public void Shield(int value)
     {
@@ -344,36 +354,60 @@ public class CharacterStats : MonoBehaviour
                 SetActionPointCostText(skill[0].actionPointCost, skill[1].actionPointCost, skill[2].actionPointCost);
         }
     }
+    public void CheckAllDead()
+    {
+        bool allAlliesDead = true;
+        bool allEnemiesDead = true;
+        if (allAlliesDead && allEnemiesDead)
+        {
+            foreach (CharacterCard characterCard in gamePlayManager.playerCharacterList)
+            {
+                if (!characterCard.characterStats.isDead)
+                {
+                    allAlliesDead = false;
+                    break;
+                }
+            }
+            foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
+            {
+                if (!characterCard.characterStats.isDead)
+                {
+                    allEnemiesDead = false;
+                    break;
+                }
+            }
+        }
+        if (allAlliesDead)
+        {
+            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Lose");
+            gamePlayManager.UpdateGameState(GamePlayState.Lose);
+        }
+        else if (allEnemiesDead)
+        {
+            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Win");
+            gamePlayManager.UpdateGameState(GamePlayState.Victory);
+        }
+    }
     public void ApplyStatus(ActionCardActionSkillType actionCardActionSkillType)
     {
         if (isDead) return;
 
-        if (actionCardActionSkillType == ActionCardActionSkillType.Healing)
+        switch (actionCardActionSkillType)
         {
-            SatiatedState(true);
-        }
-        if(actionCardActionSkillType == ActionCardActionSkillType.IncreaseAttack)
-        {
-            IncreaseAttackState(true);
-        }
-        if(actionCardActionSkillType == ActionCardActionSkillType.CreateShield)
-        {
-            ShieldState(true);
-        }
-        if(actionCardActionSkillType == ActionCardActionSkillType.DoubleDamage)
-        {
-            DoubleDamageState(true);
-        }
-        if(actionCardActionSkillType == ActionCardActionSkillType.SkipRound)
-        {
-            SkipRoundState(true);
-        }
-        if(actionCardActionSkillType == ActionCardActionSkillType.Revival)
-        {
-            RevivalState(true);
+            case ActionCardActionSkillType.Healing: SatiatedState(true); 
+                break;
+            case ActionCardActionSkillType.IncreaseAttack: IncreaseAttackState(true); 
+                break;
+            case ActionCardActionSkillType.CreateShield: ShieldState(true); 
+                break;
+            case ActionCardActionSkillType.DoubleDamage: DoubleDamageState(true); 
+                break;
+            case ActionCardActionSkillType.SkipRound: SkipRoundState(true); 
+                break;
+            case ActionCardActionSkillType.Revival: RevivalState(true); 
+                break;
         }
     }
-
     public void ClearStatus(ActionCardActionSkillType actionCardActionSkillType)
     {
         if(actionCardActionSkillType == ActionCardActionSkillType.Healing)
@@ -390,6 +424,7 @@ public class CharacterStats : MonoBehaviour
             int temp = characterCard.currentIncreaseAttack;
             IncreaseAttack(-temp);
             characterCard.currentIncreaseAttack = 0;
+
             IncreaseAttackState(false);
             RemoveStatus(StatusType.isIncreasingAttack);
         }
@@ -398,6 +433,7 @@ public class CharacterStats : MonoBehaviour
             if(!isShield) return;
 
             characterCard.currentShield = 0;
+
             ShieldState(false);
             RemoveStatus(StatusType.isShield);
         }
@@ -414,9 +450,6 @@ public class CharacterStats : MonoBehaviour
         {
             if (!isDoublingDamage) return;
 
-            DoubleDamageState(false);
-            RemoveStatus(StatusType.isDoublingDamage);
-
             foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
             {
                 foreach (Skill skill in characterSkill.actionSkillList)
@@ -424,6 +457,9 @@ public class CharacterStats : MonoBehaviour
                     skill.actionValue /= 2;
                 }
             }
+
+            DoubleDamageState(false);
+            RemoveStatus(StatusType.isDoublingDamage);
         }
         if(actionCardActionSkillType == ActionCardActionSkillType.SkipRound)
         {
@@ -453,15 +489,326 @@ public class CharacterStats : MonoBehaviour
     }
     public void ClearAllStatus()
     {
+        isApplyingStatus = false;
         ClearStatus(ActionCardActionSkillType.Healing);
         ClearStatus(ActionCardActionSkillType.IncreaseAttack);
         ClearStatus(ActionCardActionSkillType.CreateShield);
         ClearStatus(ActionCardActionSkillType.SkipRound);
         ClearStatus(ActionCardActionSkillType.DoubleDamage);
-        ClearStatus(ActionCardActionSkillType.Revival);
+        ClearStatus(ActionCardActionSkillType.Revival);   
     }
-    public void RemoveStatusList()
+    public void ClearAllWeakness()
+    {
+        isApplyingStatus = false;
+        ClearWeakness(WeaknessType.Lightning);
+        ClearWeakness(WeaknessType.Ice);
+        ClearWeakness(WeaknessType.Fire);
+        ClearWeakness(WeaknessType.Wind);
+        ClearWeakness(WeaknessType.Quantum);
+        ClearWeakness(WeaknessType.Imaginary);
+        ClearWeakness(WeaknessType.Physical);
+    }
+    public void ClearAllBreaking()
+    {
+        isApplyBreaking = false;
+        ClearBreaking(WeaknessType.Ice);
+        ClearBreaking(WeaknessType.Imaginary);
+        ClearBreaking(WeaknessType.Fire);
+        ClearBreaking(WeaknessType.Physical);
+        ClearBreaking(WeaknessType.Wind);
+        ClearBreaking(WeaknessType.Lightning);
+        ClearBreaking(WeaknessType.Quantum);
+    }
+    public void ClearStatusList()
     {
         statusList.Clear();
+    }
+    public void ClearWeaknessList()
+    {
+        weaknessList.Clear();
+    }
+    public void ClearBreakingList()
+    {
+        breakingList.Clear();
+    }
+
+    //-------------------------weakness
+    public IEnumerator Bleed(WeaknessType weaknessType ,int value)
+    {
+        TakeDamage(1);
+        yield return new WaitForSeconds(1);
+        TakeWeakness(weaknessType, 0);
+    }
+    public void FireWeaknessState(bool state)
+    {
+        isFireWeakness = state;
+        fireImage.gameObject.SetActive(state);
+    }
+    public void IceWeaknessState(bool state)
+    {
+        isIceWeakness = state;
+        iceImage.gameObject.SetActive(state);
+    }
+    public void QuantumWeaknessState(bool state)
+    {
+        isQuantumWeakness = state;
+        quantumImage.gameObject.SetActive(state);
+    }
+    public void WindWeaknessState(bool state)
+    {
+        isWindWeakness = state;
+        windImage.gameObject.SetActive(state);
+    }
+    public void ImaginaryWeaknessState(bool state)
+    {
+        isImaginaryWeakness = state;
+        imaginaryImage.gameObject.SetActive(state);
+    }
+    public void PhysicalWeaknessState(bool state)
+    {
+        isPhysicalWeakness = state;
+        physicalImage.gameObject.SetActive(state);
+    }
+    public void LightningWeaknessState(bool state)
+    {
+        isLightningWeakness = state;
+        lightningImage.gameObject.SetActive(state);
+    }
+    public void BleedState(bool state)
+    {
+        isBleeding = state;
+        bleedImage.gameObject.SetActive(state);
+    }
+    public void DetentionState(bool state)
+    {
+        isDetention = state;
+        detentionImage.gameObject.SetActive(state);
+    }
+    public void FreezeState(bool state)
+    {
+        isFreezing = state;
+        freezeImage.gameObject.SetActive(state);
+    }
+    public void TakeDamageWeakness(int value, WeaknessType weaknessType)
+    {
+        if (isDead || isApplyBreaking) return;
+        characterCard.currentWeakness -= value;
+        if(characterCard.currentWeakness <= 0)
+        {
+            characterCard.currentWeakness = 0;
+            StartCoroutine(WeaknessBreakingState(true, weaknessType));
+            AddBreaking(weaknessType);
+        }
+        characterCard.SetWeaknessText();
+
+        takeWeaknessCoroutine = StartCoroutine(TakeWeaknessState(value));
+    }
+    public IEnumerator TakeWeaknessState(int value)
+    {
+        if (takeWeaknessCoroutine != null)
+            StopCoroutine(takeWeaknessCoroutine);
+
+        takeWeaknessText.text = "-" + value.ToString();
+        takeWeaknessObj.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        takeWeaknessObj.SetActive(false);
+    }
+    public IEnumerator WeaknessBreakingState(bool state, WeaknessType weaknessType)
+    {
+        switch (weaknessType)
+        {
+            case WeaknessType.Imaginary:
+                DetentionState(state);
+                break;
+            case WeaknessType.Ice:
+                FreezeState(state);
+                break;
+            default:
+                BleedState(state);
+                break;
+        }
+        yield return null;
+    }
+    public void TakeWeakness(WeaknessType weaknessType, int value)
+    {
+        if (isDead) return;
+
+        switch (weaknessType)
+        {
+            case WeaknessType.Fire:
+                if (isFireWeakness)
+                {
+                    TakeDamageWeakness(value, weaknessType);
+                    ClearWeakness(weaknessType);
+                    return;
+                }
+                FireWeaknessState(true);
+                break;
+
+            case WeaknessType.Ice:
+                if (isIceWeakness)
+                {
+                    TakeDamageWeakness(value, weaknessType);
+                    ClearWeakness(weaknessType);
+                    return;
+                }
+                IceWeaknessState(true);
+                break;
+
+            case WeaknessType.Quantum:
+                if (isQuantumWeakness)
+                {
+                    TakeDamageWeakness(value, weaknessType);
+                    ClearWeakness(weaknessType);
+                    return;
+                }
+                QuantumWeaknessState(true);
+                break;
+
+            case WeaknessType.Imaginary:
+                if (isImaginaryWeakness)
+                {
+                    TakeDamageWeakness(value, weaknessType);
+                    ClearWeakness(weaknessType);
+                    return;
+                }
+                ImaginaryWeaknessState(true);
+                break;
+
+            case WeaknessType.Lightning:
+                if (isLightningWeakness)
+                {
+                    TakeDamageWeakness(value, weaknessType);
+
+                    ClearWeakness(weaknessType);
+                    return;
+                }
+                LightningWeaknessState(true);
+                break;
+
+            case WeaknessType.Wind:
+                if (isWindWeakness)
+                {
+                    TakeDamageWeakness(value, weaknessType);
+
+                    ClearWeakness(weaknessType);
+                    return;
+                }
+                WindWeaknessState(true);
+                break;
+
+            case WeaknessType.Physical:
+                if (isPhysicalWeakness)
+                {
+                    TakeDamageWeakness(value, weaknessType);
+
+                    ClearWeakness(weaknessType);
+                    return;
+                }
+                PhysicalWeaknessState(true);
+                break;
+        }
+    }
+    public void ClearBreaking(WeaknessType weaknessType)
+    {
+        switch (weaknessType)
+        {
+            case WeaknessType.Ice:
+                FreezeState(false);
+                RemoveBreaking(weaknessType);
+                break;
+            case WeaknessType.Imaginary:
+                DetentionState(false);
+                RemoveBreaking(weaknessType);
+                break;
+            default:
+                BleedState(false);
+                RemoveBreaking(weaknessType);
+                break;
+        }
+    }
+    public void AddBreaking(WeaknessType weaknessType)
+    {
+        foreach (WeaknessBreaking weaknessBreaking in weaknessBreakingStateData.weaknessBreakingList)
+        {
+            if (weaknessType == weaknessBreaking.weaknessType)
+            {
+                breakingList.Add(weaknessBreaking);
+            }
+        }
+    }
+    public void RemoveBreaking(WeaknessType weaknessType)
+    {
+        if (breakingList.Count == 0) return; 
+        foreach(WeaknessBreaking weaknessBreaking in breakingList)
+        {
+            if(weaknessType == weaknessBreaking.weaknessType)
+            {
+                breakingList.Remove(weaknessBreaking);
+                break;
+            }
+        }
+    }
+    public void ClearWeakness(WeaknessType weaknessType)
+    {
+        switch (weaknessType)
+        {
+            case WeaknessType.Fire:
+                FireWeaknessState(false);
+                RemoveWeakness(weaknessType);
+                break;
+            case WeaknessType.Ice:
+                IceWeaknessState(false);
+                RemoveWeakness(weaknessType);
+                break;
+            case WeaknessType.Quantum:
+                QuantumWeaknessState(false);
+                RemoveWeakness(weaknessType);
+                break;
+            case WeaknessType.Imaginary:
+                ImaginaryWeaknessState(false);
+                RemoveWeakness(weaknessType);
+                break;
+            case WeaknessType.Lightning:
+                LightningWeaknessState(false);
+                RemoveWeakness(weaknessType);
+                break;
+            case WeaknessType.Wind:
+                WindWeaknessState(false);
+                RemoveWeakness(weaknessType);
+                break;
+            case WeaknessType.Physical:
+                PhysicalWeaknessState(false);
+                RemoveWeakness(weaknessType);
+                break;
+        }
+    }
+    public void AddWeakness(Combat weakness)
+    {
+        bool canAddWeakness = true;
+        foreach (Combat w in weaknessList)
+        {
+            if (w == weakness)
+            {
+                canAddWeakness = false;
+                break;
+            }
+        }
+        if (canAddWeakness)
+        {
+            weaknessList.Add(weakness);
+        }
+    }
+    public void RemoveWeakness(WeaknessType weaknessType)
+    {
+        if (weaknessList.Count == 0) return;
+        foreach (Combat weakness in weaknessList)
+        {
+            if (weaknessType == weakness.combatType)
+            {
+                weaknessList.Remove(weakness);
+                break;
+            }
+        }
     }
 }

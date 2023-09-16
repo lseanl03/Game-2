@@ -16,52 +16,52 @@ MonoBehaviour:
   description: This is Character Card
   cardSprite: {fileID: 21300000, guid: ba47a9ac7ea8377469cb446378c400da, type: 3}
   maxHealth: 20
+  maxWeakness: 5
   burstPointMax: 3
   quantityMax: 1
   characterCard:
     characterSkillList:
     - characterCardSkillType: 1
       skillSprite: {fileID: -76529000, guid: ca14e50e2b998e548b4acd14957effea, type: 3}
-      descriptionSkill: "G\xE2y 2 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(+1 \u0111i\u1EC3m
-        k\u1EF9 n\u0103ng, +1 \u0111i\u1EC3m n\u1ED9)"
+      descriptionSkill: "G\xE2y <color=yellow>2</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>+1</color>
+        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>+1</color> \u0111i\u1EC3m
+        n\u1ED9)"
       actionPointCost: 30
       skillPointCost: -1
       burstPointCost: -1
+      weaknessBreakValue: 1
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 2
     - characterCardSkillType: 2
       skillSprite: {fileID: 115588592, guid: 8fb847aff0110044cbc00dbab315b0a5, type: 3}
-      descriptionSkill: "G\xE2y 3 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-1 \u0111i\u1EC3m
-        k\u1EF9 n\u0103ng, +1 \u0111i\u1EC3m n\u1ED9)"
+      descriptionSkill: "G\xE2y <color=yellow>3</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>-1</color>
+        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>-1</color> \u0111i\u1EC3m
+        n\u1ED9)"
       actionPointCost: 30
       skillPointCost: 1
       burstPointCost: -1
+      weaknessBreakValue: 2
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 3
     - characterCardSkillType: 3
       skillSprite: {fileID: 1950678012, guid: 0df9cdc74383a9548ad2fcc394a4e8f4, type: 3}
-      descriptionSkill: "G\xE2y 4 \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(-2 \u0111i\u1EC3m
-        k\u1EF9 n\u0103ng, -3 \u0111i\u1EC3m n\u1ED9)"
+      descriptionSkill: "G\xE2y <color=yellow>4</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>-2</color>
+        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>-3</color> \u0111i\u1EC3m
+        n\u1ED9)"
       actionPointCost: 40
       skillPointCost: 2
       burstPointCost: 3
+      weaknessBreakValue: 3
       actionSkillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 4
     destinyType: 3
     descriptionDestiny: This is Destiny
-    combatType:
-      combatType: 0
+    combat:
+      combatType: 1
       combatTypeSprite: {fileID: -1012349688, guid: 5467a3b500c60b740a61f967e72da328, type: 3}
-    weakness:
-    - weaknessType: 4
-      weaknessTypeSprite: {fileID: -1237649294, guid: 87711186d17aae54a859bf28723d4d17, type: 3}
-    - weaknessType: 1
-      weaknessTypeSprite: {fileID: -454675416, guid: 3d3440b0558ddf44fa93470ed6ea68fa, type: 3}
-    - weaknessType: 2
-      weaknessTypeSprite: {fileID: 1259190384, guid: e9e8e939d830b3e45aa5ecc94f37267f, type: 3}

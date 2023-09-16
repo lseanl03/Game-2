@@ -12,6 +12,7 @@ public enum SceneType
 public class SceneChanger : MonoBehaviour
 {
     public SceneType currentScene;
+
     public static SceneChanger instance;
     protected GameManager gameManager => GameManager.instance;
     protected PlayerManager deckManager => PlayerManager.instance;
@@ -34,7 +35,6 @@ public class SceneChanger : MonoBehaviour
     private void Start()
     {
         SceneChange(currentScene);
-
     }
     public void SceneChange(SceneType sceneType)
     {
@@ -49,6 +49,7 @@ public class SceneChanger : MonoBehaviour
                 break; 
             case SceneType.SelectCard:
                 SceneManager.LoadScene("SelectCard");
+
                 if(collectionManager != null)
                 {
                     collectionManager.optionalToolCanvas.CanvasState(false);

@@ -10,6 +10,7 @@ public class CharacterCardDataBase : ScriptableObject
     public Sprite cardSprite;
 
     public int maxHealth = 20;
+    public int maxWeakness = 5;
     public int burstPointMax = 3;
     public int quantityMax = 1;
 
@@ -27,10 +28,7 @@ public class CharacterCardBase
     [TextArea] public string descriptionDestiny;
 
     [Header("CombatType")]
-    public CombatType combatType;
-
-    [Header("Weakness")]
-    public List<Weakness> weakness;
+    public Combat combat;
 }
 
 [Serializable]
@@ -42,6 +40,7 @@ public class CharacterSkill
     public int actionPointCost;
     public int skillPointCost;
     public int burstPointCost;
+    public int weaknessBreakValue;
 
     public List<Skill> actionSkillList;
 }
@@ -56,17 +55,10 @@ public class Skill
 
 [Serializable]
 
-public class CombatType
+public class Combat
 {
     public WeaknessType combatType;
     public Sprite combatTypeSprite;
-}
-
-[Serializable]
-public  class Weakness
-{
-    public WeaknessType weaknessType;
-    public Sprite weaknessTypeSprite;
 }
 public enum CharacterCardSkillType
 {
@@ -87,6 +79,7 @@ public enum DestinyType
 }
 public enum WeaknessType
 {
+    None,
     Lightning, //lôi
     Physical, //vật lý
     Fire, //hỏa

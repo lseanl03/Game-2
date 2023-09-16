@@ -16,8 +16,8 @@ MonoBehaviour:
   actionCost: 40
   quantityMaxInDeck: 2
   cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c k\u1EBFt th\xFAc l\u01B0\u1EE3t
-    c\u1EE7a m\xECnh, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn phe ta s\u1EBD kh\xF4ng
-    ph\u1EA3i ch\u1ECBu s\xE1t th\u01B0\u01A1ng trong hi\u1EC7p n\xE0y"
+    c\u1EE7a m\xECnh, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn phe ta s\u1EBD <color=yellow>kh\xF4ng
+    ph\u1EA3i ch\u1ECBu</color> s\xE1t th\u01B0\u01A1ng trong hi\u1EC7p n\xE0y"
   cardSprite: {fileID: 1437994934, guid: 5e987ec122bdb154abdc4565389d598c, type: 3}
   actionCard:
     actionSkillList:

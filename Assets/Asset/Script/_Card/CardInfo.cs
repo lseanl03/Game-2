@@ -20,6 +20,10 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         actionCard = GetComponent<ActionCard>();
         characterStats = GetComponent<CharacterStats>();
     }
+    void Update()
+    {
+        
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Left)
@@ -83,10 +87,15 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
     }
     public void CheckApplyStatus()
     {
+        tooltipManager.tooltipCanvas.characterCardTooltip.StatusDescriptionObjState(true);
+
         if (characterStats.isApplyingStatus)
         {
-            tooltipManager.tooltipCanvas.characterCardTooltip.StatusDescriptionObjState(true);
             tooltipManager.tooltipCanvas.characterCardTooltip.GetStatusInfo(characterStats.statusList);
+        }
+        else if (characterStats.isApplyBreaking)
+        {
+            tooltipManager.tooltipCanvas.characterCardTooltip.GetBreakingStatusInfo(characterStats.breakingList);
         }
         else
         {

@@ -16,7 +16,8 @@ MonoBehaviour:
   actionCost: 30
   quantityMaxInDeck: 2
   cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i sinh cho nh\xE2n v\u1EADt
-    ch\u1EBFt \u0111\u1EA7u ti\xEAn c\u1EE7a phe ta v\u1EDBi 1 hp"
+    ch\u1EBFt \u0111\u1EA7u ti\xEAn c\u1EE7a phe ta v\u1EDBi <color=yellow>1</color>
+    hp"
   cardSprite: {fileID: 813053508, guid: f55cbf2d59fd8f049bdcaa8347d3a7ff, type: 3}
   actionCard:
     actionSkillList:

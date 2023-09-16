@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum ActionState
@@ -43,8 +44,8 @@ public class EnemyAIController : ControllerBase
             {
                 actioned = true;
                 yield return new WaitForSeconds(1);
-                //yield return StartCoroutine(Action(ActionState.UseActionCard));
-                yield return new WaitForSeconds(Random.Range(2,3));
+                yield return StartCoroutine(Action(ActionState.UseActionCard));
+                yield return new WaitForSeconds(1);
                 yield return StartCoroutine(Action(ActionState.Attack));
                 actioned = false;
             }
@@ -90,19 +91,18 @@ public class EnemyAIController : ControllerBase
     }
     public void HandleAttackState()
     {
-        if (gamePlayManager.currentTurn == TurnState.YourTurn) return;
+        if (gamePlayManager.currentTurn == TurnState.YourTurn || gamePlayManager.isAttacking) return;
 
         foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
         {
             if (characterCard.characterStats.isActionCharacter && !characterCard.characterStats.isDead)
             {
-                SkillSelection(characterCard);
+                SkillSelection();
             }
         }
     }
     public IEnumerator HandleSwitchCharacter()
     {
-        yield return null;
         foreach(CharacterCard characterCard in gamePlayManager.enemyCharacterList)
         {
             if (!characterCard.characterStats.isDead)
@@ -116,11 +116,13 @@ public class EnemyAIController : ControllerBase
         {
             gamePlayManager.UpdateGameState(GamePlayState.ActionPhase);
         }
+        yield return null;
     }
     private IEnumerator HandleUseActionCard()
     {
-        yield return null;
-        foreach(ActionCard actionCard in gamePlayManager.enemyActionCardList)
+        if (gamePlayManager.currentTurn == TurnState.YourTurn || gamePlayManager.isAttacking) yield return null;
+
+        foreach (ActionCard actionCard in gamePlayManager.enemyActionCardList)
         {
             CheckTarget(actionCard);
 
@@ -130,6 +132,7 @@ public class EnemyAIController : ControllerBase
             }
             break;
         }
+        yield return null;
     }
     public void ActionCardAction(ActionCard actionCard)
     {
@@ -148,7 +151,7 @@ public class EnemyAIController : ControllerBase
             ActionCardSkill actionCardSkill = actionCard.actionCardData.actionCard.actionSkillList[i];
             ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
             List<CharacterCard> targetList = EnemyDetermineTarget(actionTargetType, playerCharacterList, enemyCharacterList);
-            EnemyDoAction(actionCard.actionCardData, actionCardSkill, targetList, actionCardSkill.statusList);
+            EnemyDoAction(actionCardSkill, targetList, actionCardSkill.statusList);
         }
         uiManager.battleCanvas.playCardPanel.PanelState(true);
         uiManager.battleCanvas.playCardPanel.GetCardInfo(actionCard, actionCard.actionCardDragHover);
@@ -203,44 +206,44 @@ public class EnemyAIController : ControllerBase
         }
         return targetList;
     }
-    public void EnemyDoAction(ActionCardData actionCardData, ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList)
+    public void EnemyDoAction(ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList)
     {
         switch (actionCardSkill.actionSkillType)
         {
             case ActionCardActionSkillType.Healing:
                 HealingAction healingAction = new HealingAction();
-                healingAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                healingAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.IncreaseAttack:
                 IncreaseAttackAction increaseAttackAction = new IncreaseAttackAction();
-                increaseAttackAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                increaseAttackAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.SkillPointRecovery:
                 enemyManager.RecoverySkillPoint(actionCardSkill.actionValue);
                 break;
             case ActionCardActionSkillType.IncreaseBurstPoint:
                 IncreaseBurstPointAction increaseBurstPointAction = new IncreaseBurstPointAction();
-                increaseBurstPointAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                increaseBurstPointAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.CreateShield:
                 CreateShiedAction createShiedAction = new CreateShiedAction();
-                createShiedAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                createShiedAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.ReduceSkillActionPoints:
                 ReduceSkillActionPointsAction reduceSkillActionPointsAction = new ReduceSkillActionPointsAction();
-                reduceSkillActionPointsAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                reduceSkillActionPointsAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.DoubleDamage:
                 DoubleDamageAction doubleDamageAction = new DoubleDamageAction();
-                doubleDamageAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                doubleDamageAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.SkipRound:
                 SkipRoundAction skipRoundAction = new SkipRoundAction();
-                skipRoundAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                skipRoundAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
             case ActionCardActionSkillType.Revival:
                 RevivalAction revivalAction = new RevivalAction();
-                revivalAction.DoAction(actionCardData, actionCardSkill, targetList, statusList);
+                revivalAction.DoAction(actionCardSkill, targetList, statusList);
                 break;
         }
     }
@@ -303,17 +306,17 @@ public class EnemyAIController : ControllerBase
             }
         }
     }
-        public void SkillSelection(CharacterCard characterCard)
+        public void SkillSelection()
     {
         if(gamePlayManager.currentState != GamePlayState.SelectBattleCharacter)
         {
-            foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
+            foreach (CharacterSkill characterSkill in currentCharacterCard.characterCardData.characterCard.characterSkillList)
             {
-                if (characterCard.currentBurstPoint >= characterCard.characterCardData.burstPointMax)
+                if (currentCharacterCard.currentBurstPoint >= currentCharacterCard.characterCardData.burstPointMax)
                 {
                     if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
                     {
-                        PerformSkill(characterCard, characterSkill);
+                        PerformSkill(characterSkill);
                         return;
                     }
                 }
@@ -324,7 +327,7 @@ public class EnemyAIController : ControllerBase
                     {
                         if (characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
                         {
-                            PerformSkill(characterCard, characterSkill);
+                            PerformSkill(characterSkill);
                             return;
                         }
 
@@ -333,7 +336,7 @@ public class EnemyAIController : ControllerBase
                     {
                         if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
                         {
-                            PerformSkill(characterCard, characterSkill);
+                            PerformSkill(characterSkill);
                             return;
 
                         }
@@ -342,29 +345,30 @@ public class EnemyAIController : ControllerBase
             }
         }
     }
-    public void PerformSkill(CharacterCard characterCard, CharacterSkill characterSkill)
+    public void PerformSkill( CharacterSkill characterSkill)
     {
         if (enemyManager.currentActionPoint >= characterSkill.actionPointCost)
         {
-            foreach (Skill skill in characterSkill.actionSkillList)
-            {
-                UseSkill(characterCard, characterSkill, skill.actionTargetType, skill.actionValue);
-            }
+            StartCoroutine(UseSkill(characterSkill));
         }
         else
         {
             StartCoroutine(gamePlayManager.EnemyEndRound());
         }
     }
-    public void UseSkill(CharacterCard characterCard, CharacterSkill characterSkill, ActionTargetType actionTargetType, int actionValue)
+    public IEnumerator UseSkill(CharacterSkill characterSkill)
     {
-        enemyManager.ConsumeSkillPoint(characterSkill.skillPointCost);
-        characterCard.SetBurstPoint(characterSkill.burstPointCost);
-        enemyManager.ConsumeActionPoint(characterSkill.actionPointCost);
-        if(actionTargetType == ActionTargetType.Enemy)
+        foreach (Skill skill in characterSkill.actionSkillList)
         {
-            gamePlayManager.DealDamageToTargets(ActionTargetType.Ally, actionValue);
+            enemyManager.ConsumeSkillPoint(characterSkill.skillPointCost);
+            enemyManager.ConsumeActionPoint(characterSkill.actionPointCost);
+            currentCharacterCard.SetBurstPoint(characterSkill.burstPointCost);
+            if (skill.actionTargetType == ActionTargetType.Enemy)
+            {
+                StartCoroutine(gamePlayManager.DealDamageToTargets(ActionTargetType.Ally, skill.actionValue, characterSkill.characterCardSkillType, currentCharacterCard));
+            }
         }
+        yield return new WaitForSeconds(1);
         if (gamePlayManager.currentTurn == TurnState.EnemyTurn)
         {
             if (!gamePlayManager.playerEndingRound)
@@ -373,17 +377,17 @@ public class EnemyAIController : ControllerBase
                 notificationManager.SetNewNotification("Enemy turn continues...");
         }
 
-        if (characterCard.characterStats.isReducingSkillActionPoints)
+        if (currentCharacterCard.characterStats.isReducingSkillActionPoints)
         {
-            characterCard.characterStats.ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
+            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
         }
-        if (characterCard.characterStats.isDoublingDamage)
+        if (currentCharacterCard.characterStats.isDoublingDamage)
         {
-            characterCard.characterStats.ClearStatus(ActionCardActionSkillType.DoubleDamage);
+            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.DoubleDamage);
         }
-        if (characterCard.characterStats.isIncreasingAttack)
+        if (currentCharacterCard.characterStats.isIncreasingAttack)
         {
-            characterCard.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
+            currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
         }
     }
 }

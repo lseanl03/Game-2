@@ -23,31 +23,36 @@ public class CharacterCardTooltip : MonoBehaviour
     public Image weaknessImage2;
     public Image weaknessImage3;
 
-    [Header("NormalAttack")]
+    [Header("Normal Attack")]
     public Image normalAttackImage;
     public TextMeshProUGUI normalAttackCostText;
     public TextMeshProUGUI normalAttackNameText;
     public Button normalAttackDesButton;
     public TextMeshProUGUI normalAttackDesText;
 
-    [Header("ElementalSkill")]
+    [Header("Elemental Skill")]
     public Image elementalSkillImage;
     public TextMeshProUGUI elementalSkillCostText;
     public TextMeshProUGUI elementalSkillNameText;
     public Button elementalSkillDesButton;
     public TextMeshProUGUI elementalSkillDesText;
 
-    [Header("ElementalBurst")]
+    [Header("Elemental Burst")]
     public Image elementalBurstImage;
     public TextMeshProUGUI elementalBurstCostText;
     public TextMeshProUGUI elementalBurstNameText;
     public Button elementalBurstDesButton;
     public TextMeshProUGUI elementalBurstDesText;
 
-    [Header("CharacterStatus")]
     public GameObject statusDescriptionObj;
+
+    [Header("Status")]
     public List<StatusTooltip> statusTooltipList;
     public List<StatusDesTooltip> statusDesTooltipList;
+
+    [Header("Breaking Status")]
+    public List <BreakingTooltip> breakingTooltipList;
+    public List <BreakingDesTooltip> breakingDesTooltipList;
 
     [Header("Data")]
     public CharacterCard currentCharacterCard;
@@ -111,22 +116,62 @@ public class CharacterCardTooltip : MonoBehaviour
             }
         }
     }
+    public void GetBreakingStatusInfo(List<WeaknessBreaking> breakingList)
+    {
+        for (int i = 0; i < breakingList.Count; i++)
+        {
+            breakingTooltipList[i].gameObject.SetActive(true);
+            breakingTooltipList[i].statusImage.sprite = breakingList[i].weaknessBreakingSprite;
+            breakingTooltipList[i].statusNameText.text = breakingList[i].weaknessBreakingName;
+
+            breakingDesTooltipList[i].statusDesText.text = breakingList[i].weaknessBreakingDescription;
+        }
+        for (int i = 0; i < breakingTooltipList.Count; i++)
+        {
+            if (i >= breakingList.Count)
+            {
+                breakingTooltipList[i].gameObject.SetActive(false);
+            }
+        }
+        for (int i = 0; i < breakingDesTooltipList.Count; i++)
+        {
+            if (i >= breakingList.Count)
+            {
+                breakingDesTooltipList[i].statusDesText.text = string.Empty;
+            }
+        }
+    }
     public void GetCharacterCardInfo(CharacterCard characterCard)
     {
         currentCharacterCard = characterCard;
 
         characterCardImage.sprite = currentCharacterCard.characterCardData.cardSprite;
         cardNameText.text = currentCharacterCard.characterCardData.characterName;
-        combatTypeImage.sprite = currentCharacterCard.characterCardData.characterCard.combatType.combatTypeSprite;
+        combatTypeImage.sprite = currentCharacterCard.characterCardData.characterCard.combat.combatTypeSprite;
         healthText.text = currentCharacterCard.currentHealth.ToString();
 
         //weakness
-        Weakness[] weakness = currentCharacterCard.characterCardData.characterCard.weakness.ToArray();
-        if(weakness.Length >= 2)
+        weaknessImage1.gameObject.SetActive(false);
+        weaknessImage2.gameObject.SetActive(false);
+        weaknessImage3.gameObject.SetActive(false);
+
+        for(int i = 0; i < currentCharacterCard.characterStats.weaknessList.Count; i++)
         {
-            weaknessImage1.sprite = weakness[0].weaknessTypeSprite;
-            weaknessImage2.sprite = weakness[1].weaknessTypeSprite;
-            weaknessImage3.sprite = weakness[2].weaknessTypeSprite;
+            if (i == 0)
+            {
+                weaknessImage1.gameObject.SetActive(true);
+                weaknessImage1.sprite = currentCharacterCard.characterStats.weaknessList[i].combatTypeSprite;
+            }
+            if(i == 1)
+            {
+                weaknessImage2.gameObject.SetActive(true);
+                weaknessImage2.sprite = currentCharacterCard.characterStats.weaknessList[i].combatTypeSprite;
+            }
+            if(i == 2)
+            {
+                weaknessImage3.gameObject.SetActive(true);
+                weaknessImage3.sprite = currentCharacterCard.characterStats.weaknessList[i].combatTypeSprite;
+            }
         }
 
         //skill

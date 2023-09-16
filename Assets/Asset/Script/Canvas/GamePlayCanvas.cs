@@ -90,6 +90,7 @@ public class GamePlayCanvas : CanvasBase
                 playerManager.actionCardDeckData.RemoveAt(0);
 
                 gamePlayManager.playerActionCardList.Add(actionCardHand);
+
                 yield return new WaitForSeconds(0.5f);
             }
         }

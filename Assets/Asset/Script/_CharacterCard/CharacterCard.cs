@@ -7,6 +7,7 @@ public class CharacterCard : MonoBehaviour
     [Header("Info")]
     public CharacterCardData characterCardData;
     public int currentHealth;
+    public int currentWeakness;
     public int currentShield;
     public int currentBurstPoint;
     public int currentIncreaseAttack;
@@ -14,17 +15,22 @@ public class CharacterCard : MonoBehaviour
     public int currentReduceSkillActionPoints;
     public Sprite cardSprite;
     public Image cardImage;
+    public WeaknessType combatType;
 
     [Header("Text")]
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI weaknessText;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI quantityText;
     public TextMeshProUGUI quantitySelectedText;
-    public TextMeshProUGUI valueReceivedText;
+    public TextMeshProUGUI takeDamageValueText;
+    public TextMeshProUGUI takeWeaknessValueText;
     public TextMeshProUGUI shieldValueText;
     public TextMeshProUGUI increaseAttackValueText;
+
     [Header("GameObject")]
+    [SerializeField] private GameObject takeWeaknessValueObj;
     [SerializeField] private GameObject burstPointObj;
     [SerializeField] private GameObject highLightObj;
     [SerializeField] private GameObject[] hiddenObjects;
@@ -43,11 +49,8 @@ public class CharacterCard : MonoBehaviour
     }
     public void Start()
     {
-        if(highLightObj != null) SetHighlight(false);
+        if(highLightObj != null) SetTakeDamageHighlight(false);
         if(burstPointObj != null) BurstPointObjState(true);
-    }
-    public void Update()
-    {
     }
     public void GetOriginalCardInfo(CharacterCardData characterCardData)
     {
@@ -57,9 +60,16 @@ public class CharacterCard : MonoBehaviour
         nameText.text = characterCardData.characterName;
         quantityText.text = characterCardData.quantityMax.ToString();
         currentHealth = characterCardData.maxHealth;
+        currentWeakness = characterCardData.maxWeakness;
+        combatType = characterCardData.characterCard.combat.combatType;
         SetDescriptionText(characterCardData.description);
         SetCardImage(characterCardData.cardSprite);
+        SetWeaknessText();
         SetHealthText();
+    }
+    public void SetWeaknessText()
+    {
+        weaknessText.text = currentWeakness.ToString();
     }
     public void SetDescriptionText(string text)
     {
@@ -114,31 +124,18 @@ public class CharacterCard : MonoBehaviour
             hiddenObjects[i].gameObject.SetActive(true);
         }
     }
-    public void SetHighlight(bool state)
+    public void SetTakeDamageHighlight(bool state)
     {
         highLightObj.SetActive(state);
         characterStats.isHighlighting = state;
     }
+    public void SetTakeWeaknessHighlight(bool state)
+    {
+        takeWeaknessValueObj.SetActive(state);
+    }
     public void BurstPointObjState(bool state)
     {
         burstPointObj.SetActive(state);
-    }
-    public void SetValueReceived(int value)
-    {
-        if (characterStats.isShield)
-        {
-            value -= currentShield;
-            if(value <= 0) value = 0;
-        }
-        if (characterStats.isSkippingRound)
-        {
-            value = 0;
-        }
-
-        if(value < 0)
-        valueReceivedText.text =" + " + value.ToString();
-        else
-            valueReceivedText.text = " - " + value.ToString();
     }
     public void SetQuantitySelectedText()
     {
@@ -163,5 +160,29 @@ public class CharacterCard : MonoBehaviour
                 burstPointIconObjects[i].SetActive(i < currentBurstPoint);
             }
         }
+    }
+    public void SetTakeDamageValue(int value)
+    {
+        if (characterStats.isShield)
+        {
+            value -= currentShield;
+            if (value <= 0) value = 0;
+        }
+        if (characterStats.isSkippingRound)
+        {
+            value = 0;
+        }
+
+        if (value < 0)
+            takeDamageValueText.text = " + " + value.ToString();
+        else
+            takeDamageValueText.text = " - " + value.ToString();
+    }
+    public void SetTakeWeaknessValue(int value)
+    {
+        if (value < 0)
+            takeWeaknessValueText.text = " + " + value.ToString();
+        else
+            takeWeaknessValueText.text = " - " + value.ToString();
     }
 }

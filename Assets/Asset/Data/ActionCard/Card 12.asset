@@ -16,7 +16,8 @@ MonoBehaviour:
   actionCost: 20
   quantityMaxInDeck: 2
   cardDescription: "Trong hi\u1EC7p n\xE0y, l\u1EA7n k\u1EBF ti\u1EBFp s\u1EED d\u1EE5ng
-    k\u0129 n\u0103ng s\u1EBD gi\u1EA3m ti\xEAu hao 30 \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng"
+    k\u0129 n\u0103ng s\u1EBD gi\u1EA3m ti\xEAu hao <color=yellow>30</color> \u0111i\u1EC3m
+    h\xE0nh \u0111\u1ED9ng"
   cardSprite: {fileID: -1493651277, guid: 16f9e00671b1f2849982c22252f3419f, type: 3}
   actionCard:
     actionSkillList:
