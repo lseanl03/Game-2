@@ -1,9 +1,18 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterCard : MonoBehaviour
 {
+    public bool isAttacking;
+    public float moveDuration = 1f;
+    public float shakeDuration = 0.25f;
+    public float shakeStrength = 10;
+    public int vibrato = 10;
+    public GameObject placeHolderPrefab;
+    private GameObject placeHolder;
+
     [Header("Info")]
     public CharacterCardData characterCardData;
     public int currentHealth;
@@ -184,5 +193,29 @@ public class CharacterCard : MonoBehaviour
             takeWeaknessValueText.text = " + " + value.ToString();
         else
             takeWeaknessValueText.text = " - " + value.ToString();
+    }
+
+    public void AttackToTarget(Transform target)
+    {
+        if (placeHolder != null) return;
+
+        Transform parent = transform.parent;
+
+        isAttacking = true;
+        placeHolder = Instantiate(placeHolderPrefab, parent);
+        placeHolder.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        transform.SetParent(parent.parent);
+
+        transform.DOMove(target.transform.position, moveDuration).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).
+            OnComplete(() =>
+            {
+                isAttacking = false;
+                Destroy(placeHolder);
+                transform.SetParent(parent);
+                transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
+            });
+
+        target.transform.DOShakeRotation(shakeDuration, shakeStrength, vibrato, 0, true).SetDelay(moveDuration);
+        target.transform.DOShakePosition(shakeDuration, shakeStrength, vibrato, 0, true).SetDelay(moveDuration);
     }
 }

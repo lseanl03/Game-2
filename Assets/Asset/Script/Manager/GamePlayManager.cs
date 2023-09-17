@@ -7,13 +7,6 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GamePlayManager : MonoBehaviour
 {
-    public bool isAttacking;
-    public float moveDuration = 1f;
-    public float shakeDuration = 0.25f;
-    public float shakeStrength = 10;
-    public int vibrato =10;
-    public GameObject placeHolderPrefab;
-    private GameObject placeHolder;
 
     [Header("State")]
     public GamePlayState currentState;
@@ -82,6 +75,7 @@ public class GamePlayManager : MonoBehaviour
     }
     private void Start()
     {
+
         UpdateGameState(GamePlayState.SelectFirstTurn);
     }
     private void Update()
@@ -91,33 +85,6 @@ public class GamePlayManager : MonoBehaviour
             UpdateGameState(GamePlayState.EndPhase);
         }
     }
-
-    public void AttackToTarget(Transform card, Transform target)
-    {
-        if (placeHolder != null) return;
-
-        Transform parent = card.parent;
-
-        isAttacking = true;
-        placeHolder = Instantiate(placeHolderPrefab, parent);
-        placeHolder.transform.SetSiblingIndex(card.transform.GetSiblingIndex());
-        card.SetParent(parent.parent);
-
-        card.DOMove(target.transform.position, moveDuration).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).
-            OnComplete(() =>
-            {
-                isAttacking = false;
-                card.SetParent(parent);
-                card.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
-                Destroy(placeHolder);
-            });
-
-        target.transform.DOShakeRotation(shakeDuration, shakeStrength, vibrato, 0, true).SetDelay(moveDuration).
-            OnStart(() => { 
-            });
-        target.transform.DOShakePosition(shakeDuration, shakeStrength, vibrato, 0, true).SetDelay(moveDuration);
-    }
-
     //---------------------------Update State---------------------------
     public void UpdateGameState(GamePlayState gameState)
     {
@@ -528,7 +495,7 @@ public class GamePlayManager : MonoBehaviour
         foreach (CharacterCard enemy in enemyCharacterList)
             enemy.characterCardDragHover.SelectIconState(false);
     }
-    public IEnumerator DealDamageToTargets(ActionTargetType actionTargetType,  int damage, CharacterCardSkillType characterCardSkillType, CharacterCard selfCharacterCard)
+    public void DealDamageToTargets(ActionTargetType actionTargetType,  int damage, CharacterCardSkillType characterCardSkillType, CharacterCard selfCharacterCard)
     {
         switch (actionTargetType)
         {
@@ -537,9 +504,7 @@ public class GamePlayManager : MonoBehaviour
                 {
                     if (characterCard.characterStats.isActionCharacter)
                     {
-                        AttackToTarget(selfCharacterCard.transform, characterCard.transform);
-                        yield return new WaitForSeconds(moveDuration);
-
+                        selfCharacterCard.AttackToTarget(characterCard.transform);
                         characterCard.characterStats.TakeDamage(damage);
                         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
                         {
@@ -561,9 +526,7 @@ public class GamePlayManager : MonoBehaviour
                 {
                     if (characterCard.characterStats.isActionCharacter)
                     {
-                        AttackToTarget(selfCharacterCard.transform, characterCard.transform);
-                        yield return new WaitForSeconds(moveDuration);
-
+                        selfCharacterCard.AttackToTarget(characterCard.transform);
                         characterCard.characterStats.TakeDamage(damage);
                         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
                         {

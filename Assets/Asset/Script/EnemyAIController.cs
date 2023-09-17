@@ -54,6 +54,7 @@ public class EnemyAIController : ControllerBase
 
     private IEnumerator InitialBattleCharacterCard()
     {
+        Debug.Log("InitialBattleCharacterCard");
         notificationManager.SetNewNotification("Enemy is selecting character");
         yield return new WaitForSeconds(Random.Range(2, 3));
         gamePlayManager.enemyCharacterList[0].characterCardDragHover.HandleCardSelecting();
@@ -91,7 +92,9 @@ public class EnemyAIController : ControllerBase
     }
     public void HandleAttackState()
     {
-        if (gamePlayManager.currentTurn == TurnState.YourTurn || gamePlayManager.isAttacking) return;
+        Debug.Log("HandleAttackState");
+
+        if (gamePlayManager.currentTurn == TurnState.YourTurn) return;
 
         foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
         {
@@ -103,7 +106,10 @@ public class EnemyAIController : ControllerBase
     }
     public IEnumerator HandleSwitchCharacter()
     {
-        foreach(CharacterCard characterCard in gamePlayManager.enemyCharacterList)
+        yield return null;
+        Debug.Log("HandleSwitchCharacter");
+
+        foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
         {
             if (!characterCard.characterStats.isDead)
             {
@@ -116,11 +122,13 @@ public class EnemyAIController : ControllerBase
         {
             gamePlayManager.UpdateGameState(GamePlayState.ActionPhase);
         }
-        yield return null;
     }
     private IEnumerator HandleUseActionCard()
     {
-        if (gamePlayManager.currentTurn == TurnState.YourTurn || gamePlayManager.isAttacking) yield return null;
+        yield return null;
+        Debug.Log("HandleUseActionCard");
+
+        if (gamePlayManager.currentTurn == TurnState.YourTurn) yield return null;
 
         foreach (ActionCard actionCard in gamePlayManager.enemyActionCardList)
         {
@@ -365,7 +373,7 @@ public class EnemyAIController : ControllerBase
             currentCharacterCard.SetBurstPoint(characterSkill.burstPointCost);
             if (skill.actionTargetType == ActionTargetType.Enemy)
             {
-                StartCoroutine(gamePlayManager.DealDamageToTargets(ActionTargetType.Ally, skill.actionValue, characterSkill.characterCardSkillType, currentCharacterCard));
+                gamePlayManager.DealDamageToTargets(ActionTargetType.Ally, skill.actionValue, characterSkill.characterCardSkillType, currentCharacterCard);
             }
         }
         yield return new WaitForSeconds(1);

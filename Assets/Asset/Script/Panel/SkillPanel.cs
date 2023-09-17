@@ -115,7 +115,7 @@ public class SkillPanel : PanelBase
     }
     public void HighlightActive(CharacterCardSkillType skillType)
     {
-        if (gamePlayManager.isAttacking) return;
+        if (currentCharacterCard.isAttacking) return;
 
         if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.YourTurn && 
             !currentCharacterCard.characterStats.isDead)
@@ -196,7 +196,7 @@ public class SkillPanel : PanelBase
             playerManager.ConsumeActionPoint(characterSkill.actionPointCost);
             playerManager.ConsumeSkillPoint(characterSkill.skillPointCost);
 
-            StartCoroutine(gamePlayManager.DealDamageToTargets(skill.actionTargetType, skill.actionValue, characterSkill.characterCardSkillType, currentCharacterCard));
+            gamePlayManager.DealDamageToTargets(skill.actionTargetType, skill.actionValue, characterSkill.characterCardSkillType, currentCharacterCard);
         }
         yield return new WaitForSeconds(1);
         if(gamePlayManager.currentTurn == TurnState.YourTurn)
