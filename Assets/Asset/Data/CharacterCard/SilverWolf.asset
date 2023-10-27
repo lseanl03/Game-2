@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7304b4a86c46a944a828038b86a210c3, type: 3}
   m_Name: SilverWolf
   m_EditorClassIdentifier: 
-  characterName: SilverWolf
+  characterName: Silver Wolf
   description: This is Character Card
   cardSprite: {fileID: 21300000, guid: 688c76eea1cdd3e4eb94f8affb1329da, type: 3}
   maxHealth: 20
@@ -23,45 +23,67 @@ MonoBehaviour:
     characterSkillList:
     - characterCardSkillType: 1
       skillSprite: {fileID: 1401944444, guid: 183ab6362d79c524aa01d9970c2d86d0, type: 3}
-      descriptionSkill: "G\xE2y <color=yellow>2</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>+1</color>
-        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>+1</color> \u0111i\u1EC3m
-        n\u1ED9)"
       actionPointCost: 30
       skillPointCost: -1
       burstPointCost: -1
-      weaknessBreakValue: 1
-      actionSkillList:
-      - skillActionType: 1
-        actionTargetType: 1
-        actionValue: 2
-    - characterCardSkillType: 2
-      skillSprite: {fileID: -2072026519, guid: eb8fa153545cb8f408dda4820d91827c, type: 3}
-      descriptionSkill: "G\xE2y <color=yellow>3</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>-1</color>
-        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>-1</color> \u0111i\u1EC3m
-        n\u1ED9)"
-      actionPointCost: 30
-      skillPointCost: 1
-      burstPointCost: -1
       weaknessBreakValue: 2
-      actionSkillList:
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng
+          t\u1EED"
+        canModified: 0
+      skillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 3
-    - characterCardSkillType: 3
-      skillSprite: {fileID: -691123917, guid: 0f20b19c63190c849a174b0832da0626, type: 3}
-      descriptionSkill: "G\xE2y <color=yellow>4</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>-2</color>
-        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>-3</color> \u0111i\u1EC3m
-        n\u1ED9)"
-      actionPointCost: 40
-      skillPointCost: 2
-      burstPointCost: 3
+    - characterCardSkillType: 2
+      skillSprite: {fileID: -2072026519, guid: eb8fa153545cb8f408dda4820d91827c, type: 3}
+      actionPointCost: 30
+      skillPointCost: 1
+      burstPointCost: -1
       weaknessBreakValue: 3
-      actionSkillList:
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng
+          t\u1EED"
+        canModified: 0
+      skillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 4
+    - characterCardSkillType: 3
+      skillSprite: {fileID: -691123917, guid: 0f20b19c63190c849a174b0832da0626, type: 3}
+      actionPointCost: 40
+      skillPointCost: 2
+      burstPointCost: 3
+      weaknessBreakValue: 4
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng
+          t\u1EED"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 5
     destinyType: 0
     descriptionDestiny: This is Destiny
     combat:
       combatType: 6
       combatTypeSprite: {fileID: -1861580560, guid: d7ef83d03c1e0fc4da87d19c39e6dc5f, type: 3}
+    characterSoundList:
+    - soundType: 1
+      audioClip: {fileID: 8300000, guid: ceae84725551fac4ebd706bf1963e70a, type: 3}
+    - soundType: 2
+      audioClip: {fileID: 8300000, guid: 642739ecab4334b47b77a4c40be46a71, type: 3}
+    - soundType: 3
+      audioClip: {fileID: 8300000, guid: 67f653c32035ad84e9d6db08953135ba, type: 3}

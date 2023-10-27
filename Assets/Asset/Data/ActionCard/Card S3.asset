@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card S3
+  m_EditorClassIdentifier: 
+  cardName: "\u0110\xE0i hoa nh\xE2n t\u1EA1o \u0111\u1ECF"
+  actionCost: 20
+  quantityMaxInDeck: 2
+  isSupportCard: 1
+  cardDescription: "Giai \u0111o\u1EA1n k\u1EBFt th\xFAc: ph\u1EE5c h\u1ED3i <color=yellow>2</color>
+    hp cho nh\xE2n v\u1EADt c\xF3 hp th\u1EA5p nh\u1EA5t phe ta\nS\u1ED1 l\u1EA7n
+    kh\u1EA3 d\u1EE5ng: 2"
+  cardSprite: {fileID: 21300000, guid: a8d262eee21940547ab811a7111b1a5d, type: 3}
+  actionCard:
+    actionSkillList: []
+    supportActionSkill:
+      supportSkillType: 2
+      actionTargetType: 6
+      actionStartPhase: 3
+      countOfActions: 2
+      actionValue: 2
+    rarityType: 0
+    colorRarity: {r: 1, g: 1, b: 1, a: 1}

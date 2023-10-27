@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7304b4a86c46a944a828038b86a210c3, type: 3}
+  m_Name: Luocha
+  m_EditorClassIdentifier: 
+  characterName: Luocha
+  description: This is Character Card
+  cardSprite: {fileID: -1221432463, guid: 8abcb4e8b64425d42980e54d1e48af0e, type: 3}
+  maxHealth: 20
+  maxWeakness: 5
+  burstPointMax: 3
+  quantityMax: 1
+  characterCard:
+    characterSkillList:
+    - characterCardSkillType: 1
+      skillSprite: {fileID: 1605444714, guid: 4838a69b144e1ac4c9085101ff03a0e7, type: 3}
+      actionPointCost: 30
+      skillPointCost: -1
+      burstPointCost: -1
+      weaknessBreakValue: 2
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh s\u1ED1 \u1EA3o"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 3
+    - characterCardSkillType: 2
+      skillSprite: {fileID: -1470966544, guid: 0bc913c758f17fa48aee9a112b8a0e4f, type: 3}
+      actionPointCost: 30
+      skillPointCost: 1
+      burstPointCost: -1
+      weaknessBreakValue: 3
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh s\u1ED1 \u1EA3o"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 4
+    - characterCardSkillType: 3
+      skillSprite: {fileID: 362449615, guid: f0287065518ab314f8f14ff0261d685c, type: 3}
+      actionPointCost: 40
+      skillPointCost: 2
+      burstPointCost: 3
+      weaknessBreakValue: 4
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh s\u1ED1 \u1EA3o"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 5
+    destinyType: 6
+    descriptionDestiny: This is Destiny
+    combat:
+      combatType: 7
+      combatTypeSprite: {fileID: -767766499, guid: 5043414b6a5548b45a37eb9b786d6802, type: 3}
+    characterSoundList:
+    - soundType: 1
+      audioClip: {fileID: 8300000, guid: 444fbed1d87e55a41b9ebbf0c83bca30, type: 3}
+    - soundType: 2
+      audioClip: {fileID: 8300000, guid: f3351e90ef843ef4cbd2755911d4f700, type: 3}
+    - soundType: 3
+      audioClip: {fileID: 8300000, guid: 1e6fac527a4bfad4d9355f49f7a900e4, type: 3}

@@ -8,6 +8,7 @@ public class CardBase : MonoBehaviour
     protected UIManager uiManager => UIManager.instance;
     protected TooltipManager tooltipManager => TooltipManager.instance;
     protected PlayerManager playerManager => PlayerManager.instance;
+    protected EnemyManager enemyManager => EnemyManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
     protected CollectionManager collectionManager => CollectionManager.instance;
 

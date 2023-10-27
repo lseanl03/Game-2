@@ -15,6 +15,7 @@ MonoBehaviour:
   cardName: "M\xE1y C\u1EA5p C\u1EE9u \u0110\u01A1n Gi\u1EA3n"
   actionCost: 30
   quantityMaxInDeck: 2
+  isSupportCard: 0
   cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i sinh cho nh\xE2n v\u1EADt
     ch\u1EBFt \u0111\u1EA7u ti\xEAn c\u1EE7a phe ta v\u1EDBi <color=yellow>1</color>
     hp"
@@ -29,5 +30,12 @@ MonoBehaviour:
         statusSprite: {fileID: -1872455190, guid: f61e860b913ba0d48b04289ce4adb4a0, type: 3}
         statusName: "M\xE1y C\u1EA5p C\u1EE9u \u0110\u01A1n Gi\u1EA3n"
         statusDescription: "Nh\xE2n v\u1EADt kh\xF4ng th\u1EC3 h\u1ED3i sinh th\xEAm"
+    supportActionSkill:
+      supportSkillType: 0
+      actionTargetType: 0
+      actionStartPhase: 0
+      countOfActions: 0
+      maxCountOfActions: 0
+      actionValue: 0
     rarityType: 3
     colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}

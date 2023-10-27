@@ -280,6 +280,7 @@ MonoBehaviour:
   quantitySelectedObj: {fileID: 0}
   quantityObj: {fileID: 0}
   manaObj: {fileID: 0}
+  actionCardDragHover: {fileID: 0}
 --- !u!114 &-8198409721846181308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +297,7 @@ MonoBehaviour:
   recallCardImage: {fileID: 8066358926988675248}
   characterCard: {fileID: 0}
   actionCard: {fileID: 0}
+  characterStats: {fileID: 0}
 --- !u!1 &3227711923712443255
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,7 +755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

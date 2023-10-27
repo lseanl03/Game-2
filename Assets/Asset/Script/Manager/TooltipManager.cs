@@ -24,10 +24,13 @@ public class TooltipManager : MonoBehaviour
     }
     public void ShowCharacterCardTooltip(CharacterCard characterCard)
     {
-        tooltipCanvas.CanvasState(true);
-        tooltipCanvas.CharacterCardTooltipState(true);
-        tooltipCanvas.ActionCardTooltipState(false);
-        tooltipCanvas.characterCardTooltip.GetCharacterCardInfo(characterCard);
+        if (!uiManager.battleCanvas.playCardPanel.isShowingCardInfo)
+        {
+            tooltipCanvas.CanvasState(true);
+            tooltipCanvas.CharacterCardTooltipState(true);
+            tooltipCanvas.ActionCardTooltipState(false);
+            tooltipCanvas.characterCardTooltip.GetCharacterCardInfo(characterCard);
+        }
     }
     public void ShowActionCardTooltip(ActionCard actionCard)
     {
@@ -37,6 +40,16 @@ public class TooltipManager : MonoBehaviour
             tooltipCanvas.ActionCardTooltipState(true);
             tooltipCanvas.CharacterCardTooltipState(false);
             tooltipCanvas.actionCardTooltip.GetActionCardInfo(actionCard);
+        }
+    }
+    public void ShowSupportCardTooltip(SupportCard supportCard)
+    {
+        if (!uiManager.battleCanvas.playCardPanel.isShowingCardInfo)
+        {
+            tooltipCanvas.CanvasState(true);
+            tooltipCanvas.ActionCardTooltipState(true);
+            tooltipCanvas.CharacterCardTooltipState(false);
+            tooltipCanvas.actionCardTooltip.GetSupportCardInfo(supportCard);
         }
     }
 }

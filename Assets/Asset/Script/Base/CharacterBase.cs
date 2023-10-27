@@ -26,9 +26,7 @@ public class CharacterBase : MonoBehaviour
     protected NotificationManager notificationManager => NotificationManager.instance;
     public virtual void Start()
     {
-        ResetActionPoint();
-        ResetSkillPoint();
-        ShuffleDeck();
+        Refresh();
     }
     public void ShuffleDeck()
     {
@@ -36,6 +34,12 @@ public class CharacterBase : MonoBehaviour
         {
             ShuffleList(actionCardDeckData);
         }
+    }
+    public void Refresh()
+    {
+        ResetActionPoint();
+        ResetSkillPoint();
+        ShuffleDeck();
     }
     public void ShuffleList<T>(List<T> list)
     {
@@ -72,10 +76,6 @@ public class CharacterBase : MonoBehaviour
     public void RecoveryActionPoint(int value)
     {
         currentActionPoint += value;
-        if(currentActionPoint >= initialActionPoint)
-        {
-            currentActionPoint = initialActionPoint;
-        }
     }
     public void RecoverySkillPoint(int value)
     {

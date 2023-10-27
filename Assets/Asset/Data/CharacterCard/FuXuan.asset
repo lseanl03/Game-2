@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7304b4a86c46a944a828038b86a210c3, type: 3}
+  m_Name: FuXuan
+  m_EditorClassIdentifier: 
+  characterName: Fu Xuan
+  description: This is Character Card
+  cardSprite: {fileID: -1234790753, guid: 34aee0be93f4f50438c07e3fbf5521f4, type: 3}
+  maxHealth: 20
+  maxWeakness: 5
+  burstPointMax: 3
+  quantityMax: 1
+  characterCard:
+    characterSkillList:
+    - characterCardSkillType: 1
+      skillSprite: {fileID: -47044278, guid: 90124508b26f1494bb6dc66665bcd16e, type: 3}
+      actionPointCost: 30
+      skillPointCost: -1
+      burstPointCost: -1
+      weaknessBreakValue: 2
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng
+          t\u1EED"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 3
+    - characterCardSkillType: 2
+      skillSprite: {fileID: 1943765458, guid: c26d7431e592a8345b7391f509bc365e, type: 3}
+      actionPointCost: 30
+      skillPointCost: 1
+      burstPointCost: -1
+      weaknessBreakValue: 3
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng
+          t\u1EED"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 4
+    - characterCardSkillType: 3
+      skillSprite: {fileID: -707451, guid: dc5a3079d9906d2499edf6e0faacb74e, type: 3}
+      actionPointCost: 40
+      skillPointCost: 2
+      burstPointCost: 3
+      weaknessBreakValue: 4
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng
+          t\u1EED"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 5
+    destinyType: 5
+    descriptionDestiny: This is Destiny
+    combat:
+      combatType: 6
+      combatTypeSprite: {fileID: -1861580560, guid: d7ef83d03c1e0fc4da87d19c39e6dc5f, type: 3}
+    characterSoundList:
+    - soundType: 1
+      audioClip: {fileID: 8300000, guid: 3cc15032806ab984d86edfc0a2ed4fe9, type: 3}
+    - soundType: 2
+      audioClip: {fileID: 8300000, guid: 69d6adf7e0818b5439aa5e018547cc74, type: 3}
+    - soundType: 3
+      audioClip: {fileID: 8300000, guid: 61dc87c4504d79a4f97ecce4a1bb979e, type: 3}

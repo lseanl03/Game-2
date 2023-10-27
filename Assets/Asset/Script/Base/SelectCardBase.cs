@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectCardBase : MonoBehaviour
 {
-    public CollectionManager collectionManager => CollectionManager.instance;
+    protected CollectionManager collectionManager => CollectionManager.instance;
     protected UIManager uIManager => UIManager.instance;
     protected GameManager gameManager => GameManager.instance;
     protected PlayerManager playerManager => PlayerManager.instance;

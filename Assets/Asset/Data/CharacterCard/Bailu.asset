@@ -23,45 +23,64 @@ MonoBehaviour:
     characterSkillList:
     - characterCardSkillType: 1
       skillSprite: {fileID: 592912507, guid: b9fda811504979946a3a1fec68b15fa3, type: 3}
-      descriptionSkill: "G\xE2y <color=yellow>2</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>+1</color>
-        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>+1</color> \u0111i\u1EC3m
-        n\u1ED9)"
       actionPointCost: 30
       skillPointCost: -1
       burstPointCost: -1
-      weaknessBreakValue: 1
-      actionSkillList:
-      - skillActionType: 1
-        actionTargetType: 1
-        actionValue: 2
-    - characterCardSkillType: 2
-      skillSprite: {fileID: 52950286, guid: f0f3d89c8bcd73047abaa174cf1e63ca, type: 3}
-      descriptionSkill: "G\xE2y <color=yellow>3</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>-1</color>
-        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>-1</color> \u0111i\u1EC3m
-        n\u1ED9)"
-      actionPointCost: 30
-      skillPointCost: 1
-      burstPointCost: -1
       weaknessBreakValue: 2
-      actionSkillList:
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\xF4i"
+        canModified: 0
+      skillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 3
-    - characterCardSkillType: 3
-      skillSprite: {fileID: 1348096355, guid: a2b0b0e1d7d92474ca8a1a92f4c6c838, type: 3}
-      descriptionSkill: "G\xE2y <color=yellow>4</color> \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng\n(<color=yellow>-2</color>
-        \u0111i\u1EC3m k\u1EF9 n\u0103ng, <color=yellow>-3</color> \u0111i\u1EC3m
-        n\u1ED9)"
-      actionPointCost: 40
-      skillPointCost: 2
-      burstPointCost: 3
+    - characterCardSkillType: 2
+      skillSprite: {fileID: 52950286, guid: f0f3d89c8bcd73047abaa174cf1e63ca, type: 3}
+      actionPointCost: 30
+      skillPointCost: 1
+      burstPointCost: -1
       weaknessBreakValue: 3
-      actionSkillList:
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\xF4i"
+        canModified: 0
+      skillList:
       - skillActionType: 1
         actionTargetType: 1
         actionValue: 4
+    - characterCardSkillType: 3
+      skillSprite: {fileID: 1348096355, guid: a2b0b0e1d7d92474ca8a1a92f4c6c838, type: 3}
+      actionPointCost: 40
+      skillPointCost: 2
+      burstPointCost: 3
+      weaknessBreakValue: 4
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh l\xF4i"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 5
     destinyType: 6
     descriptionDestiny: This is Destiny
     combat:
       combatType: 1
       combatTypeSprite: {fileID: -1012349688, guid: 5467a3b500c60b740a61f967e72da328, type: 3}
+    characterSoundList:
+    - soundType: 1
+      audioClip: {fileID: 8300000, guid: 3d6266c0e90356e48bbc5239e5232153, type: 3}
+    - soundType: 2
+      audioClip: {fileID: 8300000, guid: efd8e5f1a98647540ad12cf04facd3ce, type: 3}
+    - soundType: 3
+      audioClip: {fileID: 8300000, guid: 35877763f7da5334f90447c1a2f5acec, type: 3}

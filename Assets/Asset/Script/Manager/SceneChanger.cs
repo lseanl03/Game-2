@@ -7,7 +7,8 @@ public enum SceneType
 {
     MainMenu,
     SelectCard,
-    GamePlay
+    GamePlay,
+    Tutorial
 }
 public class SceneChanger : MonoBehaviour
 {
@@ -15,10 +16,13 @@ public class SceneChanger : MonoBehaviour
 
     public static SceneChanger instance;
     protected GameManager gameManager => GameManager.instance;
-    protected PlayerManager deckManager => PlayerManager.instance;
+    protected PlayerManager playerManager => PlayerManager.instance;
+    protected EnemyManager enemyManager => EnemyManager.instance;
     protected UIManager uIManager => UIManager.instance;
     protected CollectionManager collectionManager => CollectionManager.instance;
     protected NotificationManager notificationManager => NotificationManager.instance;
+    protected GamePlayManager gamePlayManager => GamePlayManager.instance;
+    protected AudioManager audioManager => AudioManager.instance;
     public void Awake()
     {
         if (instance == null)
@@ -32,58 +36,84 @@ public class SceneChanger : MonoBehaviour
             return;
         }
     }
-    private void Start()
+    public IEnumerator SceneChange(SceneType sceneType)
     {
-        SceneChange(currentScene);
-    }
-    public void SceneChange(SceneType sceneType)
-    {
+        notificationManager.ResetText();
+        yield return StartCoroutine(uIManager.Fade(true));
         currentScene = sceneType;
         switch (currentScene)
         {
             case SceneType.MainMenu:
                 SceneManager.LoadScene("MainMenu");
 
+                audioManager.PlayTheme();
+                StartCoroutine(uIManager.Fade(false));
+
+                collectionManager.collectionCanvas.CanvasState(false);
+
                 uIManager.selectCardCanvas.CanvasState(false);
-                uIManager.battleCanvas.CanvasState(false);
+                uIManager.battleCanvas.selectTurnPanel.PanelState(false);
+                uIManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
+                uIManager.battleCanvas.settingPanel.PanelState(true);
+
+                playerManager.Refresh();
+                enemyManager.Refresh();
+
+
                 break; 
             case SceneType.SelectCard:
                 SceneManager.LoadScene("SelectCard");
 
-                if(collectionManager != null)
-                {
-                    collectionManager.optionalToolCanvas.CanvasState(false);
-                    collectionManager.collectionCanvas.CanvasState(true);
-                }
-                 
+                StartCoroutine(uIManager.Fade(false));
+
+                collectionManager.collectionCanvas.CanvasState(true);
+                collectionManager.optionalToolCanvas.CanvasState(false);
+
                 uIManager.selectCardCanvas.CanvasState(true);
-                uIManager.battleCanvas.CanvasState(false);
+                uIManager.battleCanvas.settingPanel.PanelState(false);
 
-                notificationManager.Reset();
-                break; 
+                break;
+            case SceneType.Tutorial:
+                SceneManager.LoadScene("Tutorial");
+
+                audioManager.PlayCombatTheme();
+                StartCoroutine(uIManager.Fade(false));
+
+                uIManager.battleCanvas.settingPanel.PanelState(false);
+                uIManager.tutorialCanvas.CanvasState(true);
+                uIManager.tutorialCanvas.ResetIsUsed(false);
+                uIManager.battleCanvas.CanvasState(true);
+                break;
             case SceneType.GamePlay:
-                SceneManager.LoadScene("GamePlay");
 
+                audioManager.PlayCombatTheme();
+                StartCoroutine(uIManager.Fade(false));
+                collectionManager.collectionCanvas.CanvasState(false);
+
+                uIManager.tutorialCanvas.CanvasState(false);
+                uIManager.tutorialCanvas.ResetIsUsed(true);
                 uIManager.selectCardCanvas.CanvasState(false);
                 uIManager.battleCanvas.CanvasState(true);
 
-                notificationManager.Reset();
                 break;
 
         }
     }
     public void OpenMainMenuScene()
     {
-        SceneChange(SceneType.MainMenu);
+        StartCoroutine(SceneChange(SceneType.MainMenu));
     }
     public void OpenSelectCardScene()
     {
-        
-        SceneChange(SceneType.SelectCard);
+        StartCoroutine(SceneChange(SceneType.SelectCard));
     }
     public void OpenGamePlayScene()
     {
-        SceneChange(SceneType.GamePlay);
+        StartCoroutine(SceneChange(SceneType.GamePlay));
+    }
+    public void OpenTutorialScene()
+    {
+        StartCoroutine(SceneChange(SceneType.Tutorial));
     }
     public void QuitGame()
     {

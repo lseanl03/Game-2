@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Card 10
   m_EditorClassIdentifier: 
   cardName: "S\u01A1n Ng\u1EE5y Trang"
-  actionCost: 40
+  actionCost: 50
   quantityMaxInDeck: 2
+  isSupportCard: 0
   cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c k\u1EBFt th\xFAc l\u01B0\u1EE3t
-    c\u1EE7a m\xECnh, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn phe ta s\u1EBD <color=yellow>kh\xF4ng
-    ph\u1EA3i ch\u1ECBu</color> s\xE1t th\u01B0\u01A1ng trong hi\u1EC7p n\xE0y"
+    c\u1EE7a m\xECnh. Trong hi\u1EC7p n\xE0y, nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn
+    phe ta khi nh\u1EADn s\xE1t th\u01B0\u01A1ng s\u1EBD <color=yellow>kh\xF4ng b\u1ECB
+    tr\u1EEB hp</color>"
   cardSprite: {fileID: 1437994934, guid: 5e987ec122bdb154abdc4565389d598c, type: 3}
   actionCard:
     actionSkillList:
@@ -28,7 +30,14 @@ MonoBehaviour:
       - statusType: 1
         statusSprite: {fileID: -1658587249, guid: f7c15ba76342c414e96bdc148f0cd918, type: 3}
         statusName: "S\u01A1n Ng\u1EE5y Trang"
-        statusDescription: "Nh\xE2n v\u1EADt n\xE0y kh\xF4ng ph\u1EA3i ch\u1ECBu
-          s\xE1t th\u01B0\u01A1ng trong hi\u1EC7p n\xE0y"
-    rarityType: 4
-    colorRarity: {r: 0.42352945, g: 0.32156864, b: 0.62352943, a: 1}
+        statusDescription: "Nh\xE2n v\u1EADt s\u1EBD kh\xF4ng b\u1ECB tr\u1EEB hp
+          trong hi\u1EC7p n\xE0y"
+    supportActionSkill:
+      supportSkillType: 0
+      actionTargetType: 0
+      actionStartPhase: 0
+      countOfActions: 0
+      maxCountOfActions: 0
+      actionValue: 0
+    rarityType: 5
+    colorRarity: {r: 0.5283019, g: 0.33953756, b: 0.15151297, a: 1}

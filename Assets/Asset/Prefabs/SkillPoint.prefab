@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3812270396736626867}
   - component: {fileID: 1922375434855745215}
   - component: {fileID: 4091278523996543378}
+  - component: {fileID: 6108574993675120521}
   m_Layer: 0
   m_Name: SkillPoint
   m_TagString: Untagged
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6108574993675120521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3355803576022470979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 399ed3121ba87944991f3060400c1b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

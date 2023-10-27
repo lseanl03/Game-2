@@ -10,15 +10,16 @@ public class SelectTurnPanel : PanelBase
     public bool isYourTurn;
 
     public float timeCount = 0f;
-    private float timeDelay = 0f;
-
+    public float timeDelay = 0f;
     public float timeEndCount = 5f;
-    public float delayTimeDisplay = 0.5f;
-    public float delayEndSelect = 1f;
+
+    public float delayLoadText = 0.5f;
+    public float delayEndSelect = 1.5f;
     public float delaySelectFirstTurn = 1f;
 
     public TextMeshProUGUI selectFirstTurnText;
     public TextMeshProUGUI LoadingText;
+    public TextMeshProUGUI showTurnText;
 
     public Coroutine selectFirstTurnCoroutine;
     public Coroutine loadingCoroutine;
@@ -35,7 +36,7 @@ public class SelectTurnPanel : PanelBase
     {
         if (timeCount >= timeEndCount)
         {
-            if(!selected)
+            timeCount = 0;
             StartCoroutine(HandleEndSelect());
         }
         else
@@ -50,16 +51,20 @@ public class SelectTurnPanel : PanelBase
         while (true)
         {
             LoadingText.text = "Choosing the first turn.";
-            yield return new WaitForSeconds(delayTimeDisplay);
+            yield return new WaitForSeconds(delayLoadText);
             LoadingText.text = "Choosing the first turn..";
-            yield return new WaitForSeconds(delayTimeDisplay);
+            yield return new WaitForSeconds(delayLoadText);
             LoadingText.text = "Choosing the first turn...";
-            yield return new WaitForSeconds(delayTimeDisplay);
+            yield return new WaitForSeconds(delayLoadText);
         }
     }
     IEnumerator SelectFirstTurn()
     {
         yield return new WaitForSeconds(delaySelectFirstTurn);
+
+        if (uiManager.tutorialCanvas != null)
+            uiManager.tutorialCanvas.ActionTutorial(TutorialType.SelectTurnInitial);
+
         while (true)
         {
             selectFirstTurnText.text = "Your Turn";
@@ -73,10 +78,18 @@ public class SelectTurnPanel : PanelBase
     }
     IEnumerator HandleEndSelect()
     {
-        selected = false;
-
         StopCoroutine(selectFirstTurnCoroutine);
         StopCoroutine(loadingCoroutine);
+
+        if (uiManager.tutorialCanvas.isActiveAndEnabled)
+        {
+            isYourTurn = true;
+            selectFirstTurnText.text = "Your Turn";
+        }
+        if (isYourTurn)
+            showTurnText.text = "You start first";
+        else
+            showTurnText.text = "Enemy starts first";
 
         yield return new WaitForSeconds(delayEndSelect);
         PanelState(false);
@@ -90,7 +103,7 @@ public class SelectTurnPanel : PanelBase
         {
             gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
             gamePlayManager.enemyAttackFirst = true;
-        } 
-
+        }
+        showTurnText.text = string.Empty;
     }
 }

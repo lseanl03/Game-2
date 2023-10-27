@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 3167514487203452552}
   - component: {fileID: 6849636527019213701}
   - component: {fileID: 2950444090913637406}
-  - component: {fileID: 72499418404624673}
+  - component: {fileID: 3302271759343789983}
   m_Layer: 5
   m_Name: CharacterCard
   m_TagString: Untagged
@@ -269,6 +269,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64f0eb7916711942b3a502561125a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveDuration: 0.75
+  shakeDuration: 0.25
+  shakeStrength: 10
+  vibrato: 10
+  placeHolderPrefab: {fileID: 0}
+  characterSoundList: []
+  characterAudioSource: {fileID: 0}
+  currentNAActionPointCost: 0
+  currentNAActionValue: 0
+  currentESActionPointCost: 0
+  currentESActionValue: 0
+  currentEBActionPointCost: 0
+  currentEBActionValue: 0
   characterCardData: {fileID: 0}
   currentHealth: 0
   currentWeakness: 0
@@ -277,6 +290,9 @@ MonoBehaviour:
   currentIncreaseAttack: 0
   currentQuantitySelected: 0
   currentReduceSkillActionPoints: 0
+  currentNormalAttackDoubleDamage: 0
+  currentElementalSkillDoubleDamage: 0
+  currentElementalBurstDoubleDamage: 0
   cardSprite: {fileID: 0}
   cardImage: {fileID: 3761293711994577081}
   combatType: 0
@@ -293,9 +309,11 @@ MonoBehaviour:
   takeWeaknessValueObj: {fileID: 0}
   burstPointObj: {fileID: 0}
   highLightObj: {fileID: 0}
+  quantitySelectedObj: {fileID: 5607526165191400538}
   hiddenObjects:
   - {fileID: 7708493194730771152}
   - {fileID: 4634801742720036035}
+  - {fileID: 7815468631602261695}
   burstPointIconObjects: []
   characterStats: {fileID: 0}
   characterCardDragHover: {fileID: 0}
@@ -314,18 +332,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentToReturnTo: {fileID: 0}
   placeHolderParent: {fileID: 0}
-  placeHolderPrefab: {fileID: 2321133982752143645, guid: 6bbde860086795e4d814a8770396c34f, type: 3}
-  placeHolderRootPrefab: {fileID: 2321133982752143645, guid: 7d722e3d70d6cb145ad708fe0cb14d9d, type: 3}
-  placeHolderRoot: {fileID: 0}
-  placeHolder: {fileID: 0}
-  thisObj: {fileID: 0}
-  cardListSelectParent: {fileID: 0}
-  cardListBattleParent: {fileID: 0}
-  cardListSelect: {fileID: 0}
-  cardListBattle: {fileID: 0}
-  actionCard: {fileID: 0}
-  characterCard: {fileID: 0}
-  canvas: {fileID: 0}
+  actionCardHolderPrefab: {fileID: 0}
+  actionCardHolderRootPrefab: {fileID: 0}
+  characterCardHolderPrefab: {fileID: 3167514487203452552, guid: 6bbde860086795e4d814a8770396c34f, type: 3}
+  characterCardHolderRootPrefab: {fileID: 3167514487203452552, guid: 7d722e3d70d6cb145ad708fe0cb14d9d, type: 3}
 --- !u!114 &2950444090913637406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,8 +352,9 @@ MonoBehaviour:
   recallCardImage: {fileID: 0}
   characterCard: {fileID: 0}
   actionCard: {fileID: 0}
+  supportCard: {fileID: 0}
   characterStats: {fileID: 0}
---- !u!114 &72499418404624673
+--- !u!114 &3302271759343789983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -405,7 +416,9 @@ MonoBehaviour:
   takeDamageText: {fileID: 0}
   takeWeaknessObj: {fileID: 0}
   takeWeaknessText: {fileID: 0}
-  weaknessBreakingStateData: {fileID: 0}
+  takeHealingObj: {fileID: 0}
+  takeHealingText: {fileID: 0}
+  weaknessBreakingStateData: {fileID: 11400000, guid: 8b00761d158c4fd45ba34b5b82e69379, type: 2}
   characterCard: {fileID: 0}
 --- !u!1 &2668474969445972120
 GameObject:
@@ -466,7 +479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -552,6 +565,7 @@ GameObject:
   - component: {fileID: 2621948134230182340}
   - component: {fileID: 5498815823389194467}
   - component: {fileID: 4758286921862034130}
+  - component: {fileID: 9033328044979531825}
   m_Layer: 5
   m_Name: WeaknessText
   m_TagString: Untagged
@@ -576,7 +590,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5498815823389194467
 CanvasRenderer:
@@ -606,7 +620,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 23baa54b0f75f4346a7ca5bc6d1048f9, type: 2}
   m_sharedMaterial: {fileID: -158755619548446027, guid: 23baa54b0f75f4346a7ca5bc6d1048f9, type: 2}
@@ -675,6 +689,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9033328044979531825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2876237814923416434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &3761293710464368869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1304,7 +1332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1724,7 +1752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1800,7 +1828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1890,7 +1918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

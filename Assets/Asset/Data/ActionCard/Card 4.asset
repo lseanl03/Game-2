@@ -15,19 +15,27 @@ MonoBehaviour:
   cardName: "C\u01A1m Rang T\u1ED1t Cho S\u1EE9c Kh\u1ECFe"
   actionCost: 20
   quantityMaxInDeck: 2
-  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i <color=yellow>2</color>
+  isSupportCard: 0
+  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c h\u1ED3i <color=yellow>3</color>
     hp cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
   cardSprite: {fileID: -94022282, guid: 10c9e3ae78bafc94c92308965eba41e0, type: 3}
   actionCard:
     actionSkillList:
     - actionSkillType: 1
       actionTargetType: 2
-      actionValue: 2
+      actionValue: 3
       statusList:
       - statusType: 7
         statusSprite: {fileID: 1329290075, guid: 290df9f302195dc48b733ea36d4f1e47, type: 3}
         statusName: "No b\u1EE5ng"
         statusDescription: "Kh\xF4ng th\u1EC3 d\xF9ng th\xEAm th\u1EE9c \u0103n trong
           hi\u1EC7p n\xE0y"
+    supportActionSkill:
+      supportSkillType: 0
+      actionTargetType: 0
+      actionStartPhase: 0
+      countOfActions: 0
+      maxCountOfActions: 0
+      actionValue: 0
     rarityType: 2
     colorRarity: {r: 0.24705884, g: 0.4039216, b: 0.43921572, a: 1}

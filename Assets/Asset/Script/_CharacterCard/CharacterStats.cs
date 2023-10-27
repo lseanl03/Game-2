@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class CharacterStats : MonoBehaviour
 {
 
@@ -74,6 +75,10 @@ public class CharacterStats : MonoBehaviour
     public GameObject takeWeaknessObj;
     public TextMeshProUGUI takeWeaknessText;
 
+    [Header("Take Healing")]
+    public GameObject takeHealingObj;
+    public TextMeshProUGUI takeHealingText;
+
     [Header("Data")]
     public WeaknessStateData weaknessBreakingStateData;
 
@@ -82,6 +87,7 @@ public class CharacterStats : MonoBehaviour
 
     private Coroutine takeDamageCoroutine;
     private Coroutine takeWeaknessCoroutine;
+    private Coroutine takeHealingCoroutine;
     protected TooltipManager tooltipManager => TooltipManager.instance;
     protected UIManager uiManager => UIManager.instance;
     protected GamePlayManager gamePlayManager => GamePlayManager.instance;
@@ -95,69 +101,66 @@ public class CharacterStats : MonoBehaviour
     }
     public void CheckApplyStatus()
     {
-        if(statusList.Count > 0)
-        {
-            isApplyingStatus = true;
-        }
-        else
-        {
-            isApplyingStatus = false;
-        }
-        if (weaknessList.Count > 0)
-        {
-            isApplyingWeakness = true;
-        }
-        else
-        {
-            isApplyingWeakness = false;
-        }
-        if(breakingList.Count > 0)
-        {
-            isApplyBreaking = true;
-        }
-        else
-        {
-            isApplyBreaking = false;
-        }
+        isApplyingStatus = statusList.Count > 0;
+        isApplyingWeakness = weaknessList.Count > 0;
+        isApplyBreaking = breakingList.Count > 0;
     }
-    //state
+    #region Status State
     public void IncreaseAttackState(bool state)
     {
         isIncreasingAttack = state;
         increaseAttackStatusImage.gameObject.SetActive(state);
+        increaseAttackStatusImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void SatiatedState(bool state)
     {
         isSatiated = state;
         satiatedStatusImage.gameObject.SetActive(state);
+        satiatedStatusImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void RevivalState(bool state)
     {
         isReviving = state;
         revivalImage.gameObject.SetActive(state);
+        revivalImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void ShieldState(bool state)
     {
         isShield = state;
         shieldImage.gameObject.SetActive(state);
+        shieldImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void SkipRoundState(bool state)
     {
         isSkippingRound = state;
         skipRoundImage.gameObject.SetActive(state);
+        skipRoundImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void DoubleDamageState(bool state)
     {
         isDoublingDamage = state;
         doubleDamageImage.gameObject.SetActive(state);
+        doubleDamageImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
+    }
+    #endregion
+    public IEnumerator TakeHealingState(int value)
+    {
+        if (takeHealingCoroutine != null)
+            StopCoroutine(takeHealingCoroutine);
+
+        AudioManager.instance.PlayHealing();
+
+        takeHealingText.text = "+" + value.ToString();
+        takeHealingObj.SetActive(false);
+        takeHealingObj.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        takeHealingObj.SetActive(false);
     }
     public IEnumerator TakeDamageState(int value)
     {
         if (takeDamageCoroutine != null)
             StopCoroutine(takeDamageCoroutine);
-
         takeDamageText.text = "-" + value.ToString();
-        takeDamageObj.SetActive(false);
         takeDamageObj.SetActive(true);
         yield return new WaitForSeconds(2f);
         takeDamageObj.SetActive(false);
@@ -172,14 +175,14 @@ public class CharacterStats : MonoBehaviour
         ClearAllStatus();
         ClearAllWeakness();
         ClearAllBreaking();
-
         ClearStatusList();
         ClearWeaknessList();
         ClearBreakingList();
         deadImage.gameObject.SetActive(state);
-        gamePlayManager.UpdateGameState(GamePlayState.SelectBattleCharacter);
         characterCard.characterCardDragHover.HandleCardSelected();
+        characterCard.PlaySound(SoundType.Die);
         CheckAllDead();
+        gamePlayManager.UpdateGameState(GamePlayState.SelectBattleCharacter);
     }
     public void SetCharacterDeadFirst()
     {
@@ -187,29 +190,23 @@ public class CharacterStats : MonoBehaviour
         {
             foreach (CharacterCard characterCard in gamePlayManager.playerCharacterList)
             {
-                if(characterCard == this.characterCard)
+                if (characterCard == this.characterCard)
                 {
-                    if (characterCard.characterStats.isDead)
-                    {
-                        characterCard.characterStats.isDeadFirst = true;
-                        gamePlayManager.playerHaveCharacterDeadFirst = true;
-                        break;
-                    }
+                    isDeadFirst = true;
+                    gamePlayManager.playerHaveCharacterDeadFirst = true;
+                    break;
                 }
             }
         }
-        if(!gamePlayManager.enemyHaveCharacterDeadFirst)
+        if (!gamePlayManager.enemyHaveCharacterDeadFirst)
         {
             foreach (CharacterCard characterCard in gamePlayManager.enemyCharacterList)
             {
                 if (characterCard == this.characterCard)
                 {
-                    if (characterCard.characterStats.isDead)
-                    {
-                        characterCard.characterStats.isDeadFirst = true;
-                        gamePlayManager.enemyHaveCharacterDeadFirst = true;
-                        break;
-                    }
+                    characterCard.characterStats.isDeadFirst = true;
+                    gamePlayManager.enemyHaveCharacterDeadFirst = true;
+                    break;
                 }
             }
         }
@@ -240,6 +237,7 @@ public class CharacterStats : MonoBehaviour
         {
             value = 0;
         }
+        if (value <= 0) value = 0;
         characterCard.currentHealth -= value;
 
         if (characterCard.currentHealth <= 0)
@@ -249,6 +247,7 @@ public class CharacterStats : MonoBehaviour
         }
 
         characterCard.SetHealthText();
+        characterCard.healthText.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
         characterCard.SetShieldValueText();
 
         takeDamageCoroutine = StartCoroutine(TakeDamageState(value));
@@ -270,10 +269,10 @@ public class CharacterStats : MonoBehaviour
         if (isDead) return;
         //Debug.Log("Skip Round");
 
-        if(gamePlayManager.currentTurn == TurnState.YourTurn)
-        StartCoroutine(gamePlayManager.PlayerEndRound());
-        else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
-        StartCoroutine(gamePlayManager.EnemyEndRound());
+        if (gamePlayManager.currentTurn == TurnState.YourTurn)
+            StartCoroutine(gamePlayManager.PlayerEndRound());
+        else if (gamePlayManager.currentTurn == TurnState.EnemyTurn)
+            StartCoroutine(gamePlayManager.EnemyEndRound());
     }
     public void DoubleDamage()
     {
@@ -282,9 +281,28 @@ public class CharacterStats : MonoBehaviour
 
         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
         {
-            foreach (Skill skill in characterSkill.actionSkillList)
+            foreach (Skill skill in characterSkill.skillList)
             {
-                skill.actionValue *= 2;
+
+                if(characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+                {
+                    characterCard.currentNAActionValue *= 2;
+                    characterCard.currentNormalAttackDoubleDamage = characterCard.currentNAActionValue / 2;
+                }
+
+                else if(characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+                {
+                    characterCard.currentESActionValue *= 2;
+                    characterCard.currentElementalSkillDoubleDamage = characterCard.currentESActionValue / 2;
+
+                }
+
+                else if(characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+                {
+                    characterCard.currentEBActionValue *= 2;
+                    characterCard.currentElementalBurstDoubleDamage = characterCard.currentEBActionValue / 2;
+
+                }
             }
         }
     }
@@ -299,6 +317,9 @@ public class CharacterStats : MonoBehaviour
             characterCard.currentHealth += value;
 
         characterCard.SetHealthText();
+        characterCard.healthText.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
+        takeHealingCoroutine = StartCoroutine(TakeHealingState(value));
+
     }
     public void Shield(int value)
     {
@@ -306,7 +327,7 @@ public class CharacterStats : MonoBehaviour
         //Debug.Log("Shield");
 
         characterCard.currentShield += value;
-        if(characterCard.currentShield <= 0)
+        if (characterCard.currentShield <= 0)
         {
             characterCard.currentShield = 0;
             shieldImage.gameObject.SetActive(false);
@@ -318,15 +339,60 @@ public class CharacterStats : MonoBehaviour
     {
         if (isDead) return;
         //Debug.Log("IncreaseAttack");
-
         characterCard.currentIncreaseAttack = value;
         foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
-        { //8
-            foreach (Skill skill in characterSkill.actionSkillList)
+        {
+            foreach (Skill skill in characterSkill.skillList)
             {
-                skill.actionValue += characterCard.currentIncreaseAttack;
+                if (isDoublingDamage)
+                {
+                    if (characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+                    {
+                        characterCard.currentNAActionValue -= characterCard.currentNormalAttackDoubleDamage;
+                        characterCard.currentNAActionValue += characterCard.currentIncreaseAttack;
+                        characterCard.currentNAActionValue *= 2;
+
+                        characterCard.currentNormalAttackDoubleDamage += characterCard.currentIncreaseAttack;
+                    }
+
+                    else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+                    {
+                        characterCard.currentESActionValue -= characterCard.currentElementalSkillDoubleDamage;
+                        characterCard.currentESActionValue += characterCard.currentIncreaseAttack;
+                        characterCard.currentESActionValue *= 2;
+
+                        characterCard.currentElementalSkillDoubleDamage += characterCard.currentIncreaseAttack;
+                    }
+
+                    else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+                    {
+                        characterCard.currentEBActionValue -= characterCard.currentElementalBurstDoubleDamage;
+                        characterCard.currentEBActionValue += characterCard.currentIncreaseAttack;
+                        characterCard.currentEBActionValue *= 2;
+
+                        characterCard.currentElementalBurstDoubleDamage += characterCard.currentIncreaseAttack;
+                    }
+                }
+                else
+                {
+                    if (characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+                    {
+                        characterCard.currentNAActionValue += characterCard.currentIncreaseAttack;
+                    }
+
+                    else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+                    {
+                        characterCard.currentESActionValue += characterCard.currentIncreaseAttack;
+                    }
+
+                    else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+                    {
+                        characterCard.currentEBActionValue += characterCard.currentIncreaseAttack;
+                    }
+                }
             }
         }
+
         characterCard.SetIncreaseValueText();
     }
     public void IncreaseBurstPoint(int value)
@@ -343,15 +409,17 @@ public class CharacterStats : MonoBehaviour
 
         isReducingSkillActionPoints = true;
         characterCard.currentReduceSkillActionPoints = value;
+        characterCard.currentNAActionPointCost -= characterCard.currentReduceSkillActionPoints;
+        characterCard.currentESActionPointCost -= characterCard.currentReduceSkillActionPoints;
+        characterCard.currentEBActionPointCost -= characterCard.currentReduceSkillActionPoints;
 
-        foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
-            characterSkill.actionPointCost -= characterCard.currentReduceSkillActionPoints;
-
-        if(gamePlayManager.currentTurn == TurnState.YourTurn)
+        foreach(CharacterCard characterCard in gamePlayManager.playerCharacterList)
         {
-            CharacterSkill[] skill = characterCard.characterCardData.characterCard.characterSkillList.ToArray();
-            uiManager.battleCanvas.skillPanel.
-                SetActionPointCostText(skill[0].actionPointCost, skill[1].actionPointCost, skill[2].actionPointCost);
+            if (characterCard.characterStats.isActionCharacter)
+            {
+                uiManager.battleCanvas.skillPanel.SetActionPointCostText
+                    (characterCard.currentNAActionPointCost, characterCard.currentESActionPointCost, characterCard.currentEBActionPointCost);
+            }
         }
     }
     public void CheckAllDead()
@@ -379,13 +447,11 @@ public class CharacterStats : MonoBehaviour
         }
         if (allAlliesDead)
         {
-            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Lose");
-            gamePlayManager.UpdateGameState(GamePlayState.Lose);
+            uiManager.battleCanvas.winLosePanel.SetLoseState();
         }
         else if (allEnemiesDead)
         {
-            uiManager.battleCanvas.winLosePanel.SetWinLoseText("You Win");
-            gamePlayManager.UpdateGameState(GamePlayState.Victory);
+            uiManager.battleCanvas.winLosePanel.SetWinState();
         }
     }
     public void ApplyStatus(ActionCardActionSkillType actionCardActionSkillType)
@@ -394,23 +460,29 @@ public class CharacterStats : MonoBehaviour
 
         switch (actionCardActionSkillType)
         {
-            case ActionCardActionSkillType.Healing: SatiatedState(true); 
+            case ActionCardActionSkillType.Healing:
+                SatiatedState(true);
                 break;
-            case ActionCardActionSkillType.IncreaseAttack: IncreaseAttackState(true); 
+            case ActionCardActionSkillType.IncreaseAttack:
+                IncreaseAttackState(true);
                 break;
-            case ActionCardActionSkillType.CreateShield: ShieldState(true); 
+            case ActionCardActionSkillType.CreateShield:
+                ShieldState(true);
                 break;
-            case ActionCardActionSkillType.DoubleDamage: DoubleDamageState(true); 
+            case ActionCardActionSkillType.DoubleDamage:
+                DoubleDamageState(true);
                 break;
-            case ActionCardActionSkillType.SkipRound: SkipRoundState(true); 
+            case ActionCardActionSkillType.SkipRound:
+                SkipRoundState(true);
                 break;
-            case ActionCardActionSkillType.Revival: RevivalState(true); 
+            case ActionCardActionSkillType.Revival:
+                RevivalState(true);
                 break;
         }
     }
     public void ClearStatus(ActionCardActionSkillType actionCardActionSkillType)
     {
-        if(actionCardActionSkillType == ActionCardActionSkillType.Healing)
+        if (actionCardActionSkillType == ActionCardActionSkillType.Healing)
         {
             if (!isSatiated) return;
 
@@ -430,14 +502,14 @@ public class CharacterStats : MonoBehaviour
         }
         if (actionCardActionSkillType == ActionCardActionSkillType.CreateShield)
         {
-            if(!isShield) return;
+            if (!isShield) return;
 
             characterCard.currentShield = 0;
 
             ShieldState(false);
             RemoveStatus(StatusType.isShield);
         }
-        if(actionCardActionSkillType == ActionCardActionSkillType.ReduceSkillActionPoints)
+        if (actionCardActionSkillType == ActionCardActionSkillType.ReduceSkillActionPoints)
         {
             if (!isReducingSkillActionPoints) return;
 
@@ -445,30 +517,55 @@ public class CharacterStats : MonoBehaviour
             ReduceSkillActionPoints(-temp);
             characterCard.currentReduceSkillActionPoints = 0;
             isReducingSkillActionPoints = false;
+
+            foreach (CharacterCard characterCard in gamePlayManager.playerCharacterList)
+            {
+                if (characterCard.characterStats.isActionCharacter)
+                {
+                    uiManager.battleCanvas.skillPanel.SetActionPointCostText
+                        (characterCard.currentNAActionPointCost, characterCard.currentESActionPointCost, characterCard.currentEBActionPointCost);
+                }
+            }
         }
-        if(actionCardActionSkillType == ActionCardActionSkillType.DoubleDamage)
+        if (actionCardActionSkillType == ActionCardActionSkillType.DoubleDamage)
         {
             if (!isDoublingDamage) return;
 
             foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
             {
-                foreach (Skill skill in characterSkill.actionSkillList)
+                foreach (Skill skill in characterSkill.skillList)
                 {
-                    skill.actionValue /= 2;
+                    if (characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+                    {
+                        characterCard.currentNAActionValue -= characterCard.currentNormalAttackDoubleDamage;
+                        characterCard.currentNormalAttackDoubleDamage = 0;
+                    }
+
+                    else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+                    {
+                        characterCard.currentESActionValue -= characterCard.currentElementalSkillDoubleDamage;
+                        characterCard.currentElementalSkillDoubleDamage = 0;
+                    }
+
+                    else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+                    {
+                        characterCard.currentEBActionValue -= characterCard.currentElementalBurstDoubleDamage;
+                        characterCard.currentElementalBurstDoubleDamage = 0;
+                    }
                 }
             }
 
             DoubleDamageState(false);
             RemoveStatus(StatusType.isDoublingDamage);
         }
-        if(actionCardActionSkillType == ActionCardActionSkillType.SkipRound)
+        if (actionCardActionSkillType == ActionCardActionSkillType.SkipRound)
         {
-            if(!isSkippingRound) return;
+            if (!isSkippingRound) return;
 
             SkipRoundState(false);
             RemoveStatus(StatusType.isSkippingRound);
         }
-        if(actionCardActionSkillType == ActionCardActionSkillType.Revival)
+        if (actionCardActionSkillType == ActionCardActionSkillType.Revival)
         {
             if (!isReviving) return;
 
@@ -478,9 +575,9 @@ public class CharacterStats : MonoBehaviour
     }
     public void RemoveStatus(StatusType statusType)
     {
-        foreach(Status status in statusList)
+        foreach (Status status in statusList)
         {
-            if(statusType == status.statusType)
+            if (statusType == status.statusType)
             {
                 statusList.Remove(status);
                 break;
@@ -489,17 +586,15 @@ public class CharacterStats : MonoBehaviour
     }
     public void ClearAllStatus()
     {
-        isApplyingStatus = false;
         ClearStatus(ActionCardActionSkillType.Healing);
         ClearStatus(ActionCardActionSkillType.IncreaseAttack);
         ClearStatus(ActionCardActionSkillType.CreateShield);
         ClearStatus(ActionCardActionSkillType.SkipRound);
         ClearStatus(ActionCardActionSkillType.DoubleDamage);
-        ClearStatus(ActionCardActionSkillType.Revival);   
+        ClearStatus(ActionCardActionSkillType.Revival);
     }
     public void ClearAllWeakness()
     {
-        isApplyingStatus = false;
         ClearWeakness(WeaknessType.Lightning);
         ClearWeakness(WeaknessType.Ice);
         ClearWeakness(WeaknessType.Fire);
@@ -510,7 +605,6 @@ public class CharacterStats : MonoBehaviour
     }
     public void ClearAllBreaking()
     {
-        isApplyBreaking = false;
         ClearBreaking(WeaknessType.Ice);
         ClearBreaking(WeaknessType.Imaginary);
         ClearBreaking(WeaknessType.Fire);
@@ -533,73 +627,88 @@ public class CharacterStats : MonoBehaviour
     }
 
     //-------------------------weakness
-    public IEnumerator Bleed(WeaknessType weaknessType ,int value)
-    {
-        TakeDamage(1);
-        yield return new WaitForSeconds(1);
-        TakeWeakness(weaknessType, 0);
-    }
+    #region Weakness State
     public void FireWeaknessState(bool state)
     {
         isFireWeakness = state;
         fireImage.gameObject.SetActive(state);
+        fireImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void IceWeaknessState(bool state)
     {
         isIceWeakness = state;
         iceImage.gameObject.SetActive(state);
+        iceImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void QuantumWeaknessState(bool state)
     {
         isQuantumWeakness = state;
         quantumImage.gameObject.SetActive(state);
+        quantumImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void WindWeaknessState(bool state)
     {
         isWindWeakness = state;
         windImage.gameObject.SetActive(state);
+        windImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void ImaginaryWeaknessState(bool state)
     {
         isImaginaryWeakness = state;
         imaginaryImage.gameObject.SetActive(state);
+        imaginaryImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void PhysicalWeaknessState(bool state)
     {
         isPhysicalWeakness = state;
         physicalImage.gameObject.SetActive(state);
+        physicalImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void LightningWeaknessState(bool state)
     {
         isLightningWeakness = state;
         lightningImage.gameObject.SetActive(state);
+        lightningImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
+    #endregion
+    #region Breaking State
     public void BleedState(bool state)
     {
         isBleeding = state;
         bleedImage.gameObject.SetActive(state);
+        bleedImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void DetentionState(bool state)
     {
         isDetention = state;
         detentionImage.gameObject.SetActive(state);
+        detentionImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
     }
     public void FreezeState(bool state)
     {
         isFreezing = state;
         freezeImage.gameObject.SetActive(state);
+        freezeImage.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
+    }
+    #endregion
+    public IEnumerator Bleed(WeaknessType weaknessType, int value)
+    {
+        TakeDamage(value);
+        yield return new WaitForSeconds(1);
+        TakeWeakness(weaknessType, 0);
     }
     public void TakeDamageWeakness(int value, WeaknessType weaknessType)
     {
         if (isDead || isApplyBreaking) return;
         characterCard.currentWeakness -= value;
-        if(characterCard.currentWeakness <= 0)
+        if (characterCard.currentWeakness <= 0)
         {
             characterCard.currentWeakness = 0;
             StartCoroutine(WeaknessBreakingState(true, weaknessType));
             AddBreaking(weaknessType);
         }
         characterCard.SetWeaknessText();
+        characterCard.weaknessText.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
 
         takeWeaknessCoroutine = StartCoroutine(TakeWeaknessState(value));
     }
@@ -739,10 +848,10 @@ public class CharacterStats : MonoBehaviour
     }
     public void RemoveBreaking(WeaknessType weaknessType)
     {
-        if (breakingList.Count == 0) return; 
-        foreach(WeaknessBreaking weaknessBreaking in breakingList)
+        if (breakingList.Count == 0) return;
+        foreach (WeaknessBreaking weaknessBreaking in breakingList)
         {
-            if(weaknessType == weaknessBreaking.weaknessType)
+            if (weaknessType == weaknessBreaking.weaknessType)
             {
                 breakingList.Remove(weaknessBreaking);
                 break;
@@ -809,6 +918,21 @@ public class CharacterStats : MonoBehaviour
                 weaknessList.Remove(weakness);
                 break;
             }
+        }
+    }
+    public void ClearStatusAfterAttack()
+    {
+        if (isReducingSkillActionPoints)
+        {
+            ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
+        }
+        if (isDoublingDamage)
+        {
+            ClearStatus(ActionCardActionSkillType.DoubleDamage);
+        }
+        if (isIncreasingAttack)
+        {
+            ClearStatus(ActionCardActionSkillType.IncreaseAttack);
         }
     }
 }

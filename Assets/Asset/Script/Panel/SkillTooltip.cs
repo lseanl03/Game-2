@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class SkillTooltip : MonoBehaviour
 {
-    public bool isShowing = false;
+    public bool isShowingDes = false;
     public float rotateIndex = 0f;
     public GameObject skillDesButtonObj;
     public GameObject skillDesObj;
 
-    public void DescriptionState()
+    public void ChangeDescriptionState()
     {
-        isShowing = !isShowing;
-        rotateIndex = isShowing ? 180f : 0f;
-        skillDesObj.SetActive(isShowing);
+        isShowingDes = !isShowingDes;
+        rotateIndex = isShowingDes ? 180f : 0f;
+        skillDesObj.SetActive(isShowingDes);
         skillDesButtonObj.transform.rotation = Quaternion.Euler(0f,0f,rotateIndex);
     }
 }

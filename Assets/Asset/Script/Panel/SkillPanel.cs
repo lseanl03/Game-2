@@ -8,6 +8,7 @@ public class SkillPanel : PanelBase
 {
     public bool isHighlightActive = false;
     public CharacterCardSkillType currentHighlightedSkill = CharacterCardSkillType.None;
+    public GameObject SkillObj;
 
     [Header("NormalAttack")]
     public Image normalAttackImage;
@@ -49,15 +50,15 @@ public class SkillPanel : PanelBase
     }
     public void NormalAttack()
     {
-        HighlightActive(CharacterCardSkillType.NormalAttack);
+        HighlightActive(CharacterCardSkillType.NormalAttack, currentCharacterCard.currentNAActionPointCost);
     }
     public void ElementalSkill()
     {
-        HighlightActive(CharacterCardSkillType.ElementalSkill);
+        HighlightActive(CharacterCardSkillType.ElementalSkill, currentCharacterCard.currentESActionPointCost);
     }
     public void ElementalBurst()
     {
-        HighlightActive(CharacterCardSkillType.ElementalBurst);
+        HighlightActive(CharacterCardSkillType.ElementalBurst, currentCharacterCard.currentEBActionPointCost);
     }
 
     public void SetNormalAttackColor()
@@ -87,17 +88,17 @@ public class SkillPanel : PanelBase
 
                 if (characterCardSkillType == CharacterCardSkillType.NormalAttack)
                 {
-                    isShowSkill = playerManager.currentActionPoint >= characterSkill.actionPointCost &&
+                    isShowSkill = playerManager.currentActionPoint >= currentCharacterCard.currentNAActionPointCost &&
                                   playerManager.currentSkillPoint >= characterSkill.skillPointCost;
                 }
                 else if (characterCardSkillType == CharacterCardSkillType.ElementalSkill)
                 {
-                    isShowSkill = playerManager.currentActionPoint >= characterSkill.actionPointCost &&
+                    isShowSkill = playerManager.currentActionPoint >= currentCharacterCard.currentESActionPointCost &&
                                   playerManager.currentSkillPoint >= characterSkill.skillPointCost;
                 }
                 else if (characterCardSkillType == CharacterCardSkillType.ElementalBurst)
                 {
-                    isShowSkill = playerManager.currentActionPoint >= characterSkill.actionPointCost &&
+                    isShowSkill = playerManager.currentActionPoint >= currentCharacterCard.currentEBActionPointCost &&
                                   playerManager.currentSkillPoint >= characterSkill.skillPointCost &&
                                   currentCharacterCard.currentBurstPoint == currentCharacterCardData.burstPointMax;
                 }
@@ -113,22 +114,29 @@ public class SkillPanel : PanelBase
             }
         }
     }
-    public void HighlightActive(CharacterCardSkillType skillType)
+    public void HighlightActive(CharacterCardSkillType skillType, int actionCost)
     {
-        if (currentCharacterCard.isAttacking) return;
+        if (gamePlayManager.playerAttacking) return;
 
-        if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.YourTurn && 
-            !currentCharacterCard.characterStats.isDead)
+        AudioManager.instance.PlayOnClickSkill();
+        if (!uiManager.tutorialCanvas.isShowedAttackTutorial && gamePlayManager.actionPhase)
+        {
+            uiManager.tutorialCanvas.isShowedAttackTutorial = true;
+            uiManager.tutorialCanvas.ActionTutorial(TutorialType.AttackTutorial);
+        }
+        if (gamePlayManager.actionPhase && gamePlayManager.currentTurn == TurnState.YourTurn &&
+            !currentCharacterCard.characterStats.isDead && !currentCharacterCard.characterStats.isFreezing &&
+            !currentCharacterCard.characterStats.isDetention)
         {
             if (isHighlightActive)
             {
-                if(skillType != currentHighlightedSkill)
+                if (skillType != currentHighlightedSkill)
                 {
                     SetCurrentHighlight(skillType);
                 }
                 else
                 {
-                    PerformSkill(currentHighlightedSkill, currentCharacterCardData.characterCard.characterSkillList);
+                    PerformSkill(currentHighlightedSkill, currentCharacterCardData.characterCard.characterSkillList, actionCost);
                 }
             }
             else
@@ -137,33 +145,49 @@ public class SkillPanel : PanelBase
                 SetCurrentHighlight(skillType);
             }
         }
+        else if (currentCharacterCard.characterStats.isFreezing)
+            notificationManager.SetNewNotification("The character is frozen");
+        else if(currentCharacterCard .characterStats.isDetention)
+            notificationManager.SetNewNotification("The character is currently detained");
     }
     public void SetCurrentHighlight(CharacterCardSkillType skillType)
     {
+        if (gamePlayManager.playerCanSwitchCharacterDying || gamePlayManager.enemyCanSwitchCharacterDying) return;
+
         foreach (CharacterSkill characterSkill in currentCharacterCardData.characterCard.characterSkillList)
         {
             if (characterSkill.characterCardSkillType == skillType)
             {
-                foreach (Skill skill in characterSkill.actionSkillList)
+                foreach (Skill skill in characterSkill.skillList)
                 {
-                    gamePlayManager.HighlightCardTarget(skill.actionTargetType, skill.actionValue, characterSkill.weaknessBreakValue, currentCharacterCard);
+                    if(skillType == CharacterCardSkillType.NormalAttack)
+                        gamePlayManager.HighlightCardTarget(skill.actionTargetType, currentCharacterCard.currentNAActionValue, characterSkill.weaknessBreakValue, currentCharacterCard);
+                    else if(skillType == CharacterCardSkillType.ElementalSkill)
+                        gamePlayManager.HighlightCardTarget(skill.actionTargetType, currentCharacterCard.currentESActionValue, characterSkill.weaknessBreakValue, currentCharacterCard);
+                    else if(skillType == CharacterCardSkillType.ElementalBurst)
+                        gamePlayManager.HighlightCardTarget(skill.actionTargetType, currentCharacterCard.currentEBActionValue, characterSkill.weaknessBreakValue, currentCharacterCard);
+
                 }
                 currentHighlightedSkill = skillType; // Cập nhật loại kỹ năng đang được highlight
             }
         }
     }
-    public void PerformSkill(CharacterCardSkillType currentSkillType, List<CharacterSkill> characterSkillList)
+    public void PerformSkill(CharacterCardSkillType currentSkillType, List<CharacterSkill> characterSkillList, int actionCost)
     {
         foreach (CharacterSkill characterSkill in characterSkillList)
         {
             if (characterSkill.characterCardSkillType == currentSkillType)
             {
-                if (playerManager.currentActionPoint >= characterSkill.actionPointCost &&
+                if (playerManager.currentActionPoint >= actionCost &&
                     playerManager.currentSkillPoint >= characterSkill.skillPointCost &&
                     currentCharacterCard.currentBurstPoint >= characterSkill.burstPointCost)
                 {
-                    StartCoroutine(UseSkill(characterSkill));
-                    
+                    if(currentSkillType == CharacterCardSkillType.NormalAttack)
+                        StartCoroutine(UseSkill(characterSkill, currentCharacterCard.currentNAActionPointCost, currentCharacterCard.currentNAActionValue));
+                    else if (currentSkillType == CharacterCardSkillType.ElementalSkill)
+                        StartCoroutine(UseSkill(characterSkill, currentCharacterCard.currentESActionPointCost, currentCharacterCard.currentESActionValue));
+                    else if(currentSkillType == CharacterCardSkillType.ElementalBurst)
+                        StartCoroutine(UseSkill(characterSkill, currentCharacterCard.currentEBActionPointCost, currentCharacterCard.currentEBActionValue));
                 }
                 else
                 {
@@ -177,9 +201,16 @@ public class SkillPanel : PanelBase
                         notificationManager.SetNewNotification("Skill point are not enough");
                         return;
                     }
-                    else if (playerManager.currentActionPoint < characterSkill.actionPointCost)
+                    else if (playerManager.currentActionPoint < currentCharacterCard.currentNAActionPointCost &&
+                        playerManager.currentActionPoint < currentCharacterCard.currentESActionPointCost &&
+                        playerManager.currentActionPoint < currentCharacterCard.currentEBActionPointCost)
                     {
                         notificationManager.SetNewNotification("Action point are not enough");
+                        if (!uiManager.tutorialCanvas.isShowedEndRoundTutorial)
+                        {
+                            uiManager.tutorialCanvas.isShowedEndRoundTutorial = true;
+                            uiManager.tutorialCanvas.ActionTutorial(TutorialType.EndRoundTutorial);
+                        }
                         return;
                     }
                 }
@@ -188,18 +219,23 @@ public class SkillPanel : PanelBase
         gamePlayManager.HideHighlightsCard();
     }
 
-    public IEnumerator UseSkill(CharacterSkill characterSkill)
+    public IEnumerator UseSkill(CharacterSkill characterSkill, int actionCost, int actionValue)
     {
-        foreach (Skill skill in characterSkill.actionSkillList)
-        {
-            currentCharacterCard.SetBurstPoint(characterSkill.burstPointCost);
-            playerManager.ConsumeActionPoint(characterSkill.actionPointCost);
-            playerManager.ConsumeSkillPoint(characterSkill.skillPointCost);
+        while (currentCharacterCard.characterStats.isDetention || currentCharacterCard.characterStats.isFreezing) 
+            yield return null;
 
-            gamePlayManager.DealDamageToTargets(skill.actionTargetType, skill.actionValue, characterSkill.characterCardSkillType, currentCharacterCard);
+        foreach (Skill skill in characterSkill.skillList)
+        {
+            gamePlayManager.DealDamageToTargets(skill.actionTargetType, actionValue, characterSkill.characterCardSkillType, currentCharacterCard);
         }
-        yield return new WaitForSeconds(1);
-        if(gamePlayManager.currentTurn == TurnState.YourTurn)
+        while (gamePlayManager.playerAttacking)
+        {
+            yield return null;
+        }
+        currentCharacterCard.SetBurstPoint(characterSkill.burstPointCost);
+        playerManager.ConsumeActionPoint(actionCost);
+        playerManager.ConsumeSkillPoint(characterSkill.skillPointCost);
+        if (gamePlayManager.currentTurn == TurnState.YourTurn)
         {
             if (!gamePlayManager.enemyEndingRound)
                 gamePlayManager.UpdateTurnState(TurnState.EnemyTurn);
@@ -213,8 +249,8 @@ public class SkillPanel : PanelBase
         if (currentCharacterCard.characterStats.isReducingSkillActionPoints)
         {
             currentCharacterCard.characterStats.ClearStatus(ActionCardActionSkillType.ReduceSkillActionPoints);
-            CharacterSkill[] skill = currentCharacterCard.characterCardData.characterCard.characterSkillList.ToArray();
-            SetActionPointCostText(skill[0].actionPointCost, skill[1].actionPointCost, skill[2].actionPointCost);
+            uiManager.battleCanvas.skillPanel.SetActionPointCostText
+                (currentCharacterCard.currentNAActionPointCost, currentCharacterCard.currentESActionPointCost, currentCharacterCard.currentEBActionPointCost);
         }
         if (currentCharacterCard.characterStats.isDoublingDamage)
         {

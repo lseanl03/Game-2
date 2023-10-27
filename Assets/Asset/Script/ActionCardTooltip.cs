@@ -16,6 +16,7 @@ public class ActionCardTooltip : MonoBehaviour
 
     [Header("Data")]
     public ActionCard currentActionCard;
+    public SupportCard currentSupportCard;
     public void GetActionCardInfo(ActionCard actionCard)
     {
         currentActionCard = actionCard;
@@ -25,5 +26,15 @@ public class ActionCardTooltip : MonoBehaviour
         nameText.text = currentActionCard.actionCardData.cardName;
         descriptionText.text = currentActionCard.actionCardData.cardDescription;
         actionPointCostText.text = currentActionCard.actionCost.ToString();
+    }
+    public void GetSupportCardInfo(SupportCard supportCard)
+    {
+        currentSupportCard = supportCard;
+
+        actionCardImage.sprite = currentSupportCard.supportCardData.cardSprite;
+        actionBackImage.color = currentSupportCard.supportCardData.actionCard.colorRarity;
+        nameText.text = currentSupportCard.supportCardData.cardName;
+        descriptionText.text = currentSupportCard.supportCardData.cardDescription;
+        actionPointCostText.text = currentSupportCard.countOfActions.ToString();
     }
 }

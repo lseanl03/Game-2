@@ -12,10 +12,6 @@ public class BattleCanvas : CanvasBase
     public SwitchCharacterBattlePanel switchCardBattlePanel;
     public PlayCardPanel playCardPanel;
     public WinLosePanel winLosePanel;
+    public SettingPanel settingPanel;
 
-    public void ReturnMainMenu()
-    {
-        winLosePanel.PanelState(false);
-        sceneChanger.OpenMainMenuScene();
-    }
 }

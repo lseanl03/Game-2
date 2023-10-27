@@ -6,10 +6,18 @@ public class MainMenuCanvas : CanvasBase
 {
     public void Play()
     {
-        sceneChanger.SceneChange(SceneType.SelectCard);
+        sceneChanger.OpenSelectCardScene();
+    }
+    public void Tutorial()
+    {
+        sceneChanger.OpenTutorialScene();
     }
     public void Quit()
     {
         sceneChanger.QuitGame();
+    }
+    public void _OnButtonClick()
+    {
+        uiManager._OnButtonClick();
     }
 }

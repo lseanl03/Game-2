@@ -71,7 +71,7 @@ public class SelectCardCanvas : CanvasBase
     }
     public void StartGame()
     {
-        for(int i = 0; i < playerManager.characterCardDeckData.Count; i++)
+        for(int i = 0; i < collectionManager.characterCardCount; i++)
         {
             CharacterCardData characterCardData = collectionManager.characterCardDataList[i];
             CharacterCardData characterCardDeckData = playerManager.characterCardDeckData[i];
@@ -81,7 +81,7 @@ public class SelectCardCanvas : CanvasBase
                 break;
             }
         }
-        for(int i = 0;i < playerManager.actionCardDeckData.Count; i++)
+        for(int i = 0;i < collectionManager.actionCardCount; i++)
         {
             ActionCardData actionCardData = collectionManager.actionCardDataList[i];
             ActionCardData actionCardDeckData = playerManager.actionCardDeckData[i];
@@ -99,12 +99,8 @@ public class SelectCardCanvas : CanvasBase
         {
             playerManager.ShuffleList(playerManager.actionCardDeckData);
             enemyManager.ShuffleList(enemyManager.actionCardDeckData);
-            sceneChanger.SceneChange(SceneType.GamePlay);
+            notificationManager.ResetText();
         }
 
-    }
-    public void Return()
-    {
-        sceneChanger.SceneChange(SceneType.MainMenu);
     }
 }

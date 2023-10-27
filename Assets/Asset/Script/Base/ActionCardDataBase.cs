@@ -8,6 +8,7 @@ public class ActionCardDataBase : ScriptableObject
     public string cardName;
     public int actionCost;
     public int quantityMaxInDeck = 2;
+    public bool isSupportCard = false;
     [TextArea] public string cardDescription;
     public Sprite cardSprite;
     public ActionCardBase actionCard;
@@ -18,6 +19,8 @@ public class ActionCardBase
 {
     [Header("Skill")]
     public List<ActionCardSkill> actionSkillList;
+    [Header("Support Skill")]
+    public SupportActionSkill supportActionSkill;
 
     [Header("Rarity")]
     public RarityType rarityType;
@@ -34,6 +37,17 @@ public class ActionCardSkill
 
     [Header("Status")]
     public List<Status> statusList;
+}
+[Serializable]
+public class SupportActionSkill
+{
+    [Header("Support")]
+    public SupportActionSkillType supportSkillType;
+    public ActionTargetType actionTargetType;
+    public ActionStartPhase actionStartPhase;
+    public int countOfActions;
+    public int maxCountOfActions;
+    public int actionValue;
 }
 [Serializable]
 public class Status
@@ -70,6 +84,18 @@ public enum ActionCardActionSkillType
     DoubleDamage, //nhân đôi sát thương
     ReduceSkillActionPoints, //giảm điểm hành động khi dùng kĩ năng
     ReduceCharacterSwitchActionPoints, //giảm điểm hành động khi chuyển đổi nhân vật
+    IncreaseActionPoint,
+    GetRandomActionPoints,
+}
+public enum SupportActionSkillType
+{
+    None,
+    DrawActionCard,
+    Healing,
+    IncreaseActionPoint,
+    AccumulateAndDrawActionCard,
+    FastSwitchCharacter,
+    CollectActionPoints,
 }
 public enum ActionTargetType
 {
@@ -79,6 +105,8 @@ public enum ActionTargetType
     AllEnemies,
     AllAllies,
     DeadFirstAlly,
+    AllyLowestHealth,
+    EnemyLowestHealth,
 }
 public enum RarityType
 {
@@ -95,6 +123,7 @@ public enum ActionStartPhase
     Now, //hành động ngay
     StartRound, //sau khi bắt đầu hiệp
     EndRound, //sau khi kết thúc hiệp
+    StartActionPhaseAndEndCheckPhase, //bắt đầu giai đoạn hành động, kết thúc giai đoạn kiểm tra
 }
 public enum ActionEndPhase
 {

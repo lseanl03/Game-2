@@ -99,7 +99,8 @@ public class ActionCard : CardBase
     public void RecallCard(int quantity)
     {
         quantityInDeck -= quantity;
-        quantityMaxInDeck += quantity;
+        if(quantityInDeck < 0) quantityInDeck = 0;
+
         quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
         quantityInDeckText.text = quantityInDeck.ToString();
         collectionManager.actionCardDataList.Remove(actionCardData);
@@ -107,22 +108,30 @@ public class ActionCard : CardBase
     public void AddCard(int quantity)
     {
         quantityInDeck += quantity;
-        quantityMaxInDeck -= quantity;
+        if(quantityInDeck > quantityMaxInDeck) quantityInDeck = quantityMaxInDeck;
+
         quantitySelectedText.text = "Selected " + quantityInDeck.ToString() + " Card";
         quantityInDeckText.text = quantityInDeck.ToString();
         collectionManager.actionCardDataList.Add(actionCardData);
     }
     public void PlayCard()
     {
-        for (int i = 0; i < actionCardData.actionCard.actionSkillList.Count; i++)
+        if (actionCardData.isSupportCard)
         {
-            ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
-            ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
-            List<CharacterCard> targetList = DetermineTarget(actionTargetType);
-            DoAction(actionCardSkill, targetList, actionCardSkill.statusList);
+            gamePlayManager.gamePlayCanvas.SpawnSupportCard(this, true);
+        }
+        else
+        {
+            for (int i = 0; i < actionCardData.actionCard.actionSkillList.Count; i++)
+            {
+                ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
+                ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
+                List<CharacterCard> targetList = gamePlayManager.PlayerDetermineTarget(actionTargetType);
+                DoAction(actionCardSkill, targetList, actionCardSkill.statusList, true);
+            }
         }
     }
-    public void DoAction(ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList)
+    public void DoAction(ActionCardSkill actionCardSkill, List<CharacterCard> targetList, List<Status> statusList, bool isPlayer)
     {
         switch (actionCardSkill.actionSkillType)
         {
@@ -133,9 +142,6 @@ public class ActionCard : CardBase
             case ActionCardActionSkillType.IncreaseAttack:
                 IncreaseAttackAction increaseAttackAction = new IncreaseAttackAction();
                 increaseAttackAction.DoAction(actionCardSkill, targetList, statusList);
-                break;
-            case ActionCardActionSkillType.SkillPointRecovery:
-                playerManager.RecoverySkillPoint(actionCardSkill.actionValue);
                 break;
             case ActionCardActionSkillType.IncreaseBurstPoint:
                 IncreaseBurstPointAction increaseBurstPointAction = new IncreaseBurstPointAction();
@@ -161,124 +167,122 @@ public class ActionCard : CardBase
                 RevivalAction revivalAction = new RevivalAction();
                 revivalAction.DoAction(actionCardSkill,targetList,statusList); 
                 break;
-        }
-    }
-    public List<CharacterCard> DetermineTarget(ActionTargetType actionTargetType)
-    {
-        List<CharacterCard> playerCharacterList = gamePlayManager.playerCharacterList;
-        List<CharacterCard> enemyCharacterList = gamePlayManager.enemyCharacterList;
-        List<CharacterCard> targetList = new List<CharacterCard>();
-        switch (actionTargetType)
-        {
-            case ActionTargetType.Ally:
-                foreach (CharacterCard characterCard in playerCharacterList)
-                {
-                    if (characterCard.characterStats.isActionCharacter)
-                        targetList.Add(characterCard);
-                }
+
+                //Need check bool
+            case ActionCardActionSkillType.IncreaseActionPoint:
+                if (isPlayer) playerManager.RecoveryActionPoint(actionCardSkill.actionValue);
+                else enemyManager.RecoveryActionPoint(actionCardSkill.actionValue);
                 break;
 
-            case ActionTargetType.Enemy:
-                foreach(CharacterCard characterCard in enemyCharacterList)
-                {
-                    if (characterCard.characterStats.isActionCharacter)
-                        targetList.Add(characterCard);
-                }
+            case ActionCardActionSkillType.SkillPointRecovery:
+                if (isPlayer) playerManager.RecoverySkillPoint(actionCardSkill.actionValue);
+                else enemyManager.RecoverySkillPoint(actionCardSkill.actionValue);
                 break;
 
-            case ActionTargetType.AllAllies:
-                foreach (CharacterCard characterCard in playerCharacterList)
+            case ActionCardActionSkillType.GetRandomActionPoints:
+                int random = Random.Range(1, 3);
+                if (random == 1)
                 {
-                    targetList.Add(characterCard);
-                }
-                break;
-
-            case ActionTargetType.AllEnemies: 
-                foreach (CharacterCard characterCard in enemyCharacterList)
-                {
-                    targetList.Add(characterCard);
-                }
-                break;
-            case ActionTargetType.DeadFirstAlly:
-                foreach(CharacterCard characterCard in playerCharacterList)
-                {
-                    if (characterCard.characterStats.isDeadFirst)
-                    {
-                        targetList.Add(characterCard);
-                    }
+                    if (isPlayer) playerManager.RecoveryActionPoint(actionCardSkill.actionValue);
+                    else enemyManager.RecoveryActionPoint(actionCardSkill.actionValue);
                 }
                 break;
         }
-        return targetList;
     }
-    public void CheckTarget()
+    public void CheckActionCard()
     {
         actionCardDragHover.canPlayCard = true;
 
-        for (int i = 0; i < actionCardData.actionCard.actionSkillList.Count; i++)
+        if(actionCardData.isSupportCard)
         {
-            ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
-            ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
-            List<CharacterCard> targetList = DetermineTarget(actionTargetType);
-            bool canReturnCard = true;
-            switch (actionCardSkill.actionSkillType)
+            if(gamePlayManager.gamePlayCanvas.playerSupportCardField.transform.childCount >= 4)
             {
-                case ActionCardActionSkillType.Healing:
-                    foreach (CharacterCard characterCard in targetList)
-                    {
-                        if(characterCard.currentHealth < characterCard.characterCardData.maxHealth && !characterCard.characterStats.isSatiated)
+                actionCardDragHover.canPlayCard = false;
+                actionCardDragHover.ReturnCard();
+                notificationManager.SetNewNotification("There are already 4 support cards on the table, no more can be used");
+            }
+        }
+        else
+        {
+            for (int i = 0; i < actionCardData.actionCard.actionSkillList.Count; i++)
+            {
+                ActionCardSkill actionCardSkill = actionCardData.actionCard.actionSkillList[i];
+                ActionTargetType actionTargetType = actionCardSkill.actionTargetType;
+                List<CharacterCard> targetList = gamePlayManager.PlayerDetermineTarget(actionTargetType);
+                bool canReturnCard = true;
+                switch (actionCardSkill.actionSkillType)
+                {
+                    case ActionCardActionSkillType.Healing:
+                        foreach (CharacterCard characterCard in targetList)
                         {
-                            canReturnCard = false;
+                            if (characterCard.currentHealth < characterCard.characterCardData.maxHealth && !characterCard.characterStats.isSatiated)
+                            {
+                                canReturnCard = false;
+                            }
                         }
-                    }
-                    if (canReturnCard)
-                    {
-                        actionCardDragHover.ReturnCard();
-                        notificationManager.SetNewNotification("Card cannot be used at this time");
-                    }
-                    break;
-                case ActionCardActionSkillType.ReduceSkillActionPoints:
-                    canReturnCard = false;
-                    foreach (CharacterCard characterCard in targetList)
-                    {
-                        if(characterCard.characterStats.isReducingSkillActionPoints)
-                        {
-                            canReturnCard = true;
-                        }
-                    }
-                    if (canReturnCard)
-                    {
-                        actionCardDragHover.ReturnCard();
-                        notificationManager.SetNewNotification("Card cannot be used at this time");
-                    }
-                    break;
-                case ActionCardActionSkillType.IncreaseAttack:
-                    foreach (CharacterCard characterCard in targetList)
-                    {
-                        if (characterCard.characterStats.isIncreasingAttack)
+                        if (canReturnCard)
                         {
                             actionCardDragHover.ReturnCard();
                             notificationManager.SetNewNotification("Card cannot be used at this time");
                         }
-                    }
-                    break;
-                case ActionCardActionSkillType.Revival:
-                    if (targetList.Count == 0)
-                    {
-                        actionCardDragHover.ReturnCard();
-                        notificationManager.SetNewNotification("Card cannot be used at this time");
-                    }
-                    break;
-                case ActionCardActionSkillType.DoubleDamage:
-                    foreach (CharacterCard characterCard in targetList)
-                    {
-                        if (characterCard.characterStats.isDoublingDamage)
+                        break;
+                    case ActionCardActionSkillType.ReduceSkillActionPoints:
+                        canReturnCard = false;
+                        foreach (CharacterCard characterCard in targetList)
+                        {
+                            if (characterCard.characterStats.isReducingSkillActionPoints)
+                            {
+                                canReturnCard = true;
+                            }
+                        }
+                        if (canReturnCard)
                         {
                             actionCardDragHover.ReturnCard();
                             notificationManager.SetNewNotification("Card cannot be used at this time");
                         }
-                    }
-                    break;
+                        break;
+                    case ActionCardActionSkillType.IncreaseAttack:
+                        foreach (CharacterCard characterCard in targetList)
+                        {
+                            if (characterCard.characterStats.isIncreasingAttack)
+                            {
+                                actionCardDragHover.ReturnCard();
+                                notificationManager.SetNewNotification("Card cannot be used at this time");
+                            }
+                        }
+                        break;
+                    case ActionCardActionSkillType.Revival:
+                        if (targetList.Count == 0)
+                        {
+                            actionCardDragHover.ReturnCard();
+                            notificationManager.SetNewNotification("Card cannot be used at this time");
+                        }
+                        break;
+                    case ActionCardActionSkillType.DoubleDamage:
+                        foreach (CharacterCard characterCard in targetList)
+                        {
+                            if (characterCard.characterStats.isDoublingDamage)
+                            {
+                                actionCardDragHover.ReturnCard();
+                                notificationManager.SetNewNotification("Card cannot be used at this time");
+                            }
+                        }
+                        break;
+                    case ActionCardActionSkillType.IncreaseBurstPoint:
+                        foreach (CharacterCard characterCard in targetList)
+                        {
+                            if (characterCard.currentBurstPoint < characterCard.characterCardData.burstPointMax)
+                            {
+                                canReturnCard = false;
+                            }
+                        }
+                        if (canReturnCard)
+                        {
+                            actionCardDragHover.ReturnCard();
+                            notificationManager.SetNewNotification("Card cannot be used at this time");
+                        }
+                        break;
+                }
             }
         }
     }

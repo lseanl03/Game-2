@@ -1,13 +1,10 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GamePlayManager : MonoBehaviour
 {
-
     [Header("State")]
     public GamePlayState currentState;
     public TurnState currentTurn;
@@ -17,6 +14,10 @@ public class GamePlayManager : MonoBehaviour
     public bool endPhase = false;
     public bool actionPhase = false;
 
+    [Header("Win Lose State")]
+    public bool playerWin = false;
+    public bool enemyWin = false;
+
     [Header("Attack First")]
     public bool playerAttackFirst = false;
     public bool enemyAttackFirst = false;
@@ -24,6 +25,14 @@ public class GamePlayManager : MonoBehaviour
     [Header("EndingRound")]
     public bool playerEndingRound = false;
     public bool enemyEndingRound = false;
+
+    [Header("Action Attack")]
+    public bool playerAttacking = false;
+    public bool enemyAttacking = false;
+
+    [Header("Using Support Card")]
+    public bool playerActionSupportCard = false;
+    public bool enemyActionSupportCard = false;
 
     [Header("Selected Character")]
     public bool playerSelectedCharacterBattleInitial = false;
@@ -41,6 +50,10 @@ public class GamePlayManager : MonoBehaviour
     public bool playerHaveCharacterDeadFirst = false;
     public bool enemyHaveCharacterDeadFirst = false;
 
+    [Header("Drawing Action Cards")]
+    public bool playerDrawingActionCard = false;
+    public bool enemyDrawingActionCard = false;
+
     [Header("Quantity")]
     public int battleCardSwitchCost = 10;
     public int quantityInitialActionCard = 5;
@@ -53,6 +66,10 @@ public class GamePlayManager : MonoBehaviour
     public List<ActionCard> playerActionCardList;
     public List<ActionCard> enemyActionCardList;
 
+    [Header("Support Card List")]
+    public List<SupportCard> playerSupportCardList;
+    public List<SupportCard> enemySupportCardList;
+
     [Header("Canvas")]
     public GamePlayCanvas gamePlayCanvas;
 
@@ -64,7 +81,7 @@ public class GamePlayManager : MonoBehaviour
     protected EnemyManager enemyManager => EnemyManager.instance;
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
             instance = this;
         else
         {
@@ -75,7 +92,6 @@ public class GamePlayManager : MonoBehaviour
     }
     private void Start()
     {
-
         UpdateGameState(GamePlayState.SelectFirstTurn);
     }
     private void Update()
@@ -88,15 +104,17 @@ public class GamePlayManager : MonoBehaviour
     //---------------------------Update State---------------------------
     public void UpdateGameState(GamePlayState gameState)
     {
+        if (playerWin || enemyWin) return;
+
         currentState = gameState;
         switch (currentState)
         {
             case GamePlayState.SelectFirstTurn:
-                StartCoroutine(HandleSelectFirstTurn());
+                HandleSelectFirstTurn();
                 break;
 
             case GamePlayState.SelectInitialActionCard:
-                StartCoroutine(HandleSelectInitialActionCard());
+                HandleSelectInitialActionCard();
                 HideTooltip();
                 break;
 
@@ -136,49 +154,74 @@ public class GamePlayManager : MonoBehaviour
     }
     public void UpdateTurnState(TurnState turnState)
     {
+        if (playerWin || enemyWin) return;
+
         currentTurn = turnState;
-        switch(currentTurn)
+        switch (currentTurn)
         {
             case TurnState.YourTurn:
-                if(actionPhase)
-                notificationManager.SetNewNotification("Your Turn");
+                if (actionPhase)
+                {
+                    notificationManager.SetNewNotification("Your Turn");
+                    notificationManager.notificationText.transform.DOScale(1.5f, 0.25f).SetLoops(2,LoopType.Yoyo);
+                    AudioManager.instance.PlayYourTurn();
+                }
                 break;
             case TurnState.EnemyTurn:
-                if(actionPhase)
-                notificationManager.SetNewNotification("Enemy Turn");
+                if (actionPhase)
+                {
+                    notificationManager.SetNewNotification("Enemy Turn");
+                    notificationManager.notificationText.transform.DOScale(1.5f, 0.25f).SetLoops(2, LoopType.Yoyo);
+                    AudioManager.instance.PlayEnemyTurn();
+                }
                 HideHighlightsCard();
                 break;
         }
     }
 
     //---------------------------Handle Phase---------------------------
-    IEnumerator HandleSelectFirstTurn()
+    void HandleSelectFirstTurn()
     {
-        yield return null;
-        if (uiManager != null)
+        playerWin = false;
+        enemyWin = false;
+
+        uiManager.battleCanvas.CanvasState(true);
+        uiManager.battleCanvas.selectTurnPanel.PanelState(true);
+        uiManager.battleCanvas.skillPanel.PanelState(false);
+        uiManager.battleCanvas.informationPanel.PanelState(false);
+        uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
+        uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
+    }
+    void HandleSelectInitialActionCard()
+    {
+        uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(true);
+        if (uiManager.tutorialCanvas != null)
         {
-            uiManager.battleCanvas.CanvasState(true);
-            uiManager.battleCanvas.selectTurnPanel.PanelState(true);
-            uiManager.battleCanvas.skillPanel.PanelState(false);
-            uiManager.battleCanvas.informationPanel.PanelState(false);
-            uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
-            uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
+            uiManager.tutorialCanvas.ActionTutorial(TutorialType.SelectActionCardInitial);
         }
     }
     IEnumerator HandleSelectBattleCharacter()
     {
-        actionPhase = false;
-
-        if (uiManager != null && !enemyCanSwitchCharacterDying)
+        if (!enemyCanSwitchCharacterDying)
         {
-            uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
+            uiManager.tutorialCanvas.ActionTutorial(TutorialType.uiTutorial);
+
+            uiManager.battleCanvas.settingPanel.PanelState(true);
             uiManager.battleCanvas.informationPanel.PanelState(true);
             uiManager.battleCanvas.switchCardBattlePanel.PanelState(true);
+            uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(false);
             uiManager.battleCanvas.skillPanel.PanelState(false);
         }
+        else
+        {
+            notificationManager.SetNewNotification("Enemy selecting a character to fight");
+        }
+
         if (!playerSelectedCharacterBattleInitial)
         {
             gamePlayCanvas.CanvasState(true);
+            uiManager.battleCanvas.switchCardBattlePanel.SetSwitchCardBattleText("Hãy chọn một nhân vật để xuất chiến");
+            uiManager.battleCanvas.switchCardBattlePanel.ActionCostState(false);
             yield return new WaitForSeconds(1);
             notificationManager.SetNewNotification("Select your first character");
         }
@@ -187,24 +230,15 @@ public class GamePlayManager : MonoBehaviour
             uiManager.battleCanvas.switchCardBattlePanel.ActionCostState(false);
             notificationManager.SetNewNotification("Select a character to fight");
         }
-        else if (enemyCanSwitchCharacterDying)
-        {
-            notificationManager.SetNewNotification("Enemy selecting a character to fight");
-        }
+
     }
-    IEnumerator HandleSelectInitialActionCard()
-    {
-        yield return null;
-        if (uiManager != null)
-        {
-            uiManager.battleCanvas.selectInitialActionCardPanel.PanelState(true);
-        }
-    }
+
     IEnumerator HandleActionPhase()
     {
         if (actionPhase == false)
         {
             yield return new WaitForSeconds(1);
+            AudioManager.instance.PlayPhase();
             notificationManager.SetNewNotification("Action Phase");
             actionPhase = true;
             startPhase = false;
@@ -220,12 +254,20 @@ public class GamePlayManager : MonoBehaviour
             actionPhase = false;
             playerEndingRound = false;
             enemyEndingRound = false;
+            uiManager.battleCanvas.informationPanel.PlayerEndingRoundObjState(playerEndingRound);
+            uiManager.battleCanvas.informationPanel.EnemyEndingRoundObjState(enemyEndingRound);
             yield return new WaitForSeconds(1);
             notificationManager.SetNewNotification("Start Phase");
+            AudioManager.instance.PlayPhase();
             yield return new WaitForSeconds(1);
             playerManager.ResetActionPoint();
             enemyManager.ResetActionPoint();
             ResetWeakness();
+            yield return new WaitForSeconds(1);
+            yield return StartCoroutine(PlayerActionSupportCard(ActionStartPhase.StartRound));
+            yield return StartCoroutine(EnemyActionSupportCard(ActionStartPhase.StartRound));
+            yield return StartCoroutine(PlayerActionSupportCard(ActionStartPhase.StartActionPhaseAndEndCheckPhase));
+            yield return StartCoroutine(EnemyActionSupportCard(ActionStartPhase.StartActionPhaseAndEndCheckPhase));
             yield return new WaitForSeconds(1);
             SetFirstTurn();
             yield return new WaitForSeconds(1);
@@ -241,26 +283,55 @@ public class GamePlayManager : MonoBehaviour
             startPhase = false;
             yield return new WaitForSeconds(1);
             notificationManager.SetNewNotification("End Phase");
+            AudioManager.instance.PlayPhase();
             yield return new WaitForSeconds(1);
-            StartCoroutine(gamePlayCanvas.DrawCard(2));
+
+            //while (CheckCharacterPlayerDead()) yield return null;
+
+            yield return StartCoroutine(PlayerActionSupportCard(ActionStartPhase.EndRound));
+            yield return StartCoroutine(EnemyActionSupportCard(ActionStartPhase.EndRound));
+            yield return StartCoroutine(PlayerActionSupportCard(ActionStartPhase.StartActionPhaseAndEndCheckPhase));
+            yield return StartCoroutine(EnemyActionSupportCard(ActionStartPhase.StartActionPhaseAndEndCheckPhase));
+
+            while (playerDrawingActionCard || enemyDrawingActionCard) yield return null;
+
             yield return new WaitForSeconds(1);
-            CheckBreaking();
-            yield return new WaitForSeconds(1);
+            StartCoroutine(ActionBreaking());
             ClearStatusApplying();
+
+            while (playerCanSwitchCharacterDying || enemyCanSwitchCharacterDying) yield return null;
+
             yield return new WaitForSeconds(1);
+            StartCoroutine(gamePlayCanvas.DrawCardEndPhase(2));
+            yield return new WaitForSeconds(2);
             UpdateGameState(GamePlayState.StartPhase);
         }
     }
-    public void CheckBreaking()
+    public bool CheckCharacterPlayerDead()
+    {
+        bool dead = true;
+        foreach (CharacterCard player in playerCharacterList)
+        {
+            if (player.characterStats.isActionCharacter)
+            {
+                dead = false;
+            }
+        }
+        if (dead) return true;
+        else return false;
+    }
+    public IEnumerator ActionBreaking()
     {
         foreach (CharacterCard player in playerCharacterList)
         {
             if (player.characterStats.isApplyBreaking)
             {
-                foreach(WeaknessBreaking breaking in player.characterStats.breakingList)
+                foreach (WeaknessBreaking breaking in player.characterStats.breakingList)
                 {
-                    StartCoroutine(player.characterStats.Bleed(breaking.weaknessType, 1));
-                    break;
+                    if (!player.characterStats.isFreezing && !player.characterStats.isDetention)
+                    {
+                        StartCoroutine(player.characterStats.Bleed(breaking.weaknessType, 3));
+                    }
                 }
             }
         }
@@ -270,11 +341,15 @@ public class GamePlayManager : MonoBehaviour
             {
                 foreach (WeaknessBreaking breaking in enemy.characterStats.breakingList)
                 {
-                    StartCoroutine(enemy.characterStats.Bleed(breaking.weaknessType, 1));
-                    break;
+                    if (!enemy.characterStats.isFreezing && !enemy.characterStats.isDetention)
+                    {
+                        StartCoroutine(enemy.characterStats.Bleed(breaking.weaknessType, 3));
+                    }
+
                 }
             }
         }
+        yield return null;
     }
     public void HandleVictory()
     {
@@ -283,6 +358,14 @@ public class GamePlayManager : MonoBehaviour
         uiManager.battleCanvas.skillPanel.PanelState(false);
         uiManager.battleCanvas.informationPanel.PanelState(false);
         uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
+        uiManager.battleCanvas.settingPanel.PanelState(false);
+
+        uiManager.tutorialCanvas.ResetIsUsed(false);
+
+        actionPhase = false;
+        endPhase = false;
+        startPhase = false;
+        playerWin = true;
     }
     public void HandleLose()
     {
@@ -291,12 +374,20 @@ public class GamePlayManager : MonoBehaviour
         uiManager.battleCanvas.skillPanel.PanelState(false);
         uiManager.battleCanvas.informationPanel.PanelState(false);
         uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
+        uiManager.battleCanvas.settingPanel.PanelState(false);
+
+        uiManager.tutorialCanvas.ResetIsUsed(false);
+
+        actionPhase = false;
+        endPhase = false;
+        startPhase = false;
+        enemyWin = true;
     }
     public void ResetWeakness()
     {
         foreach (CharacterCard player in playerCharacterList)
         {
-            if(player.characterStats.isApplyBreaking)
+            if (player.currentWeakness == 0 && !player.characterStats.isDead)
             {
                 player.currentWeakness = player.characterCardData.maxWeakness;
                 player.SetWeaknessText();
@@ -304,7 +395,7 @@ public class GamePlayManager : MonoBehaviour
         }
         foreach (CharacterCard enemy in enemyCharacterList)
         {
-            if (enemy.characterStats.isApplyBreaking)
+            if (enemy.currentWeakness == 0 && !enemy.characterStats.isDead)
             {
                 enemy.currentWeakness = enemy.characterCardData.maxWeakness;
                 enemy.SetWeaknessText();
@@ -315,90 +406,37 @@ public class GamePlayManager : MonoBehaviour
     {
         foreach (CharacterCard player in playerCharacterList)
         {
-            if (player.characterStats.isApplyingStatus)
-            {
-                if (player.characterStats.isSkippingRound)
-                {
-                    player.characterStats.ClearStatus(ActionCardActionSkillType.SkipRound);
-                }
-                if (player.characterStats.isDoublingDamage)
-                {
-                    player.characterStats.ClearStatus(ActionCardActionSkillType.DoubleDamage);
-                }
-                if (player.characterStats.isIncreasingAttack)
-                {
-                    player.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
-                }
-                if (player.characterStats.isSatiated)
-                {
-                    player.characterStats.ClearStatus(ActionCardActionSkillType.Healing);
-                }
-                if (player.characterStats.isShield)
-                {
-                    player.characterStats.ClearStatus(ActionCardActionSkillType.CreateShield);
-                }
-                if (player.characterStats.isReviving)
-                {
-                    player.characterStats.ClearStatus(ActionCardActionSkillType.Revival);
-                }
-            }
+            player.characterStats.ClearAllStatus();
             if (player.characterStats.isApplyBreaking)
             {
                 player.characterStats.ClearAllBreaking();
-                foreach (WeaknessBreaking weaknessBreaking in player.characterStats.weaknessBreakingStateData.weaknessBreakingList)
-                {
-                    StartCoroutine(player.characterStats.WeaknessBreakingState(false, weaknessBreaking.weaknessType));
-                }
+            }
+            foreach (WeaknessBreaking weaknessBreaking in player.characterStats.weaknessBreakingStateData.weaknessBreakingList)
+            {
+                StartCoroutine(player.characterStats.WeaknessBreakingState(false, weaknessBreaking.weaknessType));
             }
         }
 
         foreach (CharacterCard enemy in enemyCharacterList)
         {
-            if (enemy.characterStats.isApplyingStatus)
-            {
-                if (enemy.characterStats.isSkippingRound)
-                {
-                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.SkipRound);
-                }
-                if (enemy.characterStats.isDoublingDamage)
-                {
-                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.DoubleDamage);
-                }
-                if (enemy.characterStats.isIncreasingAttack)
-                {
-                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.IncreaseAttack);
-                }
-                if (enemy.characterStats.isSatiated)
-                {
-                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.Healing);
-                }
-                if (enemy.characterStats.isShield)
-                {
-                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.CreateShield);
-                }
-                if (enemy.characterStats.isReviving)
-                {
-                    enemy.characterStats.ClearStatus(ActionCardActionSkillType.Revival);
-                }
-            }
+            enemy.characterStats.ClearAllStatus();
+
             if (enemy.characterStats.isApplyBreaking)
             {
                 enemy.characterStats.ClearAllBreaking();
-                foreach (WeaknessBreaking weaknessBreaking in enemy.characterStats.weaknessBreakingStateData.weaknessBreakingList)
-                {
-                    StartCoroutine(enemy.characterStats.WeaknessBreakingState(false, weaknessBreaking.weaknessType));
-                }
+            }
+            foreach (WeaknessBreaking weaknessBreaking in enemy.characterStats.weaknessBreakingStateData.weaknessBreakingList)
+            {
+                StartCoroutine(enemy.characterStats.WeaknessBreakingState(false, weaknessBreaking.weaknessType));
             }
         }
-        foreach (CharacterCard enemy in enemyCharacterList)
-            enemy.characterCardDragHover.SelectIconState(false);
     }
     public void HighlightCardTarget(ActionTargetType actionTargetType, int actionValue, int weaknessValue, CharacterCard selfCharacterCard)
     {
         switch (actionTargetType)
         {
             case ActionTargetType.Ally:
-                foreach(CharacterCard characterCard in playerCharacterList)
+                foreach (CharacterCard characterCard in playerCharacterList)
                 {
                     if (characterCard.characterStats.isActionCharacter)
                     {
@@ -421,7 +459,7 @@ public class GamePlayManager : MonoBehaviour
                 break;
 
             case ActionTargetType.Enemy:
-                foreach(CharacterCard characterCard in enemyCharacterList)
+                foreach (CharacterCard characterCard in enemyCharacterList)
                 {
                     if (characterCard.characterStats.isActionCharacter)
                     {
@@ -440,7 +478,6 @@ public class GamePlayManager : MonoBehaviour
                     }
                 }
                 break;
-
             case ActionTargetType.AllAllies:
                 foreach (CharacterCard characterCard in playerCharacterList)
                 {
@@ -478,13 +515,21 @@ public class GamePlayManager : MonoBehaviour
     {
         uiManager.battleCanvas.playCardPanel.UnPlayCard();
     }
-    public void HideSwitchCardBattle()
+    public void ChangeSwitchCardBattleState()
     {
-        if (currentState == GamePlayState.ActionPhase)
+        if (playerCanSwitchCharacterDying)
         {
-            uiManager.HideSwitchCardBattle();
-            uiManager.ShowSkill();
-            HideSelectIcon();
+            uiManager.battleCanvas.switchCardBattlePanel.PanelState(true);
+            uiManager.battleCanvas.skillPanel.PanelState(false);
+        }
+        else
+        {
+            if (currentState == GamePlayState.ActionPhase)
+            {
+                uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
+                uiManager.battleCanvas.skillPanel.PanelState(true);
+                HideSelectIcon();
+            }
         }
     }
     public void HideSelectIcon()
@@ -492,77 +537,82 @@ public class GamePlayManager : MonoBehaviour
         foreach (CharacterCard player in playerCharacterList)
             player.characterCardDragHover.SelectIconState(false);
 
-        foreach (CharacterCard enemy in enemyCharacterList)
-            enemy.characterCardDragHover.SelectIconState(false);
     }
-    public void DealDamageToTargets(ActionTargetType actionTargetType,  int damage, CharacterCardSkillType characterCardSkillType, CharacterCard selfCharacterCard)
+    public void DealDamageToTargets(ActionTargetType actionTargetType, int damage, CharacterCardSkillType characterCardSkillType, CharacterCard selfCharacterCard)
     {
         switch (actionTargetType)
         {
             case ActionTargetType.Ally:
-                foreach (CharacterCard characterCard in playerCharacterList)
+                foreach (CharacterCard targetCharacter in playerCharacterList)
                 {
-                    if (characterCard.characterStats.isActionCharacter)
+                    if (targetCharacter.characterStats.isActionCharacter)
                     {
-                        selfCharacterCard.AttackToTarget(characterCard.transform);
-                        characterCard.characterStats.TakeDamage(damage);
-                        foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
-                        {
-                            if (characterSkill.characterCardSkillType == characterCardSkillType)
-                            {
-                                Combat weakness = selfCharacterCard.characterCardData.characterCard.combat;
-                                characterCard.characterStats.AddWeakness(weakness);
-                                characterCard.characterStats.TakeWeakness(weakness.combatType, characterSkill.weaknessBreakValue);
-                                characterCard.SetTakeDamageValue(0);
-                                characterCard.SetTakeWeaknessHighlight(false);
-                            }
-                        }
+                        StartCoroutine(ActionDealDamage(targetCharacter, damage, characterCardSkillType, selfCharacterCard));
                     }
                 }
                 break;
 
             case ActionTargetType.Enemy:
-                foreach (CharacterCard characterCard in enemyCharacterList)
+                foreach (CharacterCard targetCharacter in enemyCharacterList)
                 {
-                    if (characterCard.characterStats.isActionCharacter)
+                    if (targetCharacter.characterStats.isActionCharacter)
                     {
-                        selfCharacterCard.AttackToTarget(characterCard.transform);
-                        characterCard.characterStats.TakeDamage(damage);
-                        foreach (CharacterSkill characterSkill in characterCard.characterCardData.characterCard.characterSkillList)
-                        {
-                            if (characterSkill.characterCardSkillType == characterCardSkillType)
-                            {
-                                Combat weakness = selfCharacterCard.characterCardData.characterCard.combat;
-                                characterCard.characterStats.AddWeakness(weakness);
-                                characterCard.characterStats.TakeWeakness(weakness.combatType, characterSkill.weaknessBreakValue);
-                                characterCard.SetTakeDamageValue(0);
-                                characterCard.SetTakeWeaknessHighlight(false);
-                            }
-                        }
+                        StartCoroutine(ActionDealDamage(targetCharacter, damage, characterCardSkillType, selfCharacterCard));
                     }
                 }
                 break;
         }
     }
+    public IEnumerator ActionDealDamage(CharacterCard targetCharacter, int damage, CharacterCardSkillType characterCardSkillType, CharacterCard selfCharacterCard)
+    {
+        if (currentTurn == TurnState.YourTurn) playerAttacking = true;
+        else if (currentTurn == TurnState.EnemyTurn) enemyAttacking = true;
+        if (characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+        {
+            selfCharacterCard.PlaySound(SoundType.UseElementalBurst);
+            yield return new WaitForSeconds(selfCharacterCard.SoundLength());
+        }
+        AudioManager.instance.PlayNAAttack();
+        selfCharacterCard.AttackToTarget(targetCharacter.transform);
+        StartCoroutine(TakeDamageTarget(targetCharacter, damage, characterCardSkillType, selfCharacterCard));
+    }
+    public IEnumerator TakeDamageTarget(CharacterCard targetCharacter, int damage, CharacterCardSkillType characterCardSkillType, CharacterCard selfCharacterCard)
+    {
+        yield return new WaitForSeconds(targetCharacter.moveDuration);
+        targetCharacter.characterStats.TakeDamage(damage);
+        foreach (CharacterSkill characterSkill in selfCharacterCard.characterCardData.characterCard.characterSkillList)
+        {
+            if (characterSkill.characterCardSkillType == characterCardSkillType)
+            {
+                targetCharacter.SetTakeDamageValue(0);
+                targetCharacter.SetTakeWeaknessHighlight(false);
+                Combat weakness = selfCharacterCard.characterCardData.characterCard.combat;
+                targetCharacter.characterStats.AddWeakness(weakness);
+                targetCharacter.characterStats.TakeWeakness(weakness.combatType, characterSkill.weaknessBreakValue);
+            }
+        }
+    }
     public IEnumerator PlayerEndRound()
     {
         playerEndingRound = true;
+        uiManager.battleCanvas.informationPanel.PlayerEndingRoundObjState(playerEndingRound);
         notificationManager.SetNewNotification("Your is ending round");
+        yield return new WaitForSeconds(1.5f);
         if (!enemyEndingRound)
         {
             playerAttackFirst = true;
-            yield return new WaitForSeconds(1);
             UpdateTurnState(TurnState.EnemyTurn);
         }
     }
     public IEnumerator EnemyEndRound()
     {
         enemyEndingRound = true;
+        uiManager.battleCanvas.informationPanel.EnemyEndingRoundObjState(enemyEndingRound);
         notificationManager.SetNewNotification("Enemy is ending round");
+        yield return new WaitForSeconds(1.5f);
         if (!playerEndingRound)
         {
             enemyAttackFirst = true;
-            yield return new WaitForSeconds(1);
             UpdateTurnState(TurnState.YourTurn);
         }
     }
@@ -580,5 +630,196 @@ public class GamePlayManager : MonoBehaviour
             notificationManager.SetNewNotification("Enemy attack first");
             UpdateTurnState(TurnState.EnemyTurn);
         }
+    }
+    public SupportCard GetSupportCardUsing(SupportActionSkillType supportActionSkillType)
+    {
+        foreach (SupportCard supportCard in playerSupportCardList)
+        {
+            SupportActionSkillType supportActionType = supportCard.supportCardData.actionCard.supportActionSkill.supportSkillType;
+            if (supportActionType == supportActionSkillType)
+            {
+                return supportCard;
+            }
+        }
+        return null;
+    }
+    public void UseSupportCard(ActionStartPhase actionStartPhase, bool isPlayer)
+    {
+        StartCoroutine(PlayerActionSupportCard(actionStartPhase));
+    }
+    public IEnumerator PlayerActionSupportCard(ActionStartPhase startPhase)
+    {
+        foreach (SupportCard supportCard in playerSupportCardList)
+        {
+            SupportActionSkill supportActionSkill = supportCard.supportCardData.actionCard.supportActionSkill;
+            ActionStartPhase actionStartPhase = supportActionSkill.actionStartPhase;
+            ActionTargetType actionTargetType = supportActionSkill.actionTargetType;
+            List<CharacterCard> targetList = PlayerDetermineTarget(actionTargetType);
+
+            if (actionStartPhase == startPhase)
+            {
+                playerActionSupportCard = true;
+                supportCard.DoSupportAction(supportActionSkill, targetList, true);
+                yield return new WaitForSeconds(1);
+            }
+        }
+        for (int i = playerSupportCardList.Count - 1; i >= 0; i--)
+        {
+            if (playerSupportCardList[i].countOfActions == playerSupportCardList[i].maxCountOfAction &&
+                playerSupportCardList[i].canDestroy)
+            {
+                playerSupportCardList[i].canvasGroup.DOFade(0, 0.5f);
+                AudioManager.instance.PlayDestroySupportCard();
+                yield return new WaitForSeconds(0.5f);
+                Destroy(playerSupportCardList[i].gameObject);
+                playerSupportCardList.RemoveAt(i);
+            }
+        }
+        playerActionSupportCard = false;
+    }
+    public IEnumerator EnemyActionSupportCard(ActionStartPhase startPhase)
+    {
+        foreach (SupportCard supportCard in enemySupportCardList)
+        {
+            SupportActionSkill supportActionSkill = supportCard.supportCardData.actionCard.supportActionSkill;
+            ActionStartPhase actionStartPhase = supportActionSkill.actionStartPhase;
+            ActionTargetType actionTargetType = supportActionSkill.actionTargetType;
+            List<CharacterCard> targetList = EnemyDetermineTarget(actionTargetType);
+            if (actionStartPhase == startPhase)
+            {
+                supportCard.DoSupportAction(supportActionSkill, targetList, false);
+                yield return new WaitForSeconds(1);
+            }
+        }
+        for (int i = enemySupportCardList.Count - 1; i >= 0; i--)
+        {
+            if (enemySupportCardList[i].countOfActions == enemySupportCardList[i].maxCountOfAction &&
+                enemySupportCardList[i].canDestroy)
+            {
+                enemySupportCardList[i].canvasGroup.DOFade(0, 0.5f);
+                AudioManager.instance.PlayDestroySupportCard();
+                yield return new WaitForSeconds(0.5f);
+                Destroy(enemySupportCardList[i].gameObject);
+                enemySupportCardList.RemoveAt(i);
+            }
+        }
+    }
+    public List<CharacterCard> PlayerDetermineTarget(ActionTargetType actionTargetType)
+    {
+        List<CharacterCard> targetList = new List<CharacterCard>();
+        switch (actionTargetType)
+        {
+            case ActionTargetType.Ally:
+                foreach (CharacterCard characterCard in playerCharacterList)
+                {
+                    if (characterCard.characterStats.isActionCharacter && !characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+
+            case ActionTargetType.Enemy:
+                foreach (CharacterCard characterCard in enemyCharacterList)
+                {
+                    if (characterCard.characterStats.isActionCharacter && !characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+
+            case ActionTargetType.AllAllies:
+                foreach (CharacterCard characterCard in playerCharacterList)
+                {
+                    if (!characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+
+            case ActionTargetType.AllEnemies:
+                foreach (CharacterCard characterCard in enemyCharacterList)
+                {
+                    if (!characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+            case ActionTargetType.DeadFirstAlly:
+                foreach (CharacterCard characterCard in playerCharacterList)
+                {
+                    if (characterCard.characterStats.isDeadFirst)
+                    {
+                        targetList.Add(characterCard);
+                    }
+                }
+                break;
+            case ActionTargetType.AllyLowestHealth:
+                CharacterCard target = playerCharacterList[0];
+                for (int i = 0; i < playerCharacterList.Count; i++)
+                {
+                    if (playerCharacterList[i].currentHealth < target.currentHealth)
+                    {
+                        target = playerCharacterList[i];
+                    }
+                }
+                targetList.Add(target);
+                break;
+        }
+        return targetList;
+    }
+    public List<CharacterCard> EnemyDetermineTarget(ActionTargetType actionTargetType)
+    {
+        List<CharacterCard> targetList = new List<CharacterCard>();
+        switch (actionTargetType)
+        {
+            case ActionTargetType.Ally:
+                foreach (CharacterCard characterCard in enemyCharacterList)
+                {
+                    if (characterCard.characterStats.isActionCharacter && !characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+
+            case ActionTargetType.Enemy:
+                foreach (CharacterCard characterCard in playerCharacterList)
+                {
+                    if (characterCard.characterStats.isActionCharacter && !characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+
+            case ActionTargetType.AllAllies:
+                foreach (CharacterCard characterCard in enemyCharacterList)
+                {
+                    if (!characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+
+            case ActionTargetType.AllEnemies:
+                foreach (CharacterCard characterCard in playerCharacterList)
+                {
+                    if (!characterCard.characterStats.isDead)
+                        targetList.Add(characterCard);
+                }
+                break;
+            case ActionTargetType.DeadFirstAlly:
+                foreach (CharacterCard characterCard in enemyCharacterList)
+                {
+                    if (characterCard.characterStats.isDeadFirst)
+                    {
+                        targetList.Add(characterCard);
+                    }
+                }
+                break;
+            case ActionTargetType.AllyLowestHealth:
+                CharacterCard target = enemyCharacterList[0];
+                for (int i = 0; i < enemyCharacterList.Count; i++)
+                {
+                    if (enemyCharacterList[i].currentHealth < target.currentHealth)
+                    {
+                        target = enemyCharacterList[i];
+                    }
+                }
+                targetList.Add(target);
+                break;
+        }
+        return targetList;
     }
 }

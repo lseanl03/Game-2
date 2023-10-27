@@ -38,9 +38,9 @@ public class SelectInitialActionCardPanel : PanelBase
             playerManager.actionCardTakenDataList.Add(playerManager.actionCardDeckData[0]);
             playerManager.actionCardDeckData.RemoveAt(0);
             actionCard.GetCardData(playerManager.actionCardTakenDataList[i]);
-            if (actionCard.GetComponent<Draggable>())
+            if (actionCard.GetComponent<CardDraggable>())
             {
-                actionCard.GetComponent<Draggable>().enabled = false;
+                actionCard.GetComponent<CardDraggable>().enabled = false;
             }
 
         }

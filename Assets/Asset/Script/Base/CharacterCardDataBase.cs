@@ -21,7 +21,7 @@ public class CharacterCardDataBase : ScriptableObject
 public class CharacterCardBase
 {
     [Header("Skill")]
-    public List<CharacterSkill> characterSkillList; 
+    public List<CharacterSkill> characterSkillList;
 
     [Header("Destiny")]
     public DestinyType destinyType;
@@ -29,6 +29,9 @@ public class CharacterCardBase
 
     [Header("CombatType")]
     public Combat combat;
+
+    [Header("Sound")]
+    public List<CharacterSound> characterSoundList;
 }
 
 [Serializable]
@@ -36,13 +39,18 @@ public class CharacterSkill
 {
     public CharacterCardSkillType characterCardSkillType;
     public Sprite skillSprite;
-    [TextArea] public string descriptionSkill;
     public int actionPointCost;
     public int skillPointCost;
     public int burstPointCost;
     public int weaknessBreakValue;
-
-    public List<Skill> actionSkillList;
+    public List<SkillDescription> skillDescriptionList;
+    public List<Skill> skillList;
+}
+[Serializable]
+public class SkillDescription
+{
+    public string description;
+    public bool canModified;
 }
 
 [Serializable]
@@ -59,6 +67,13 @@ public class Combat
 {
     public WeaknessType combatType;
     public Sprite combatTypeSprite;
+}
+
+[Serializable]
+public class CharacterSound
+{
+    public SoundType soundType;
+    public AudioClip audioClip;
 }
 public enum CharacterCardSkillType
 {
@@ -103,4 +118,11 @@ public enum CharacterCardActionSkillType
     DamageFree, //miễn sát thương
     DoubleDamage, //nhân đôi sát thương
     IncreaseElementalBurstPoint, //tăng điểm kỹ năng nộ
+}
+public enum SoundType
+{
+    None,
+    Die,
+    ActionCharacter,
+    UseElementalBurst,
 }

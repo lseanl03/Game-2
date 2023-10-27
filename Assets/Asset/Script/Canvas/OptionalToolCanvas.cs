@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Text;
+using TMPro;
 using UnityEngine;
 
 public class OptionalToolCanvas : CanvasBase
@@ -38,8 +40,8 @@ public class OptionalToolCanvas : CanvasBase
             {
                 characterDescription.nAImage.sprite = characterSkill.skillSprite;
                 characterDescription.nANameText.text = "Normal Attack";
-                characterDescription.nAActionPointCostText.text = characterSkill.actionPointCost.ToString();
-                characterDescription.nADesText.text = characterSkill.descriptionSkill;
+                characterDescription.nAActionPointCostText.text = currentCharacterCard.currentNAActionPointCost.ToString();
+                SetDes(characterSkill, characterDescription.nADesText);
             }
 
             //elemental skill
@@ -47,8 +49,8 @@ public class OptionalToolCanvas : CanvasBase
             {
                 characterDescription.eSImage.sprite = characterSkill.skillSprite;
                 characterDescription.eSNameText.text = "Normal Attack";
-                characterDescription.eSActionPointCostText.text = characterSkill.actionPointCost.ToString();
-                characterDescription.eSDesText.text = characterSkill.descriptionSkill;
+                characterDescription.eSActionPointCostText.text = currentCharacterCard.currentESActionPointCost.ToString();
+                SetDes(characterSkill, characterDescription.eSDesText);
             }
 
             //elemental burst
@@ -56,12 +58,60 @@ public class OptionalToolCanvas : CanvasBase
             {
                 characterDescription.eBImage.sprite = characterSkill.skillSprite;
                 characterDescription.eBNameText.text = "Normal Attack";
-                characterDescription.eBActionPointCostText.text = characterSkill.actionPointCost.ToString();
-                characterDescription.eBDesText.text = characterSkill.descriptionSkill;
+                characterDescription.eBActionPointCostText.text = currentCharacterCard.currentESActionPointCost.ToString();
                 characterDescription.eBBurstPointCostText.text = characterSkill.burstPointCost.ToString();
+                SetDes(characterSkill, characterDescription.eBDesText);
             }
         }
 
+    }
+    public void SetDes(CharacterSkill characterSkill, TextMeshProUGUI text)
+    {
+        var str = new StringBuilder();
+        List<SkillDescription> skillDesList = characterSkill.skillDescriptionList;
+        foreach (SkillDescription skillDes in skillDesList)
+        {
+            if (skillDes.canModified)
+            {
+                foreach (Skill skill in characterSkill.skillList)
+                {
+                    int value = GetValueForSkill(characterSkill);
+                    if (skill.skillActionType == CharacterCardActionSkillType.Attack)
+                    {
+                        CharacterStats stat = currentCharacterCard.characterStats;
+                        if(stat.isDoublingDamage || stat.isIncreasingAttack)
+                        {
+                            str.Append("<color=yellow>" + value + "</color> ");
+                        }
+                        else
+                        {
+                            str.Append(value + " ");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                str.Append(skillDes.description + " ");
+            }
+        }
+        text.text = str.ToString();
+    }
+    private int GetValueForSkill(CharacterSkill characterSkill)
+    {
+        if (characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+        {
+            return currentCharacterCard.currentNAActionValue;
+        }
+        else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+        {
+            return currentCharacterCard.currentESActionValue;
+        }
+        else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+        {
+            return currentCharacterCard.currentEBActionValue;
+        }
+        return 0;
     }
     public void GetActionCardInfo(ActionCard actionCard)
     {

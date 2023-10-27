@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card 17
+  m_EditorClassIdentifier: 
+  cardName: "Th\u1EED v\u1EADn may"
+  actionCost: 0
+  quantityMaxInDeck: 2
+  isSupportCard: 0
+  cardDescription: "S\u1EED d\u1EE5ng ng\u1EABu nhi\xEAn nh\u1EADn <color=yellow>1
+    trong 2</color> hi\u1EC7u qu\u1EA3: <color=yellow>kh\xF4ng nh\u1EADn \u0111\u01B0\u1EE3c
+    g\xEC </color> ho\u1EB7c <color=yellow> nh\u1EADn 10</color> \u0111i\u1EC3m h\xE0nh
+    \u0111\u1ED9ng"
+  cardSprite: {fileID: 21300000, guid: 2933ef1663b7699459105eb91404d47a, type: 3}
+  actionCard:
+    actionSkillList:
+    - actionSkillType: 14
+      actionTargetType: 0
+      actionValue: 10
+      statusList: []
+    supportActionSkill:
+      supportSkillType: 0
+      actionTargetType: 0
+      actionStartPhase: 0
+      countOfActions: 0
+      maxCountOfActions: 0
+      actionValue: 0
+    rarityType: 0
+    colorRarity: {r: 1, g: 1, b: 1, a: 1}

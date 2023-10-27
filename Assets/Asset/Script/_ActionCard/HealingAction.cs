@@ -18,4 +18,12 @@ public class HealingAction : ActionCardSkillBase
             }
         }
     }
+    public void DoSupportAction(SupportActionSkill supportActionSkill, List<CharacterCard> targetList)
+    {
+        int healingValue = supportActionSkill.actionValue;
+        foreach (var target in targetList)
+        {
+            target.characterStats.Healing(healingValue);
+        }
+    }
 }

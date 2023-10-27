@@ -1,3 +1,4 @@
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,19 +7,18 @@ using UnityEngine.UI;
 
 public class PlayCardPanel : PanelBase
 {
+    public float waitingTime = 1.5f;
+
     public bool isUsingCard = false;
     public bool isShowingCardInfo = false;
 
-    public Button playCardButton;
     public Image cardImage;
     public Image backImage;
 
     public GameObject playCardObj;
     public GameObject cardInfoObj;
 
-    [Header("Component")]
-    public ActionCard currentActionCard;
-    public ActionCardDragHover currentCardDragHover;
+    private ActionCard currentActionCard;
     public void PlayCard()
     {
         if (isUsingCard)
@@ -29,19 +29,25 @@ public class PlayCardPanel : PanelBase
     }
     public IEnumerator HandlePlayCard()
     {
+        if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
+            gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
+
+        uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
         uiManager.battleCanvas.skillPanel.PanelState(true);
         uiManager.battleCanvas.informationPanel.PanelState(true);
-        yield return new WaitForSeconds(1);
-        playerManager.ConsumeActionPoint(currentActionCard.actionCost);
+
+        yield return new WaitForSeconds(waitingTime);
         currentActionCard.PlayCard();
-        Destroy(currentCardDragHover.placeHolder);
-        gamePlayManager.playerActionCardList.Remove(currentCardDragHover.actionCard);
+        Destroy(currentActionCard.actionCardDragHover.placeHolder);
+        Destroy(currentActionCard.gameObject);
+        playerManager.ConsumeActionPoint(currentActionCard.actionCost);
+        gamePlayManager.playerActionCardList.Remove(currentActionCard.actionCardDragHover.actionCard);
     }
     public void UnPlayCard()
     {
         if (isUsingCard)
         {
-            currentCardDragHover.ReturnCard();
+            currentActionCard.actionCardDragHover.ReturnCard();
             PlayCardState(false);
             uiManager.battleCanvas.skillPanel.PanelState(true);
             uiManager.battleCanvas.informationPanel.PanelState(true);
@@ -49,15 +55,15 @@ public class PlayCardPanel : PanelBase
     }
      public IEnumerator ShowCardInfo()
     {
+        uiManager.HideTooltip();
         PlayCardState(false);
         CardImageObj(true);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(waitingTime);
         CardImageObj(false);
     }
-    public void GetCardInfo(ActionCard actionCard, ActionCardDragHover cardDragHover)
+    public void GetCardInfo(ActionCard actionCard)
     {
         currentActionCard = actionCard;
-        currentCardDragHover = cardDragHover;
         cardImage.sprite = currentActionCard.cardSprite;
         backImage.color = currentActionCard.backImage.color;
         PlayCardState(true);
@@ -72,9 +78,16 @@ public class PlayCardPanel : PanelBase
     {
         isShowingCardInfo = state;
         cardInfoObj.SetActive(state);
-    }
-    public void PlayCardButtonState(bool state)
-    {
-        playCardButton.gameObject.SetActive(state);
+        CanvasGroup canvasGroup = cardInfoObj.GetComponent<CanvasGroup>();
+        if (state)
+        {
+            canvasGroup.alpha = 0.5f;
+            canvasGroup.DOFade(1f, 0.2f);
+            AudioManager.instance.PlayShowActionCard();
+        }
+        else
+        {
+            AudioManager.instance.PlayHideActionCard();
+        }
     }
 }

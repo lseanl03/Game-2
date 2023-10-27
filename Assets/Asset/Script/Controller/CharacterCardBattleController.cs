@@ -26,15 +26,15 @@ public class CharacterCardBattleController : MonoBehaviour
     {
         for(int i = 0; i < slotList.Count; i++)
         {
-            if (slotList[i].GetComponent<DropZone>())
+            if (slotList[i].GetComponent<CardDropZone>())
             {
-                if (slotList[i].GetComponentInChildren<Draggable>())
+                if (slotList[i].GetComponentInChildren<CardDraggable>())
                 {
-                    slotList[i].GetComponent<DropZone>().enabled = false;
+                    slotList[i].GetComponent<CardDropZone>().enabled = false;
                 }
                 else
                 {
-                    slotList[i].GetComponent<DropZone>().enabled = true;
+                    slotList[i].GetComponent<CardDropZone>().enabled = true;
                 }
             }
         }

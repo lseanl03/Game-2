@@ -8,9 +8,10 @@ public class SelectCardFieldController : FieldBase
     public ScrollRect scrollR;
     public GameObject characterCardList;
     public GameObject actionCardList;
-    private void Start()
-    {
-    }
+
+    public Scrollbar scrollbar;
+
+
     public void ChangeContent(CardSelectType cardSelectType)
     {
         if (cardSelectType == CardSelectType.CharacterCard)

@@ -1,3 +1,4 @@
+﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,13 +6,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
+public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler, IPointerUpHandler
 {
     public bool isRecall = false;
     public Image recallCardImage;
 
     public CharacterCard characterCard;
     public ActionCard actionCard;
+    public SupportCard supportCard;
 
     public CharacterStats characterStats;
     void Start()
@@ -19,10 +21,14 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         characterCard = GetComponent<CharacterCard>();
         actionCard = GetComponent<ActionCard>();
         characterStats = GetComponent<CharacterStats>();
+        supportCard = GetComponent<SupportCard>();
     }
-    void Update()
+    public void OnPointerUp(PointerEventData eventData)
     {
-        
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            HandlePointerUp();
+        }
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -44,15 +50,26 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
         {
             if (characterCard != null)
             {
+                AudioManager.instance.PlayOnClickCharacterCard();
                 tooltipManager.ShowCharacterCardTooltip(characterCard);
-                gamePlayManager.HideHighlightsCard();
                 CheckApplyStatus();
+                if (uiManager.tutorialCanvas != null && !uiManager.tutorialCanvas.isShowedCharacterTutorial)
+                {
+                    uiManager.tutorialCanvas.isShowedCharacterTutorial = true;
+                    uiManager.tutorialCanvas.ActionTutorial(TutorialType.CharacterTutorial);
+
+                }
             }
             else if (actionCard != null)
             {
-                gamePlayManager.HideHighlightsCard();
+                AudioManager.instance.PlayOnClickActionCard();
                 if (actionCard.cardBack.IsActive()) return;
                 else tooltipManager.ShowActionCardTooltip(actionCard);
+            }
+            else if(supportCard != null)
+            {
+                AudioManager.instance.PlayOnClickActionCard();
+                tooltipManager.ShowSupportCardTooltip(supportCard);
             }
         }
 
@@ -63,19 +80,32 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
                 ReCallImageState(isRecall = !isRecall);
             }
         }
+        if(collectionManager.collectionCanvas.isActiveAndEnabled)
+        {
+            transform.DOScale(0.95f, 0.1f);
+        }
 
+    }
+    public void HandlePointerUp()
+    {
+        if (collectionManager.collectionCanvas.isActiveAndEnabled)
+        {
+            transform.DOScale(1f, 0.1f);
+        }
     }
     public void HandlePointerClick()
     {
-        if (collectionManager != null)
+        if (collectionManager.collectionCanvas.isActiveAndEnabled)
         {
             collectionManager.optionalToolCanvas.CanvasState(true);
             if (characterCard != null)
             {
+                AudioManager.instance.PlayOnClickCharacterCard();
                 collectionManager.optionalToolCanvas.GetCharacterCardInfo(characterCard);
             }
             if (actionCard != null)
             {
+                AudioManager.instance.PlayOnClickActionCard();
                 collectionManager.optionalToolCanvas.GetActionCardInfo(actionCard);
             }
         }
@@ -88,16 +118,9 @@ public class CardInfo : CardBase, IPointerDownHandler, IPointerClickHandler
     public void CheckApplyStatus()
     {
         tooltipManager.tooltipCanvas.characterCardTooltip.StatusDescriptionObjState(true);
-
-        if (characterStats.isApplyingStatus)
-        {
-            tooltipManager.tooltipCanvas.characterCardTooltip.GetStatusInfo(characterStats.statusList);
-        }
-        else if (characterStats.isApplyBreaking)
-        {
-            tooltipManager.tooltipCanvas.characterCardTooltip.GetBreakingStatusInfo(characterStats.breakingList);
-        }
-        else
+        tooltipManager.tooltipCanvas.characterCardTooltip.GetStatusInfo(characterStats.statusList);
+        tooltipManager.tooltipCanvas.characterCardTooltip.GetBreakingStatusInfo(characterStats.breakingList);
+        if (!characterStats.isApplyingStatus && !characterStats.isApplyBreaking)
         {
             tooltipManager.tooltipCanvas.characterCardTooltip.StatusDescriptionObjState(false);
         }

@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7304b4a86c46a944a828038b86a210c3, type: 3}
+  m_Name: DanHengAmNguyet
+  m_EditorClassIdentifier: 
+  characterName: "Dan Heng \u1EA8m Nguy\u1EC7t"
+  description: This is Character Card
+  cardSprite: {fileID: -1149195789, guid: d7d24ef84a8813d4aacffd278884a762, type: 3}
+  maxHealth: 20
+  maxWeakness: 5
+  burstPointMax: 3
+  quantityMax: 1
+  characterCard:
+    characterSkillList:
+    - characterCardSkillType: 1
+      skillSprite: {fileID: -168638514, guid: 51cfd55dccebd7b488655c2c51277cc7, type: 3}
+      actionPointCost: 30
+      skillPointCost: -1
+      burstPointCost: -1
+      weaknessBreakValue: 2
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh s\u1ED1 \u1EA3o"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 3
+    - characterCardSkillType: 2
+      skillSprite: {fileID: 2140832668, guid: c33d3c3b7beb86941ac39b559a68680a, type: 3}
+      actionPointCost: 30
+      skillPointCost: 1
+      burstPointCost: -1
+      weaknessBreakValue: 3
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh s\u1ED1 \u1EA3o"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 4
+    - characterCardSkillType: 3
+      skillSprite: {fileID: 179192770, guid: b3243326a092a7340902fd9b52399b7a, type: 3}
+      actionPointCost: 40
+      skillPointCost: 2
+      burstPointCost: 3
+      weaknessBreakValue: 4
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh s\u1ED1 \u1EA3o"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 5
+    destinyType: 1
+    descriptionDestiny: This is Destiny
+    combat:
+      combatType: 7
+      combatTypeSprite: {fileID: -767766499, guid: 5043414b6a5548b45a37eb9b786d6802, type: 3}
+    characterSoundList:
+    - soundType: 1
+      audioClip: {fileID: 8300000, guid: 604c1327744be844c9548841e7499e6f, type: 3}
+    - soundType: 2
+      audioClip: {fileID: 8300000, guid: 9cc9d291e344e664c988a509f0ec3e62, type: 3}
+    - soundType: 3
+      audioClip: {fileID: 8300000, guid: 15876d2067529cc42b2e2ca72de530bb, type: 3}

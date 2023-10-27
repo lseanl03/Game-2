@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7304b4a86c46a944a828038b86a210c3, type: 3}
+  m_Name: Jingliu
+  m_EditorClassIdentifier: 
+  characterName: Jingliu
+  description: This is Character Card
+  cardSprite: {fileID: 1115820514, guid: f1117dc352226a44ea7fe3228a5c99d9, type: 3}
+  maxHealth: 20
+  maxWeakness: 5
+  burstPointMax: 3
+  quantityMax: 1
+  characterCard:
+    characterSkillList:
+    - characterCardSkillType: 1
+      skillSprite: {fileID: -1224668996, guid: f53495fd5cd9b1a47bff7fe632f8d5eb, type: 3}
+      actionPointCost: 30
+      skillPointCost: -1
+      burstPointCost: -1
+      weaknessBreakValue: 2
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh b\u0103ng"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 3
+    - characterCardSkillType: 2
+      skillSprite: {fileID: -1873578030, guid: 9880b2e6ac763de448a44fc84448ac43, type: 3}
+      actionPointCost: 30
+      skillPointCost: 1
+      burstPointCost: -1
+      weaknessBreakValue: 3
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh b\u0103ng"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 4
+    - characterCardSkillType: 3
+      skillSprite: {fileID: -818870878, guid: 850f8b7f1db91404da8a7a3fd633b2ea, type: 3}
+      actionPointCost: 40
+      skillPointCost: 2
+      burstPointCost: 3
+      weaknessBreakValue: 4
+      skillDescriptionList:
+      - description: "G\xE2y"
+        canModified: 0
+      - description: 
+        canModified: 1
+      - description: "s\xE1t th\u01B0\u01A1ng thu\u1ED9c t\xEDnh b\u0103ng"
+        canModified: 0
+      skillList:
+      - skillActionType: 1
+        actionTargetType: 1
+        actionValue: 5
+    destinyType: 1
+    descriptionDestiny: This is Destiny
+    combat:
+      combatType: 4
+      combatTypeSprite: {fileID: -2069196275, guid: b3bca81842eddbc43b107964c32235a6, type: 3}
+    characterSoundList:
+    - soundType: 1
+      audioClip: {fileID: 8300000, guid: a3f34e64d08b82948b5749ed34c2f346, type: 3}
+    - soundType: 2
+      audioClip: {fileID: 8300000, guid: 3577b62daceeeed44ba1f4e7d5bcff04, type: 3}
+    - soundType: 3
+      audioClip: {fileID: 8300000, guid: 429bff2e59261c6499cf4043043265b8, type: 3}

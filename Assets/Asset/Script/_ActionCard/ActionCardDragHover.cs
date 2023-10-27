@@ -76,6 +76,7 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
     }
     public void HandleBeginDrag()
     {
+
         placeHolder = Instantiate(placeHolderPrefab, transform.parent);
         placeHolder.transform.SetSiblingIndex(transform.GetSiblingIndex());
         parentToReturn = transform.parent;
@@ -84,6 +85,7 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 
         uiManager.HideTooltip();
+        AudioManager.instance.PlayDragActionCard();
     }
 
     public void HandleEndDrag()
@@ -109,17 +111,23 @@ public class ActionCardDragHover : CardBase, IPointerEnterHandler, IPointerExitH
         if (playerManager.currentActionPoint < actionCard.actionCardData.actionCost)
         {
             ReturnCard();
-            notificationManager.SetNewNotification("Action point not enough");
+            notificationManager.SetNewNotification("Action point are not enough");
+            if (!uiManager.tutorialCanvas.isShowedEndRoundTutorial)
+            {
+                uiManager.tutorialCanvas.isShowedEndRoundTutorial = true;
+                uiManager.tutorialCanvas.ActionTutorial(TutorialType.EndRoundTutorial);
+            }
         }
         else
         {
-            actionCard.CheckTarget();
+            actionCard.CheckActionCard();
             if (placeHolder != null && canPlayCard)
             {
+                AudioManager.instance.PlayUseActionCard();
                 uiManager.battleCanvas.skillPanel.PanelState(false);
                 uiManager.battleCanvas.informationPanel.PanelState(false);
                 uiManager.battleCanvas.playCardPanel.PanelState(true);
-                uiManager.battleCanvas.playCardPanel.GetCardInfo(actionCard, this);
+                uiManager.battleCanvas.playCardPanel.GetCardInfo(actionCard);
                 actionCard.CardState(false);
             }
         }

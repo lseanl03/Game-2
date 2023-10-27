@@ -30,12 +30,8 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return;
         }
         characterCardDeckSize = cardListData.characterCardList.Count;
         actionCardListSize = cardListData.actionCardList.Count;
-    }
-    private void Start()
-    {
     }
 }

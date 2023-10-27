@@ -1,17 +1,30 @@
 ﻿using DG.Tweening;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterCard : MonoBehaviour
 {
-    public bool isAttacking;
-    public float moveDuration = 1f;
+    public float moveDuration = 0.75f;
     public float shakeDuration = 0.25f;
     public float shakeStrength = 10;
     public int vibrato = 10;
     public GameObject placeHolderPrefab;
     private GameObject placeHolder;
+    public List<CharacterSound> characterSoundList;
+    public AudioSource characterAudioSource;
+
+
+    [Header("NA Skill")]
+    public int currentNAActionPointCost;
+    public int currentNAActionValue;
+    [Header("ES Skill")]
+    public int currentESActionPointCost;
+    public int currentESActionValue;
+    [Header("EB Skill")]
+    public int currentEBActionPointCost;
+    public int currentEBActionValue;
 
     [Header("Info")]
     public CharacterCardData characterCardData;
@@ -22,6 +35,9 @@ public class CharacterCard : MonoBehaviour
     public int currentIncreaseAttack;
     public int currentQuantitySelected;
     public int currentReduceSkillActionPoints;
+    public int currentNormalAttackDoubleDamage;
+    public int currentElementalSkillDoubleDamage;
+    public int currentElementalBurstDoubleDamage;
     public Sprite cardSprite;
     public Image cardImage;
     public WeaknessType combatType;
@@ -42,6 +58,7 @@ public class CharacterCard : MonoBehaviour
     [SerializeField] private GameObject takeWeaknessValueObj;
     [SerializeField] private GameObject burstPointObj;
     [SerializeField] private GameObject highLightObj;
+    [SerializeField] private GameObject quantitySelectedObj;
     [SerializeField] private GameObject[] hiddenObjects;
     [SerializeField] private GameObject[] burstPointIconObjects;
 
@@ -50,6 +67,7 @@ public class CharacterCard : MonoBehaviour
     public CharacterCardDragHover characterCardDragHover;
     public RectTransform rectTransform;
     protected NotificationManager notificationManager => NotificationManager.instance;
+    protected GamePlayManager gamePlayManager => GamePlayManager.instance;
     public void Awake()
     {
         characterStats = GetComponent<CharacterStats>();
@@ -75,6 +93,32 @@ public class CharacterCard : MonoBehaviour
         SetCardImage(characterCardData.cardSprite);
         SetWeaknessText();
         SetHealthText();
+        GetActionPointCost();
+        GetActionValue();
+
+        characterSoundList = characterCardData.characterCard.characterSoundList;
+    }
+    public void PlaySound(SoundType soundType)
+    {
+        foreach(CharacterSound characterSound in characterSoundList)
+        {
+            if(characterSound.audioClip != null)
+            {
+                if (characterSound.soundType == soundType && !SFXMuting())
+                {
+                    characterAudioSource.clip = characterSound.audioClip;
+                    characterAudioSource.PlayOneShot(characterSound.audioClip);
+                }
+            }
+        }
+    }
+    public float SoundLength()
+    {
+        return characterAudioSource.clip.length;
+    } 
+    public bool SFXMuting()
+    {
+        return AudioManager.instance.isMutingSFX;
     }
     public void SetWeaknessText()
     {
@@ -101,6 +145,45 @@ public class CharacterCard : MonoBehaviour
         cardSprite = sprite;
         cardImage.sprite = cardSprite;
     }
+    public void GetActionPointCost()
+    {
+        foreach(CharacterSkill characterSkill in characterCardData.characterCard.characterSkillList)
+        {
+            if(characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+            {
+                currentNAActionPointCost = characterSkill.actionPointCost;
+            }
+            else if(characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+            {
+                currentESActionPointCost = characterSkill.actionPointCost;
+            }
+            else if(characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+            {
+                currentEBActionPointCost = characterSkill.actionPointCost;
+            }
+        }
+    }
+    public void GetActionValue()
+    {
+        foreach (CharacterSkill characterSkill in characterCardData.characterCard.characterSkillList)
+        {
+            foreach(Skill skill in characterSkill.skillList)
+            {
+                if (characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+                {
+                    currentNAActionValue = skill.actionValue;
+                }
+                else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+                {
+                    currentESActionValue = skill.actionValue;
+                }
+                else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+                {
+                    currentEBActionValue = skill.actionValue;
+                }
+            }
+        }
+    }
     public void AddCard(int quantity)
     {
         if(currentQuantitySelected < characterCardData.quantityMax)
@@ -118,6 +201,10 @@ public class CharacterCard : MonoBehaviour
             quantitySelectedText.text = "Selected " + currentQuantitySelected.ToString() + " Card";
             CollectionManager.instance.characterCardDataList.Remove(characterCardData);
         }
+    }
+    public void QuantitySelectedObjState(bool state)
+    {
+        quantitySelectedObj.SetActive(state);
     }
     public void HideObjects()
     {
@@ -146,20 +233,20 @@ public class CharacterCard : MonoBehaviour
     {
         burstPointObj.SetActive(state);
     }
-    public void SetQuantitySelectedText()
-    {
-        quantitySelectedText.text = currentQuantitySelected.ToString();
-    }
     public void SetBurstPoint(int value)
     {
         if (currentBurstPoint - value < 0)
         {
             notificationManager.SetNewNotification("Burst Point are not enough");
+            Debug.Log("a");
             return;
         }
-        else
+        else            
         {
             currentBurstPoint -= value;
+
+            if(currentBurstPoint <= characterCardData.burstPointMax) AudioManager.instance.PlayGetBurstPoint();
+
             if (currentBurstPoint >= characterCardData.burstPointMax)
             {
                 currentBurstPoint = characterCardData.burstPointMax;
@@ -201,20 +288,23 @@ public class CharacterCard : MonoBehaviour
 
         Transform parent = transform.parent;
 
-        isAttacking = true;
         placeHolder = Instantiate(placeHolderPrefab, parent);
         placeHolder.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        placeHolder.transform.localPosition = new Vector2(transform.localPosition.x, transform.localPosition.y);
         transform.SetParent(parent.parent);
-
         transform.DOMove(target.transform.position, moveDuration).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).
             OnComplete(() =>
             {
-                isAttacking = false;
-                Destroy(placeHolder);
                 transform.SetParent(parent);
                 transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
-            });
+                Destroy(placeHolder);
 
+                if(gamePlayManager.currentTurn == TurnState.YourTurn)
+                    gamePlayManager.playerAttacking = false;
+                else if(gamePlayManager.currentTurn == TurnState.EnemyTurn)
+                    gamePlayManager.enemyAttacking = false;
+
+            });
         target.transform.DOShakeRotation(shakeDuration, shakeStrength, vibrato, 0, true).SetDelay(moveDuration);
         target.transform.DOShakePosition(shakeDuration, shakeStrength, vibrato, 0, true).SetDelay(moveDuration);
     }

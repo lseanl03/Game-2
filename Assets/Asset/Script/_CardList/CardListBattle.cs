@@ -13,7 +13,7 @@ public class CardListBattle : MonoBehaviour
     public CardSelectType thisCardType;
 
     public CollectionManager collectionManager => CollectionManager.instance;
-    protected PlayerManager deckManager => PlayerManager.instance;
+    protected PlayerManager playerManager => PlayerManager.instance;
     public void Start()
     {
         contentSizeFitter = GetComponent<ContentSizeFitter>();
@@ -22,9 +22,12 @@ public class CardListBattle : MonoBehaviour
     {
         CheckSize();
     }
+    public void OnEnable()
+    {
+    }
     public void CheckSize()
     {
-        if (contentSizeFitter != null)
+        if (contentSizeFitter != null && transform.childCount>0)
         {
             if (transform.childCount > 7)
             {
@@ -38,8 +41,8 @@ public class CardListBattle : MonoBehaviour
 
         if (thisCardType == CardSelectType.CharacterCard)
         {
-            DropZone dropZone = GetComponent<DropZone>();
-            if (collectionManager.characterCardCount >= deckManager.characterCardMaxSize)
+            CardDropZone dropZone = GetComponent<CardDropZone>();
+            if (collectionManager.characterCardCount >= playerManager.characterCardMaxSize)
             {
                 dropZone.enabled = false;
             }
@@ -53,8 +56,8 @@ public class CardListBattle : MonoBehaviour
         }
         if(thisCardType == CardSelectType.ActionCard)
         {
-            DropZone dropZone = GetComponent<DropZone>();
-            if (collectionManager.actionCardCount >= deckManager.actionCardMaxSize)
+            CardDropZone dropZone = GetComponent<CardDropZone>();
+            if (collectionManager.actionCardCount >= playerManager.actionCardMaxSize)
             {
                 dropZone.enabled = false;
             }

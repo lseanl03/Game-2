@@ -19,7 +19,9 @@ public class CardListSelect : SelectCardBase
     {
         CheckCard();
     }
-
+    public void OnEnable()
+    {
+    }
     public void SpawnCard(CardSelectType cardSelectType)
     {
         if (cardSelectType == CardSelectType.CharacterCard)

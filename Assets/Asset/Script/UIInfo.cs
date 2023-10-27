@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -29,6 +30,10 @@ public class UIInfo : PanelBase
         for(int i = 0;i < skillPoint.childCount; i++)
         {
             skillPoint.GetChild(i).gameObject.SetActive(i < value);
+            if (!skillPoint.GetChild(i).gameObject.activeSelf)
+            {
+                skillPoint.GetChild(i).GetComponent<SkillPoint>().scaleAction = true;
+            }
         }
     }
     public void SetActionPointText(int value)

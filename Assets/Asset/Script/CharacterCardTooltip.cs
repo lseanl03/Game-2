@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,21 +28,18 @@ public class CharacterCardTooltip : MonoBehaviour
     public Image normalAttackImage;
     public TextMeshProUGUI normalAttackCostText;
     public TextMeshProUGUI normalAttackNameText;
-    public Button normalAttackDesButton;
     public TextMeshProUGUI normalAttackDesText;
 
     [Header("Elemental Skill")]
     public Image elementalSkillImage;
     public TextMeshProUGUI elementalSkillCostText;
     public TextMeshProUGUI elementalSkillNameText;
-    public Button elementalSkillDesButton;
     public TextMeshProUGUI elementalSkillDesText;
 
     [Header("Elemental Burst")]
     public Image elementalBurstImage;
     public TextMeshProUGUI elementalBurstCostText;
     public TextMeshProUGUI elementalBurstNameText;
-    public Button elementalBurstDesButton;
     public TextMeshProUGUI elementalBurstDesText;
 
     public GameObject statusDescriptionObj;
@@ -59,7 +57,6 @@ public class CharacterCardTooltip : MonoBehaviour
 
     public void Start()
     {
-        gameObject.SetActive(false);
         StatusDescriptionObjState(false);
     }
     public void StatusDescriptionObjState(bool state)
@@ -68,32 +65,42 @@ public class CharacterCardTooltip : MonoBehaviour
     }
     public void HideSkillDes()
     {
-        if (normalAtk.isShowing)
+        if (normalAtk.isShowingDes)
         {
-            normalAtk.DescriptionState();
+            normalAtk.ChangeDescriptionState();
         }
-        if (elementalSkill.isShowing)
+        if (elementalSkill.isShowingDes)
         {
-            elementalSkill.DescriptionState();
+            elementalSkill.ChangeDescriptionState();
         }
-        if (elementalBurst.isShowing)
+        if (elementalBurst.isShowingDes)
         {
-            elementalBurst.DescriptionState();
+            elementalBurst.ChangeDescriptionState();
         }
     }
     public void HideStatusDes()
     {
         foreach(StatusTooltip statusTooltip in statusTooltipList)
         {
-            if (statusTooltip.isShowing)
+            if (statusTooltip.isShowingDes)
             {
                 statusTooltip.ChangeDescriptionState();
             }
         }
     }
+    public void HideBreakingStatusDes()
+    {
+        foreach(BreakingTooltip breakingTooltip in breakingTooltipList)
+        {
+            if (breakingTooltip.isShowingDes)
+            {
+                breakingTooltip.ChangeDescriptionState();
+            }
+        }
+    }
     public void GetStatusInfo(List<Status> statusList)
     {
-        for(int i = 0; i < statusList.Count; i++)
+        for (int i = 0; i < statusList.Count; i++)
         {
             statusTooltipList[i].gameObject.SetActive(true);
             statusTooltipList[i].statusImage.sprite = statusList[i].statusSprite;
@@ -113,6 +120,7 @@ public class CharacterCardTooltip : MonoBehaviour
             if (i >= statusList.Count)
             {
                 statusDesTooltipList[i].statusDesText.text = string.Empty;
+                statusDesTooltipList[i].gameObject.SetActive(false);
             }
         }
     }
@@ -138,6 +146,8 @@ public class CharacterCardTooltip : MonoBehaviour
             if (i >= breakingList.Count)
             {
                 breakingDesTooltipList[i].statusDesText.text = string.Empty;
+                breakingDesTooltipList[i].gameObject.SetActive(false);
+
             }
         }
     }
@@ -186,8 +196,8 @@ public class CharacterCardTooltip : MonoBehaviour
                 normalAttackImage.sprite = characterSkill.skillSprite;
 
                 normalAttackNameText.text = "Normal Attack";
-                normalAttackCostText.text = characterSkill.actionPointCost.ToString();
-                normalAttackDesText.text = characterSkill.descriptionSkill;
+                normalAttackCostText.text = currentCharacterCard.currentNAActionPointCost.ToString();
+                SetDes(characterSkill, normalAttackDesText);
             }
 
             //elemental skill
@@ -196,8 +206,8 @@ public class CharacterCardTooltip : MonoBehaviour
                 elementalSkillImage.sprite = characterSkill.skillSprite;
 
                 elementalSkillNameText.text = "Elemental Skill";
-                elementalSkillCostText.text = characterSkill.actionPointCost.ToString();
-                elementalSkillDesText.text = characterSkill.descriptionSkill;
+                elementalSkillCostText.text = currentCharacterCard.currentESActionPointCost.ToString();
+                SetDes(characterSkill, elementalSkillDesText);
             }
 
             //elemental burst
@@ -206,10 +216,57 @@ public class CharacterCardTooltip : MonoBehaviour
                 elementalBurstImage.sprite = characterSkill.skillSprite;
 
                 elementalBurstNameText.text = "Element Burst";
-                elementalBurstCostText.text = characterSkill.actionPointCost.ToString();
-                elementalBurstDesText.text = characterSkill.descriptionSkill;
+                elementalBurstCostText.text = currentCharacterCard.currentEBActionPointCost.ToString();
+                SetDes(characterSkill, elementalBurstDesText);
             }
         }
-
+    }
+    public void SetDes(CharacterSkill characterSkill, TextMeshProUGUI text)
+    {
+        var str = new StringBuilder();
+        List<SkillDescription> skillDesList = characterSkill.skillDescriptionList;
+        foreach (SkillDescription skillDes in skillDesList)
+        {
+            if (skillDes.canModified)
+            {
+                foreach (Skill skill in characterSkill.skillList)
+                {
+                    int value = GetValueForSkill(characterSkill);
+                    if (skill.skillActionType == CharacterCardActionSkillType.Attack)
+                    {
+                        CharacterStats stat = currentCharacterCard.characterStats;
+                        if (stat.isDoublingDamage || stat.isIncreasingAttack)
+                        {
+                            str.Append("<color=yellow>" + value + "</color> ");
+                        }
+                        else
+                        {
+                            str.Append(value + " ");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                str.Append(skillDes.description + " ");
+            }
+        }
+        text.text = str.ToString();
+    }
+    private int GetValueForSkill(CharacterSkill characterSkill)
+    {
+        if (characterSkill.characterCardSkillType == CharacterCardSkillType.NormalAttack)
+        {
+            return currentCharacterCard.currentNAActionValue;
+        }
+        else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalSkill)
+        {
+            return currentCharacterCard.currentESActionValue;
+        }
+        else if (characterSkill.characterCardSkillType == CharacterCardSkillType.ElementalBurst)
+        {
+            return currentCharacterCard.currentEBActionValue;
+        }
+        return 0;
     }
 }

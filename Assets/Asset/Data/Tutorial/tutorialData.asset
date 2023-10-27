@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd04b87979ce154589b3e519f405876, type: 3}
+  m_Name: tutorialData
+  m_EditorClassIdentifier: 
+  tutorialList:
+  - tutorialType: 1
+    textList:
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "L\u01B0\u1EE3t ch\u1ECDn \u0111\u1EA7u ti\xEAn s\u1EBD quy\u1EBFt \u0111\u1ECBnh
+        ai \u0111\u01B0\u1EE3c \u0111i tr\u01B0\u1EDBc"
+  - tutorialType: 2
+    textList:
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Giai \u0111o\u1EA1n ch\u1ECDn th\u1EBB b\xE0i"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "M\u1ED7i b\xEAn s\u1EBD b\u1EAFt \u0111\u1EA7u v\u1EDBi 5 th\u1EBB b\xE0i
+        h\xE0nh \u0111\u1ED9ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Th\u1EBB b\xE0i h\xE0nh \u0111\u1ED9ng \u0111\u01B0\u1EE3c s\u1EED d\u1EE5ng
+        \u0111\u1EC3 h\xE0nh \u0111\u1ED9ng t\u01B0\u01A1ng \u1EE9ng v\u1EDBi ch\u1EE9c
+        n\u0103ng tr\xEAn th\u1EBB b\xE0i"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Nh\u1EA5p v\xE0o th\u1EBB b\xE0i \u0111\u1EC3 xem th\xF4ng tin th\u1EBB
+        b\xE0i c\u0169ng nh\u01B0 \u0111\u1ED5i th\u1EBB b\xE0i kh\xE1c n\u1EBFu
+        b\u1EA1n mu\u1ED1n. Sau \u0111\xF3, h\xE3y nh\u1EA5n x\xE1c nh\u1EADn \u0111\u1EC3
+        ti\u1EBFp t\u1EE5c tr\xF2 ch\u01A1i"
+  - tutorialType: 4
+    textList:
+    - isUsed: 0
+      arrowTop: 1
+      arrowBottom: 0
+      text: "L\u01B0\u1EE3t \u0111i hi\u1EC7n t\u1EA1i s\u1EBD \u0111\u01B0\u1EE3c
+        hi\u1EC3n th\u1ECB \u1EDF \u0111\xE2y"
+    - isUsed: 0
+      arrowTop: 1
+      arrowBottom: 0
+      text: "L\u01B0\u1EE3t c\u1EE7a b\u1EA1n \u0111i \u0111\u1EA7u ti\xEAn"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "2 ng\u01B0\u1EDDi ch\u01A1i s\u1EBD h\xE0nh \u0111\u1ED9ng theo l\u01B0\u1EE3t,
+        khi ng\u01B0\u1EDDi ch\u01A1i th\u1EF1c hi\u1EC7n h\xE0nh \u0111\u1ED9ng
+        xong s\u1EBD k\u1EBFt th\xFAc l\u01B0\u1EE3t v\xE0 lu\xE2n phi\xEAn chuy\u1EC3n
+        l\u01B0\u1EE3t cho \u0111\u1ED1i th\u1EE7"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "M\u1ED7i b\xEAn s\u1EBD c\xF3 3 th\u1EBB b\xE0i nh\xE2n v\u1EADt tham
+        gia chi\u1EBFn \u0111\u1EA5u"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "Nh\u1EA5p v\xE0o m\u1ED9t nh\xE2n v\u1EADt b\u1EA5t k\xEC \u0111\u1EC3
+        ch\u1ECDn nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "Sau \u0111\xF3 nh\u1EA5n n\xFAt \u0111\u1ED5i nh\xE2n v\u1EADt xu\u1EA5t
+        chi\u1EBFn \u0111\u1EC3 xu\u1EA5t chi\u1EBFn nh\xE2n v\u1EADt"
+  - tutorialType: 5
+    textList:
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Khi b\u1EA1n nh\u1EA5n v\xE0o th\u1EBB b\xE0i nh\xE2n v\u1EADt s\u1EBD
+        xu\u1EA5t hi\u1EC7n th\xF4ng tin v\u1EC1 nh\xE2n v\u1EADt \u0111\xF3"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "B\u1EA1n c\xF3 th\u1EBB nh\u1EA5n v\xE0o n\u01A1i tr\u1ED1ng \u0111\u1EC3
+        t\u1EAFt"
+  - tutorialType: 6
+    textList:
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Sau khi \u0111\xE3 ch\u1ECDn nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn,
+        b\u1EA1n c\xF3 th\u1EC3 th\u1EF1c hi\u1EC7n t\u1EA5n c\xF4ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "C\xE1c th\u1EBB b\xE0i h\xE0nh \u0111\u1ED9ng c\u1EE7a b\u1EA1n s\u1EBD
+        \u1EDF \u0111\xE2y"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "Nh\u1EA5n v\xE0o \u0111\xE2y \u0111\u1EC3 m\u1EDF r\u1ED9ng c\xE1c l\xE1
+        b\xE0i sau \u0111\xF3 k\xE9o  l\xE1 b\xE0i m\xE0 b\u1EA1n mu\u1ED1n ra n\u01A1i
+        b\u1EA5t k\xEC \u0111\u1EC3 s\u1EED d\u1EE5ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "B\u1EA1n c\u0169ng c\xF3 th\u1EC3 \u1EA5n v\xE0o c\xE1c l\xE1 b\xE0i
+        h\xE0nh \u0111\u1ED9ng \u0111\u1EC3 xem th\xF4ng tin b\xE0i"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "C\xE1c l\xE1 b\xE0i h\xE0nh \u0111\u1ED9ng c\u1EA7n 1 s\u1ED1 \u0111i\u1EC3m
+        h\xE0nh \u0111\u1ED9ng nh\u1EA5t \u0111\u1ECBnh \u0111\u1EC3 s\u1EED d\u1EE5ng,
+        t\u1ED1i \u0111a l\u01B0u gi\u1EEF 10 l\xE1 b\xE0i tr\xEAn tay, h\xE3y l\u01B0u
+        \xFD."
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "S\u1ED1 \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng hi\u1EC7n t\u1EA1i c\u1EE7a
+        b\u1EA1n \u1EDF \u0111\xE2y"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "M\u1ED7i khi b\u1EAFt \u0111\u1EA7u hi\u1EC7p s\u1EBD reset l\u1EA1i
+        \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "K\u0129 n\u0103ng c\u1EE7a nh\xE2n v\u1EADt hi\u1EC7n t\u1EA1i s\u1EBD
+        xu\u1EA5t hi\u1EC7n \u1EDF \u0111\xE2y"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "Sau khi s\u1EED d\u1EE5ng k\u0129 n\u0103ng s\u1EBD g\xE2y s\xE1t th\u01B0\u01A1ng
+        v\xE0 chuy\u1EC3n \u0111\u1EBFn l\u01B0\u1EE3t c\u1EE7a \u0111\u1ED1i th\u1EE7"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "C\u0169ng nh\u01B0 th\u1EBB b\xE0i h\xE0nh \u0111\u1ED9ng, k\u1EF9 n\u0103ng
+        c\u0169ng c\u1EA7n \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng \u0111\u1EC3 s\u1EED
+        d\u1EE5ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "\u0110\xE1nh th\u01B0\u1EDDng c\u1EA7n 30 \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng "
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "K\u1EF9 n\u0103ng thu\u1ED9c t\xEDnh c\u1EA7n 30 \u0111i\u1EC3m h\xE0nh
+        \u0111\u1ED9ng v\xE0 1 \u0111i\u1EC3m k\u1EF9 n\u0103ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "K\u1EF9 n\u0103ng n\u1ED9 c\u1EA7n 40 \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng,
+        2 \u0111i\u1EC3m k\u1EF9 n\u0103ng v\xE0 3 \u0111i\u1EC3m n\u1ED9"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "\u0111i\u1EC3m k\u1EF9 n\u0103ng s\u1EBD xu\u1EA5t hi\u1EC7n \u1EDF
+        \u0111\xE2y, khi s\u1EED d\u1EE5ng \u0111\xE1nh th\u01B0\u1EDDng s\u1EBD
+        c\u1ED9ng 1 \u0111i\u1EC3m k\u1EF9 n\u0103ng, t\u1ED1i \u0111a l\u01B0u tr\u1EEF
+        5 \u0111i\u1EC3m"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "\u0111i\u1EC3m n\u1ED9 s\u1EBD \u0111\u01B0\u1EE3c t\xEDch l\u0169y
+        khi nh\xE2n v\u1EADt t\u1EA5n c\xF4ng th\u01B0\u1EDDng ho\u1EB7c s\u1EED
+        d\u1EE5ng k\u1EF9 n\u0103ng thu\u1ED9c t\xEDnh, m\u1ED7i l\u1EA7n t\xEDch
+        l\u0169y 1 \u0111i\u1EC3m, t\u1ED1i \u0111a 3 \u0111i\u1EC3m"
+  - tutorialType: 7
+    textList:
+    - isUsed: 0
+      arrowTop: 1
+      arrowBottom: 0
+      text: "S\u1ED1 \u0111i\u1EC3m thi\u1EC7t h\u1EA1i l\xEAn \u0111\u1ED1i ph\u01B0\u01A1ng
+        s\u1EBD \u0111\u01B0\u1EE3c hi\u1EC3n th\u1ECB khi b\u1EA1n ch\u1ECDn k\u0129
+        n\u0103ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "H\xE3y nh\u1EA5n v\xE0o \xF4 k\u1EF9 n\u0103ng 1 l\u1EA7n n\u1EEFa \u0111\u1EC3
+        t\u1EA5n c\xF4ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "B\u1EA1n c\u0169ng c\xF3 th\u1EC3 \u1EA5n v\xF9ng tr\u1ED1ng \u0111\u1EC3
+        h\u1EE7y b\u1ECF t\u1EA5n c\xF4ng"
+  - tutorialType: 8
+    textList:
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Khi chi\u1EBFn \u0111\u1EA5u ch\u1EC9 c\xF3 1 nh\xE2n v\u1EADt xu\u1EA5t
+        chi\u1EBFn"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "B\u1EA1n c\xF3 th\u1EC3 nh\u1EA5p v\xE0o c\xE1c nh\xE2n v\u1EADt \u0111\u1EC3
+        chuy\u1EC3n \u0111\u1ED5i qua l\u1EA1i nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 1
+      text: "Khi th\u1EF1c hi\u1EC7n chuy\u1EC3n \u0111\u1ED5i nh\xE2n v\u1EADt xu\u1EA5t
+        chi\u1EBFn s\u1EBD ti\xEAu hao 1 s\u1ED1 \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng
+        \u0111\u1EC3 th\u1EF1c hi\u1EC7n"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Sau khi chuy\u1EC3n \u0111\u1ED5i nh\xE2n v\u1EADt s\u1EBD chuy\u1EC3n
+        l\u01B0\u1EE3t qua cho \u0111\u1ED1i ph\u01B0\u01A1ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Tr\u1EEB tr\u01B0\u1EDDng h\u1EE3p \u0111\u1ED1i ph\u01B0\u01A1ng \u0111\xE3
+        k\u1EBFt th\xFAc hi\u1EC7p \u0111\u1EA5u, l\u01B0\u1EE3t c\u1EE7a b\u1EA1n
+        v\u1EABn s\u1EBD \u0111\u01B0\u1EE3c ti\u1EBFp t\u1EE5c"
+  - tutorialType: 9
+    textList:
+    - isUsed: 0
+      arrowTop: 1
+      arrowBottom: 0
+      text: "Khi t\u1EA5n c\xF4ng s\u1EBD g\u1EAFn cho nh\xE2n v\u1EADt xu\u1EA5t
+        chi\u1EBFn \u0111\u1ED1i ph\u01B0\u01A1ng thu\u1ED9c t\xEDnh b\u1EB1ng v\u1EDBi
+        thu\u1ED9c t\xEDnh chi\u1EBFn \u0111\u1EA5u c\u1EE7a nh\xE2n v\u1EADt xu\u1EA5t
+        chi\u1EBFn phe ta"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Khi t\u1EA5n c\xF4ng nh\xE2n v\u1EADt \u0111ang b\u1ECB g\u1EAFn thu\u1ED9c
+        t\xEDnh gi\u1ED1ng v\u1EDBi thu\u1ED9c t\xEDnh c\u1EE7a nh\xE2n v\u1EADt
+        xu\u1EA5t chi\u1EBFn phe ta s\u1EBD g\xE2y th\xEAm s\xE1t th\u01B0\u01A1ng
+        ph\xE1 v\u1EE1 \u0111i\u1EC3m y\u1EBFu "
+    - isUsed: 0
+      arrowTop: 1
+      arrowBottom: 0
+      text: "Ch\u1EC9 s\u1ED1 \u0111i\u1EC3m y\u1EBFu n\u1EB1m \u1EDF \u0111\xE2y"
+    - isUsed: 0
+      arrowTop: 1
+      arrowBottom: 0
+      text: "N\u1EBFu h\u1EA1 m\u1EE9c \u0111i\u1EC3m y\u1EBFu xu\u1ED1ng 0 s\u1EBD
+        g\xE2y hi\u1EC7u \u1EE9ng ph\xE1 v\u1EE1 \u0111i\u1EC3m y\u1EBFu t\xF9y theo
+        thu\u1ED9c t\xEDnh chi\u1EBFn \u0111\u1EA5u"
+  - tutorialType: 10
+    textList:
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Khi \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng c\u1EE7a b\u1EA1n kh\xF4ng
+        \u0111\u1EE7 h\xE3y nh\u1EA5n n\xFAt k\u1EBFt th\xFAc hi\u1EC7p"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Sau khi k\u1EBFt th\xFAc hi\u1EC7p s\u1EBD chuy\u1EC3n \u0111\u1EBFn
+        giai \u0111o\u1EA1n k\u1EBFt th\xFAc hi\u1EC7p, m\u1ED7i b\xEAn s\u1EBD \u0111\u01B0\u1EE3c
+        r\xFAt th\xEAm 2 l\xE1 b\xE0i v\xE0 g\xE2y hi\u1EC7u \u1EE9ng ph\xE1 v\u1EE1
+        (n\u1EBFu c\xF3)"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "Sau giai \u0111o\u1EA1n k\u1EBFt th\xFAc hi\u1EC7p s\u1EBD \u0111\u1EBFn
+        giai \u0111o\u1EA1n b\u1EAFt \u0111\u1EA7u hi\u1EC7p, m\u1ED7i b\xEAn s\u1EBD
+        h\u1ED3i l\u1EA1i 100 \u0111i\u1EC3m h\xE0nh \u0111\u1ED9ng"
+    - isUsed: 0
+      arrowTop: 0
+      arrowBottom: 0
+      text: "B\xEAn n\xE0o k\u1EBFt th\xFAc hi\u1EC7p tr\u01B0\u1EDBc s\u1EBD \u0111\u01B0\u1EE3c
+        h\xE0nh \u0111\u1ED9ng tr\u01B0\u1EDBc"

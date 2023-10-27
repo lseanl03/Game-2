@@ -16,27 +16,27 @@ MonoBehaviour:
   - weaknessType: 1
     weaknessBreakingName: "Ch\u1EA3y m\xE1u (L\xF4i)"
     weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
-    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 3 s\xE1t th\u01B0\u01A1ng
       thu\u1ED9c t\xEDnh L\xF4i"
   - weaknessType: 2
     weaknessBreakingName: "Ch\u1EA3y m\xE1u (V\u1EADt l\xFD)"
     weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
-    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 3 s\xE1t th\u01B0\u01A1ng
       thu\u1ED9c t\xEDnh v\u1EADt l\xFD"
   - weaknessType: 3
     weaknessBreakingName: "Ch\u1EA3y m\xE1u (H\u1ECFa)"
     weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
-    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 3 s\xE1t th\u01B0\u01A1ng
       thu\u1ED9c t\xEDnh h\u1ECFa"
   - weaknessType: 5
     weaknessBreakingName: "Ch\u1EA3y m\xE1u (Phong)"
     weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
-    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 3 s\xE1t th\u01B0\u01A1ng
       thu\u1ED9c t\xEDnh phong"
   - weaknessType: 6
     weaknessBreakingName: "Ch\u1EA3y m\xE1u (L\u01B0\u1EE3ng t\u1EED)"
     weaknessBreakingSprite: {fileID: 2098499554, guid: e17d499a483f3f9469e00138bc4e7c6f, type: 3}
-    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 1 s\xE1t th\u01B0\u01A1ng
+    weaknessBreakingDescription: "K\u1EBFt th\xFAc hi\u1EC7p g\xE2y 3 s\xE1t th\u01B0\u01A1ng
       thu\u1ED9c t\xEDnh l\u01B0\u1EE3ng t\u1EED"
   - weaknessType: 4
     weaknessBreakingName: "\u0110\xF3ng b\u0103ng"

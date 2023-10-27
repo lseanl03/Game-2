@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card S5
+  m_EditorClassIdentifier: 
+  cardName: "\xC1nh h\xE0o quang"
+  actionCost: 0
+  quantityMaxInDeck: 2
+  isSupportCard: 1
+  cardDescription: "M\u1ED7i hi\u1EC7p t\xEDch l\u0169y 1 \u0111i\u1EC3m. \u0110\u1EE7
+    3 \u0111i\u1EC3m r\xFAt <color=yellow>2</color> th\u1EBB b\xE0i"
+  cardSprite: {fileID: 21300000, guid: 948acb1f3c8a01e46a5eb10e5279dfeb, type: 3}
+  actionCard:
+    actionSkillList: []
+    supportActionSkill:
+      supportSkillType: 4
+      actionTargetType: 0
+      actionStartPhase: 2
+      countOfActions: 1
+      maxCountOfActions: 3
+      actionValue: 2
+    rarityType: 0
+    colorRarity: {r: 0.24705884, g: 0.4039216, b: 0.43921572, a: 1}

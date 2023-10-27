@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b295d9d00fbe9744fb12ec01b9718d87, type: 3}
+  m_Name: Card S7
+  m_EditorClassIdentifier: 
+  cardName: "B\u1EA7u tr\u1EDDi c\u1EF1c quang"
+  actionCost: 0
+  quantityMaxInDeck: 2
+  isSupportCard: 1
+  cardDescription: "Giai \u0111o\u1EA1n k\u1EBFt th\xFAc: thu th\u1EADp s\u1ED1 \u0111i\u1EC3m
+    h\xE0nh \u0111\u1ED9ng c\xF2n l\u1EA1i. \u0110\u1EE7 <color=yellow>30</color>
+    \u0111i\u1EC3m, giai \u0111o\u1EA1n b\u1EAFt \u0111\u1EA7u r\xFAt <color=yellow>2</color>
+    th\u1EBB b\xE0i v\xE0 sinh ra <color=yellow>20</color> \u0111i\u1EC3m h\xE0nh
+    \u0111\u1ED9ng"
+  cardSprite: {fileID: 21300000, guid: ae0781ccb5b8b7f4e9247196d2196db5, type: 3}
+  actionCard:
+    actionSkillList: []
+    supportActionSkill:
+      supportSkillType: 6
+      actionTargetType: 0
+      actionStartPhase: 4
+      countOfActions: 0
+      maxCountOfActions: 30
+      actionValue: 20
+    rarityType: 0
+    colorRarity: {r: 1, g: 1, b: 1, a: 1}

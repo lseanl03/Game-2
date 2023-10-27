@@ -6,19 +6,19 @@ using UnityEngine.UI;
 
 public class StatusTooltip : MonoBehaviour
 {
-    public Image statusImage; //icon tăng tấn công
-    public TextMeshProUGUI statusNameText; //tên actioncard
-    public Button statusDesButton; 
+    public Image statusImage;
+    public TextMeshProUGUI statusNameText;
+    public GameObject statusDesButtonObj; 
 
-    public bool isShowing = false;
+    public bool isShowingDes = false;
     public float rotateIndex = 0f;
     public GameObject statusDesObj;
 
     public void ChangeDescriptionState()
     {
-        isShowing = !isShowing;
-        rotateIndex = isShowing ? 180f : 0f;
-        statusDesObj.SetActive(isShowing);
-        statusDesButton.transform.rotation = Quaternion.Euler(0f,0f,rotateIndex);
+        isShowingDes = !isShowingDes;
+        rotateIndex = isShowingDes ? 180f : 0f;
+        statusDesObj.SetActive(isShowingDes);
+        statusDesButtonObj.transform.rotation = Quaternion.Euler(0f,0f,rotateIndex);
     }
 }

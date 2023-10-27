@@ -5,9 +5,10 @@ public class CollectionCanvas : CanvasBase
 {
     public BattleCardFieldController battleCardFieldController;
     public SelectCardFieldController selectCardFieldController;
-    public void Start()
-    {
 
+    private void OnEnable()
+    {
+        uiManager.selectCardCanvas.OpenCharacterCardPanel();
     }
     public void ChangeContent(CardSelectType cardSelectType)
     {

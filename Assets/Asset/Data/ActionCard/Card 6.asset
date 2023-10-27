@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Card 6
   m_EditorClassIdentifier: 
   cardName: "L\xF2ng T\u1EF1 Tr\u1ECDng C\u1EE7a Th\xF9ng R\xE1c"
-  actionCost: 30
+  actionCost: 20
   quantityMaxInDeck: 2
-  cardDescription: "T\u1EA1o khi\xEAn ch\u1ED1ng \u0111\u1EE1 <color=yellow>3</color>
-    \u0111i\u1EC3m s\xE1t th\u01B0\u01A1ng cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
+  isSupportCard: 0
+  cardDescription: "D\xF9ng s\u1EBD l\u1EADp t\u1EE9c t\u1EA1o <color=yellow>3</color>
+    \u0111i\u1EC3m khi\xEAn cho nh\xE2n v\u1EADt xu\u1EA5t chi\u1EBFn"
   cardSprite: {fileID: 633382988, guid: 91530f8ad32a0e642abda0e1057100fd, type: 3}
   actionCard:
     actionSkillList:
@@ -29,5 +30,12 @@ MonoBehaviour:
         statusName: "L\xF2ng T\u1EF1 Tr\u1ECDng C\u1EE7a Th\xF9ng R\xE1c"
         statusDescription: "Nh\xE2n v\u1EADt n\xE0y ch\u1ED1ng \u0111\u1EE1 3 s\xE1t
           th\u01B0\u01A1ng \u0111\xF2n k\u1EBF ti\u1EBFp"
-    rarityType: 3
-    colorRarity: {r: 0.27450982, g: 0.38823533, b: 0.60784316, a: 1}
+    supportActionSkill:
+      supportSkillType: 0
+      actionTargetType: 0
+      actionStartPhase: 0
+      countOfActions: 0
+      maxCountOfActions: 0
+      actionValue: 0
+    rarityType: 2
+    colorRarity: {r: 0.24705884, g: 0.4039216, b: 0.43921572, a: 1}

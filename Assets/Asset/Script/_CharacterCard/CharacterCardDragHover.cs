@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,8 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
 {
     public bool isSelecting = false;
     public bool isSelected = false;
+    public float pushDistance = 30f;
+    public float pushTime = 0.25f;
     public Image selectIcon;
     public CharacterCard characterCard;
     public CharacterStats characterStats;
@@ -26,24 +29,19 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     {
         if(transform.parent == gamePlayManager.gamePlayCanvas.playerCharacterCardField.transform)
             HandleSelectCard();
-        if (characterStats.isHighlighting)
-            HandleCardHighLight();
     }
     public void SelectIconState(bool state)
     {
         isSelecting = state;
         selectIcon.gameObject.SetActive(state);
     }
-    public void HandleCardHighLight()
-    {
-        uiManager.battleCanvas.skillPanel.HighlightActive(uiManager.battleCanvas.skillPanel.currentHighlightedSkill);
-    }
     public void HandleCardSelecting()
     {
+        characterCard.PlaySound(SoundType.ActionCharacter);
         if(transform.parent == gamePlayManager.gamePlayCanvas.playerCharacterCardField.transform)
         {
             SelectIconState(false);
-            transform.localPosition = new Vector2(transform.localPosition.x, 30f);
+            transform.DOLocalMove(new Vector3(transform.localPosition.x, pushDistance, 0), pushTime);
             isSelected = true;
             characterStats.isActionCharacter = isSelected;
             uiManager.battleCanvas.skillPanel.GetCharacterCard(characterCard.characterCardData, characterCard);
@@ -53,12 +51,13 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
             if (skill.Length >= 2)
             {
                 uiManager.battleCanvas.skillPanel.SetSkillImage(skill[0].skillSprite, skill[1].skillSprite, skill[2].skillSprite);
-                uiManager.battleCanvas.skillPanel.SetActionPointCostText(skill[0].actionPointCost, skill[1].actionPointCost, skill[2].actionPointCost);
+                uiManager.battleCanvas.skillPanel.SetActionPointCostText
+                    (characterCard.currentNAActionPointCost, characterCard.currentESActionPointCost, characterCard.currentEBActionPointCost);
             }
         }
         else
         {
-            transform.localPosition = new Vector2(transform.localPosition.x, -30f);
+            transform.DOLocalMove(new Vector3(transform.localPosition.x, -pushDistance, 0), pushTime);
             isSelected = true;
             characterStats.isActionCharacter = isSelected;
         }
@@ -73,48 +72,59 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
     }
     public void HandleCardSelected()
     {
-        transform.localPosition = new Vector2(transform.localPosition.x, 0f);
+        transform.DOLocalMove(new Vector3(transform.localPosition.x, 0, 0), pushTime);
         isSelected = false;
         characterStats.isActionCharacter = isSelected;
     }
     public void HandleSelectCard()
     {
-        if (gamePlayManager.currentTurn == TurnState.EnemyTurn && 
-            gamePlayManager.playerSelectedCharacterBattleInitial &&
-            gamePlayManager.currentState != GamePlayState.SelectBattleCharacter || 
-            characterStats.isDead || 
-            gamePlayManager.actionPhase && gamePlayManager.playerCanSwitchCharacterDying) 
-            return;
-        for (int i = 0; i < transform.parent.childCount; i++)
+        if (characterStats.isDead || !gamePlayManager.enemySelectedCharacterBattleInitial && 
+            gamePlayManager.playerSelectedCharacterBattleInitial || gamePlayManager.playerAttacking || characterStats.isActionCharacter) return;
+
+        if(gamePlayManager.currentState == GamePlayState.SelectBattleCharacter || gamePlayManager.playerCanSwitchCharacterDying || 
+            gamePlayManager.currentTurn == TurnState.YourTurn)
         {
-            CharacterCardDragHover characterCard = transform.parent.GetChild(i).GetComponent<CharacterCardDragHover>();
-            if (this.Equals(characterCard))
+            for (int i = 0; i < transform.parent.childCount; i++)
             {
-                if (!isSelected && !isSelecting)
+                CharacterCardDragHover characterCard = transform.parent.GetChild(i).GetComponent<CharacterCardDragHover>();
+                if (characterCard != null)
                 {
-                    ShowSwitchCharacter();
+                    if (this.Equals(characterCard))
+                    {
+                        if (!isSelected && !isSelecting)
+                        {
+                            ShowSwitchCharacter();
+                        }
+                    }
+                    else
+                    {
+                        if (characterCard.isSelecting && !characterCard.isSelected)
+                        {
+                            characterCard.SelectIconState(false);
+                        }
+                    }
                 }
             }
-            else
-            {
-                if (characterCard.isSelecting && !characterCard.isSelected)
-                {
-                    characterCard.SelectIconState(false);
-                }
-            }
-        }
-        if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
-        {
-            gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
+            if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
+                gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
         }
     }
     public void ShowSwitchCharacter()
     {
+
         SelectIconState(true);
         uiManager.battleCanvas.switchCardBattlePanel.PanelState(isSelecting);
         uiManager.battleCanvas.skillPanel.PanelState(!isSelecting);
 
         if(gamePlayManager.actionPhase && !gamePlayManager.playerCanSwitchCharacterDying)
-        uiManager.battleCanvas.switchCardBattlePanel.ActionCostState(true);
+        {
+            uiManager.battleCanvas.switchCardBattlePanel.ActionCostState(true);
+        }
+
+        if (!uiManager.tutorialCanvas.isShowedSwitchCharacterTutorial && uiManager.tutorialCanvas.isShowedActionCardTutorial)
+        {
+            uiManager.tutorialCanvas.isShowedSwitchCharacterTutorial = true;
+            uiManager.tutorialCanvas.ActionTutorial(TutorialType.SwitchCharacterTutorial);
+        }
     }
 }

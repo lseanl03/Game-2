@@ -20,9 +20,15 @@ public class CollectionManager : MonoBehaviour
     protected NotificationManager notificationManager => NotificationManager.instance;
     private void Awake()
     {
-        if (instance == null)
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
     private void Update()

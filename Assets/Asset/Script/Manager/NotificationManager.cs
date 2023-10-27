@@ -48,7 +48,7 @@ public class NotificationManager : MonoBehaviour
         notificationGround.gameObject.SetActive(false);
         notificationText.text = "";
     }
-    public void Reset()
+    public void ResetText()
     {
         notificationText.text = string.Empty;
         notificationGround.gameObject.SetActive(false);

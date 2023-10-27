@@ -13,10 +13,18 @@ public class InformationPanel : PanelBase
     public Button endRoundButton;
     public Slider endRoundSlider;
 
+    public GameObject playerSkillPointObj;
+    public GameObject enemySkillPointObj;
+
+    public GameObject playerEndingRoundObj;
+    public GameObject enemyEndingRoundObj;
+
     public void Start()
     {
         endRoundSlider.minValue = 0;
         endRoundSlider.maxValue = endRoundTime;
+        PlayerEndingRoundObjState(false);
+        EnemyEndingRoundObjState(false);
         SetEndRoundSlider();
     }
 
@@ -26,6 +34,14 @@ public class InformationPanel : PanelBase
             SetTurnText("Your Turn");
         else if (gamePlayManager.currentTurn == TurnState.EnemyTurn)
             SetTurnText("Enemy Turn");
+    }
+    public void PlayerEndingRoundObjState(bool state)
+    {
+        playerEndingRoundObj.SetActive(state);
+    }
+    public void EnemyEndingRoundObjState(bool state)
+    {
+        enemyEndingRoundObj.SetActive(state);
     }
     public void OnEnable()
     {
@@ -37,9 +53,20 @@ public class InformationPanel : PanelBase
     }
     public void EndRound()
     {
+        if (gamePlayManager.playerAttacking || gamePlayManager.enemyAttacking || 
+            gamePlayManager.playerCanSwitchCharacterDying || gamePlayManager.enemyCanSwitchCharacterDying ||
+            gamePlayManager.playerEndingRound) return;
+
+        if (!uiManager.tutorialCanvas.isShowedEndRoundTutorial)
+        {
+            uiManager.tutorialCanvas.isShowedEndRoundTutorial = true;
+            uiManager.tutorialCanvas.ActionTutorial(TutorialType.EndRoundTutorial);
+            return;
+        }
         if (gamePlayManager.actionPhase)
         {
-            gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
+            if (gamePlayManager.gamePlayCanvas.playerActionCardField.isZooming)
+                gamePlayManager.gamePlayCanvas.playerActionCardField.ZoomState(false);
             if (gamePlayManager.currentTurn == TurnState.YourTurn)
             {
                 endRoundCountDown = 0;
