@@ -14,7 +14,3 @@ public enum TurnState
     YourTurn,
     EnemyTurn,
 }
-public enum GameState
-{
-
-}

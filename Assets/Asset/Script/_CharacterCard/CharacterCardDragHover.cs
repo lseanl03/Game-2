@@ -82,7 +82,7 @@ public class CharacterCardDragHover : MonoBehaviour, IPointerDownHandler
             gamePlayManager.playerSelectedCharacterBattleInitial || gamePlayManager.playerAttacking || characterStats.isActionCharacter) return;
 
         if(gamePlayManager.currentState == GamePlayState.SelectBattleCharacter || gamePlayManager.playerCanSwitchCharacterDying || 
-            gamePlayManager.currentTurn == TurnState.YourTurn)
+            gamePlayManager.currentTurn == TurnState.YourTurn && gamePlayManager.actionPhase)
         {
             for (int i = 0; i < transform.parent.childCount; i++)
             {

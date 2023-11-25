@@ -353,21 +353,16 @@ public class GamePlayManager : MonoBehaviour
     }
     public void HandleVictory()
     {
-        ClearStatusApplying();
-        uiManager.battleCanvas.winLosePanel.PanelState(true);
-        uiManager.battleCanvas.skillPanel.PanelState(false);
-        uiManager.battleCanvas.informationPanel.PanelState(false);
-        uiManager.battleCanvas.switchCardBattlePanel.PanelState(false);
-        uiManager.battleCanvas.settingPanel.PanelState(false);
-
-        uiManager.tutorialCanvas.ResetIsUsed(false);
-
-        actionPhase = false;
-        endPhase = false;
-        startPhase = false;
+        HandleEndGame();
         playerWin = true;
+
     }
     public void HandleLose()
+    {
+        HandleEndGame();
+        enemyWin = true;
+    }
+    public void HandleEndGame()
     {
         ClearStatusApplying();
         uiManager.battleCanvas.winLosePanel.PanelState(true);
@@ -381,7 +376,6 @@ public class GamePlayManager : MonoBehaviour
         actionPhase = false;
         endPhase = false;
         startPhase = false;
-        enemyWin = true;
     }
     public void ResetWeakness()
     {
